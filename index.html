@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studijní materiály — rozcestník</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px; margin:0 auto; padding:0 24px 100px;}
+header.hero{ max-width:1000px; margin:0 auto; padding:72px 24px 14px; }
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 16px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(48px,9vw,92px);
+  line-height:.94; letter-spacing:-.025em; margin:0 0 20px; color:var(--pine-d);}
+h1 em{font-style:italic; color:var(--terra);}
+.lead{font-size:20px; color:var(--ink2); max-width:620px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),transparent); margin:30px 0 0; border:0;}
+
+.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:48px;}
+@media(max-width:820px){ .grid{grid-template-columns:1fr;} }
+
+.card{
+  position:relative; display:flex; flex-direction:column;
+  background:var(--card); border:1px solid var(--line); border-radius:18px;
+  padding:26px 24px 22px; text-decoration:none; color:inherit; overflow:hidden;
+  box-shadow:0 1px 0 #fff inset, 0 14px 30px -26px rgba(20,40,30,.55);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card::before{content:""; position:absolute; left:0; top:0; height:5px; width:100%;
+  background:var(--accent); opacity:.9;}
+.card:hover{transform:translateY(-6px); border-color:var(--accent);
+  box-shadow:0 1px 0 #fff inset, 0 26px 46px -28px rgba(20,40,30,.6);}
+.card .top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+.card .num{font-family:"Fraunces",serif; font-style:italic; font-weight:600;
+  font-size:54px; line-height:.8; color:var(--accent);}
+.card .motif{flex:0 0 auto;}
+.card h2{font-family:"Fraunces",serif; font-weight:600; font-size:25px; line-height:1.06;
+  letter-spacing:-.01em; color:var(--pine-d); margin:18px 0 6px;}
+.card .desc{font-size:15.5px; color:var(--ink2); margin:0 0 14px;}
+.card ul{list-style:none; margin:0 0 18px; padding:0; font-size:14px; color:var(--muted);}
+.card ul li{padding:4px 0 4px 18px; position:relative; border-bottom:1px dotted var(--line);}
+.card ul li:last-child{border-bottom:0;}
+.card ul li::before{content:"›"; position:absolute; left:2px; color:var(--accent); font-weight:700;}
+.card .open{margin-top:auto; font-family:"Spline Sans Mono",monospace; font-size:13px;
+  letter-spacing:.06em; color:var(--accent); font-weight:500; display:inline-flex; align-items:center; gap:8px;}
+.card .open .arrow{transition:transform .18s ease;}
+.card:hover .open .arrow{transform:translateX(5px);}
+
+.c1{--accent:var(--pine);}
+.c2{--accent:var(--terra);}
+.c3{--accent:var(--amber);}
+
+.note{margin-top:42px; background:var(--sage-bg); border:1px solid var(--line);
+  border-left:5px solid var(--sage); border-radius:12px; padding:16px 20px;
+  font-size:14.5px; color:var(--ink2);}
+.note b{font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--sage); display:block; margin-bottom:6px; font-weight:500;}
+.footer{margin-top:54px; padding-top:22px; border-top:2px solid var(--line);
+  font-size:13.5px; color:var(--muted); font-style:italic;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Matematická statistika · Studijní materiály</p>
+  <h1>Roz<em>cestník</em></h1>
+  <p class="lead">Tři okruhy zpracované do přehledných materiálů — všechny věty, rozebrané důkazy a vlastní nákresy. Vyber si, kam zamířit.</p>
+  <hr class="rule">
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- Card 1 -->
+    <a class="card c1" href="konvergence.html">
+      <div class="top">
+        <span class="num">1</span>
+        <svg class="motif" width="74" height="56" viewBox="0 0 74 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="4" y="22" width="66" height="14" fill="var(--pine)" opacity="0.10"/>
+          <line x1="4" y1="29" x2="70" y2="29" stroke="var(--pine)" stroke-width="1.4" stroke-dasharray="4 4"/>
+          <circle cx="10" cy="46" r="3" fill="var(--terra)"/>
+          <circle cx="20" cy="14" r="3" fill="var(--terra)"/>
+          <circle cx="30" cy="40" r="3" fill="var(--terra)"/>
+          <circle cx="40" cy="31" r="3" fill="var(--pine)"/>
+          <circle cx="50" cy="27" r="3" fill="var(--pine)"/>
+          <circle cx="60" cy="30" r="3" fill="var(--pine)"/>
+          <circle cx="68" cy="29" r="3" fill="var(--pine)"/>
+        </svg>
+      </div>
+      <h2>Konvergence</h2>
+      <p class="desc">Od posloupností čísel po čtyři způsoby konvergence náhodných veličin.</p>
+      <ul>
+        <li>Posloupnosti, Landauovo o &amp; O</li>
+        <li>Konvergence v distribuci</li>
+        <li>Podle pravděpodobnosti</li>
+        <li>Skoro jistě, v Lᵖ</li>
+        <li>Zákony velkých čísel, diagram vztahů</li>
+      </ul>
+      <span class="open">Otevřít materiál <span class="arrow">→</span></span>
+    </a>
+
+    <!-- Card 2 -->
+    <a class="card c2" href="teorie-odhadu.html">
+      <div class="top">
+        <span class="num">2</span>
+        <svg class="motif" width="74" height="56" viewBox="0 0 74 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="37" cy="28" r="22" fill="none" stroke="var(--terra)" stroke-width="1.4" opacity="0.5"/>
+          <circle cx="37" cy="28" r="13" fill="none" stroke="var(--terra)" stroke-width="1.4" opacity="0.7"/>
+          <circle cx="37" cy="28" r="4" fill="var(--pine)"/>
+          <circle cx="44" cy="20" r="2.6" fill="var(--terra)"/>
+          <circle cx="31" cy="24" r="2.6" fill="var(--terra)"/>
+          <circle cx="40" cy="34" r="2.6" fill="var(--terra)"/>
+          <circle cx="34" cy="33" r="2.6" fill="var(--terra)"/>
+        </svg>
+      </div>
+      <h2>Teorie odhadů</h2>
+      <p class="desc">Jak z dat odhadnout parametr — a jak poznat, že lépe už to nejde.</p>
+      <ul>
+        <li>Vychýlení, MSE, konzistence</li>
+        <li>Raova–Cramérova nerovnost</li>
+        <li>Fisherova informace, vydatnost</li>
+        <li>Exponenciální systémy</li>
+        <li>Postačující statistiky, ML &amp; entropie</li>
+      </ul>
+      <span class="open">Otevřít materiál <span class="arrow">→</span></span>
+    </a>
+
+    <!-- Card 3 -->
+    <a class="card c3" href="tolerancni-intervaly.html">
+      <div class="top">
+        <span class="num">3</span>
+        <svg class="motif" width="74" height="56" viewBox="0 0 74 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M6,46 C26,44 32,16 40,16 C48,16 54,44 70,46" fill="none" stroke="var(--amber)" stroke-width="1.6"/>
+          <rect x="24" y="16" width="32" height="30" fill="var(--amber)" opacity="0.16"/>
+          <line x1="24" y1="14" x2="24" y2="50" stroke="var(--amber)" stroke-width="2"/>
+          <line x1="56" y1="14" x2="56" y2="50" stroke="var(--amber)" stroke-width="2"/>
+          <line x1="24" y1="50" x2="56" y2="50" stroke="var(--pine)" stroke-width="2"/>
+        </svg>
+      </div>
+      <h2>Toleranční intervaly</h2>
+      <p class="desc">Které pásmo spolehlivě pokryje většinu rozdělení budoucích hodnot.</p>
+      <ul>
+        <li>Predikční vs. toleranční</li>
+        <li>Dualita s kvantilem</li>
+        <li>Konstrukce z CI pro θ</li>
+        <li>Wilksův neparametrický interval</li>
+        <li>Beta &amp; Dirichlet, binom. dualita</li>
+      </ul>
+      <span class="open">Otevřít materiál <span class="arrow">→</span></span>
+    </a>
+
+  </div>
+
+  <div class="note">
+    <b>Než klikneš</b>
+    Aby odkazy fungovaly, nech všechny čtyři soubory ve stejné složce (<code>index.html</code>, <code>konvergence.html</code>, <code>teorie-odhadu.html</code>, <code>tolerancni-intervaly.html</code>). Každý materiál má vlastní obsah nahoře a dá se přes Ctrl/Cmd&nbsp;+&nbsp;P uložit jako PDF.
+  </div>
+
+  <p class="footer">Studijní materiály k matematické statistice. Matematika sázena přes MathJax, nákresy jsou vlastní vektorová grafika.</p>
+
+</div>
+</body>
+</html>
