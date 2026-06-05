@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konvergence — studijní materiál</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.66; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px; margin:0 auto; padding:0 24px 120px;}
+header.hero{
+  max-width:920px; margin:0 auto; padding:64px 24px 26px;
+}
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 14px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(40px,8vw,76px);
+  line-height:.96; letter-spacing:-.02em; margin:0 0 18px; color:var(--pine-d);}
+h1 .num{color:var(--terra); font-style:italic;}
+.lead{font-size:20px; color:var(--ink2); max-width:680px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),transparent); margin:26px 0 0; border:0;}
+
+/* table of contents */
+nav.toc{
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:22px 26px; margin:34px 0 10px;
+  box-shadow:0 1px 0 #fff inset, 0 10px 26px -22px rgba(20,40,30,.5);
+}
+nav.toc .tt{font-family:"Spline Sans Mono",monospace; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+nav.toc ol{margin:0; padding:0; list-style:none; counter-reset:t;
+  columns:2; column-gap:40px;}
+nav.toc li{break-inside:avoid; margin:0 0 8px; counter-increment:t;}
+nav.toc a{color:var(--ink); text-decoration:none; display:flex; gap:12px; align-items:baseline;
+  padding:4px 0; border-bottom:1px dotted transparent; transition:.15s;}
+nav.toc a:hover{color:var(--pine); border-bottom-color:var(--line2);}
+nav.toc a::before{content:counter(t,upper-roman); font-family:"Spline Sans Mono",monospace;
+  font-size:12px; color:var(--terra); min-width:34px; font-weight:500;}
+
+section{margin:62px 0 0; scroll-margin-top:18px;}
+h2{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(27px,4.4vw,38px);
+  color:var(--pine-d); letter-spacing:-.015em; line-height:1.08; margin:0 0 6px;
+  display:flex; align-items:baseline; gap:16px;}
+h2 .chip{font-family:"Spline Sans Mono",monospace; font-size:13px; font-weight:500;
+  color:#fff; background:var(--terra); padding:5px 11px; border-radius:8px;
+  letter-spacing:.04em; transform:translateY(-4px); white-space:nowrap;}
+.sub{color:var(--muted); font-style:italic; margin:0 0 26px; font-size:17px;}
+h3{font-family:"Fraunces",serif; font-weight:600; font-size:23px; color:var(--pine-d);
+  margin:38px 0 10px; letter-spacing:-.01em;}
+h4{font-family:"Spline Sans Mono",monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--terra); margin:26px 0 6px;}
+p{margin:12px 0;}
+strong{font-weight:600; color:var(--pine-d);}
+em.t{font-style:italic; color:var(--terra);}
+a.lnk{color:var(--pine); text-decoration:underline solid var(--line2);}
+
+/* callout boxes */
+.box{border-radius:12px; padding:20px 24px 18px; margin:22px 0; position:relative;
+  border:1px solid var(--line); box-shadow:0 8px 24px -22px rgba(20,40,30,.55);}
+.box .tag{font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; display:inline-block; margin:0 0 8px;}
+.box p:first-of-type{margin-top:0;}
+.box p:last-child{margin-bottom:0;}
+.def{background:var(--pine-bg); border-left:5px solid var(--pine);}
+.def .tag{color:var(--pine);}
+.thm{background:var(--terra-bg); border-left:5px solid var(--terra);}
+.thm .tag{color:var(--terra);}
+.ex{background:var(--amber-bg); border-left:5px solid var(--amber);}
+.ex .tag{color:var(--amber);}
+.note{background:var(--sage-bg); border-left:5px solid var(--sage);}
+.note .tag{color:var(--sage);}
+.key{background:#fff; border:1px dashed var(--terra); border-left:5px solid var(--terra);}
+.key .tag{color:var(--terra);}
+
+/* figures */
+figure{margin:30px 0; text-align:center;}
+figure svg{max-width:100%; height:auto;
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:14px; box-shadow:0 10px 28px -24px rgba(20,40,30,.6);}
+figcaption{font-size:14.5px; color:var(--muted); font-style:italic; margin-top:11px; max-width:640px; margin-left:auto; margin-right:auto;}
+
+/* svg theming */
+.s-axis{stroke:var(--ink2); stroke-width:1.6; fill:none;}
+.s-grid{stroke:var(--line2); stroke-width:1; fill:none;}
+.s-dash{stroke-dasharray:5 5;}
+.s-pine{stroke:var(--pine); fill:none; stroke-width:2.4;}
+.s-terra{stroke:var(--terra); fill:none; stroke-width:2.4;}
+.s-amber{stroke:var(--amber); fill:none; stroke-width:2.4;}
+.f-pine{fill:var(--pine);} .f-terra{fill:var(--terra);} .f-amber{fill:var(--amber);}
+.f-ink{fill:var(--ink2);} .f-band{fill:var(--pine); opacity:.10;}
+.f-band2{fill:var(--terra); opacity:.10;}
+.s-lbl{font-family:"Spline Sans Mono",monospace; font-size:13px; fill:var(--ink2);}
+.s-lbl-s{font-family:"Spline Sans Mono",monospace; font-size:11px; fill:var(--muted);}
+
+/* compare grid */
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0;}
+.duo .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+.duo .mini h4{margin-top:0;}
+@media(max-width:640px){ .duo{grid-template-columns:1fr;} nav.toc ol{columns:1;} }
+
+/* summary table */
+.tblwrap{overflow-x:auto; margin:24px 0;}
+table{border-collapse:collapse; width:100%; font-size:15.5px; background:var(--card);
+  border-radius:12px; overflow:hidden; box-shadow:0 10px 28px -26px rgba(20,40,30,.6);}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+th{background:var(--pine); color:#fff; font-family:"Spline Sans Mono",monospace;
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:500;}
+tbody tr:nth-child(even){background:var(--paper2);}
+tbody tr:last-child td{border-bottom:0;}
+td .nm{font-family:"Spline Sans Mono",monospace; color:var(--terra); font-size:13px;}
+
+.steps{counter-reset:st; list-style:none; padding:0; margin:14px 0;}
+.steps>li{counter-increment:st; position:relative; padding:6px 0 6px 46px; margin:6px 0;}
+.steps>li::before{content:counter(st); position:absolute; left:0; top:6px;
+  width:30px; height:30px; border-radius:50%; background:var(--pine); color:#fff;
+  font-family:"Spline Sans Mono",monospace; font-size:14px; display:flex;
+  align-items:center; justify-content:center;}
+.footer{margin-top:80px; padding-top:24px; border-top:2px solid var(--line);
+  font-size:14px; color:var(--muted); font-style:italic;}
+mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
+.center-eq{text-align:center; margin:16px 0;}
+@media print{ body{background:#fff;} .box,figure svg,table{box-shadow:none;} nav.toc{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Studijní materiál · Pravděpodobnost a statistika</p>
+  <h1><span class="num">1.</span> Konvergence</h1>
+  <p class="lead">Od konvergence posloupnosti čísel až po čtyři způsoby, jak může konvergovat náhodná veličina. Všechny definice, věty i protipříklady — s nákresy.</p>
+  <hr class="rule">
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <p class="tt">Obsah okruhu</p>
+  <ol>
+    <li><a href="#s1">Konvergence posloupnosti čísel</a></li>
+    <li><a href="#s2">Landauova symbolika a ekvivalence</a></li>
+    <li><a href="#s3">Konvergence v distribuci</a></li>
+    <li><a href="#s4">Konvergence podle pravděpodobnosti</a></li>
+    <li><a href="#s5">Konvergence skoro jistě</a></li>
+    <li><a href="#s6">Konvergence podle středu (Lᵖ)</a></li>
+    <li><a href="#s7">Souhrnný diagram vztahů</a></li>
+  </ol>
+</nav>
+
+<!-- ============================ I ============================ -->
+<section id="s1">
+  <h2>Konvergence posloupnosti čísel</h2>
+  <p class="sub">Základní stavební kámen. Všechny pozdější „náhodné" konvergence jsou jen různá vyvážení téhle myšlenky.</p>
+
+  <div class="box def">
+    <span class="tag">Definice</span>
+    <p>Posloupnost reálných čísel $\{x_n\}$ <strong>konverguje</strong> k číslu $x\in\mathbb{R}$, jestliže</p>
+    <div class="center-eq">$$\forall\varepsilon>0\;\;\exists n_0\in\mathbb{N}\;\;\forall n>n_0\in\mathbb{N}:\quad |x_n-x|<\varepsilon.$$</div>
+    <p>Značíme $\displaystyle\lim_{n\to\infty}x_n=x$ nebo $x_n\xrightarrow{\,n\to\infty\,}x$.</p>
+  </div>
+
+  <p>Jak číst kvantifikátory: zvolím-li <em class="t">jakkoli těsný</em> pás šířky $\varepsilon$ kolem limity, vždycky existuje index $n_0$, od kterého už <strong>všechny</strong> členy posloupnosti leží uvnitř pásu. Jinými slovy:</p>
+
+  <div class="box key">
+    <span class="tag">Klíčová formulace</span>
+    <p>$|x_n-x|<\varepsilon$ platí <strong>pro skoro všechny</strong> $n\in\mathbb{N}$ — tedy pro všechny až na <strong>konečně mnoho</strong> výjimek. Tohle „skoro všechny = všechny až na konečně mnoho" se vrací ve všech dalších definicích.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 580 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Konvergence posloupnosti do epsilon-pásu">
+      <!-- band -->
+      <rect x="60" y="118" width="470" height="64" class="f-band"/>
+      <!-- limit and band lines -->
+      <line x1="60" y1="150" x2="530" y2="150" class="s-pine s-dash"/>
+      <line x1="60" y1="118" x2="530" y2="118" class="s-terra s-dash" stroke-width="1.6"/>
+      <line x1="60" y1="182" x2="530" y2="182" class="s-terra s-dash" stroke-width="1.6"/>
+      <!-- axes -->
+      <line x1="60" y1="40" x2="60" y2="290" class="s-axis"/>
+      <line x1="60" y1="290" x2="555" y2="290" class="s-axis"/>
+      <polygon points="60,36 56,46 64,46" class="f-ink"/>
+      <polygon points="559,290 549,286 549,294" class="f-ink"/>
+      <!-- n0 line -->
+      <line x1="232" y1="60" x2="232" y2="290" class="s-grid s-dash"/>
+      <!-- points before n0 (scattered) -->
+      <g class="f-terra">
+        <circle cx="86" cy="238" r="4.5"/><circle cx="116" cy="92" r="4.5"/>
+        <circle cx="142" cy="206" r="4.5"/><circle cx="168" cy="108" r="4.5"/>
+        <circle cx="196" cy="186" r="4.5"/><circle cx="222" cy="128" r="4.5"/>
+      </g>
+      <!-- points after n0 (inside band) -->
+      <g class="f-pine">
+        <circle cx="252" cy="160" r="4.5"/><circle cx="278" cy="138" r="4.5"/>
+        <circle cx="304" cy="166" r="4.5"/><circle cx="330" cy="144" r="4.5"/>
+        <circle cx="356" cy="158" r="4.5"/><circle cx="382" cy="146" r="4.5"/>
+        <circle cx="408" cy="153" r="4.5"/><circle cx="436" cy="148" r="4.5"/>
+        <circle cx="466" cy="151" r="4.5"/><circle cx="498" cy="149" r="4.5"/>
+      </g>
+      <!-- epsilon arrows -->
+      <line x1="500" y1="118" x2="500" y2="150" class="s-terra" stroke-width="1.4"/>
+      <line x1="500" y1="182" x2="500" y2="150" class="s-terra" stroke-width="1.4"/>
+      <text x="508" y="138" class="s-lbl f-terra">ε</text>
+      <text x="508" y="178" class="s-lbl f-terra">ε</text>
+      <!-- labels -->
+      <text x="30" y="155" class="s-lbl">x</text>
+      <text x="222" y="308" class="s-lbl">n₀</text>
+      <text x="540" y="308" class="s-lbl-s">n</text>
+      <text x="120" y="60" class="s-lbl-s">nejvýše konečně mnoho mimo pás</text>
+    </svg>
+    <figcaption>Pás $x\pm\varepsilon$: před indexem $n_0$ smí být členů venku jen konečně (oranžové), od $n_0$ dál už jsou všechny uvnitř (zelené).</figcaption>
+  </figure>
+
+  <h3>Zobecnění: metrický a topologický prostor</h3>
+  <p>Definice se nedrží jen reálných čísel. Místo $x_n\in\mathbb{R}$ obecněji $x_n\in E$, kde $E$ je <strong>metrický prostor</strong>. Absolutní hodnotu $|x_n-x|$ nahradíme <strong>metrikou</strong> (vzdáleností) $d(x_n,x)$ a žádáme</p>
+  <div class="center-eq">$$d(x_n,x)\xrightarrow{\,n\to\infty\,}0.$$</div>
+  <p>Ještě obecněji v <strong>topologickém prostoru</strong>: pro každé okolí $\mathcal{U}(x)$ bodu $x$ leží skoro všechny členy posloupnosti v $\mathcal{U}(x)$. (Metrika definuje okolí jako $\varepsilon$-koule, takže metrický případ je speciálním.)</p>
+
+  <figure>
+    <svg viewBox="0 0 520 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bod x s epsilon-okolím v prostoru E">
+      <!-- blob E -->
+      <path d="M70,150 C50,80 140,30 230,46 C320,60 430,30 470,110 C505,180 430,250 320,242 C220,236 90,235 70,150 Z"
+            fill="var(--paper2)" stroke="var(--pine-d)" stroke-width="2.2"/>
+      <text x="448" y="206" class="s-lbl f-pine" font-size="18">E</text>
+      <!-- epsilon ball -->
+      <circle cx="232" cy="140" r="48" fill="var(--terra)" opacity="0.10"/>
+      <circle cx="232" cy="140" r="48" stroke="var(--terra)" stroke-width="2" fill="none" stroke-dasharray="5 5"/>
+      <!-- center point x -->
+      <circle cx="232" cy="140" r="6" class="f-pine"/>
+      <text x="244" y="136" class="s-lbl f-pine">x</text>
+      <!-- epsilon radius -->
+      <line x1="232" y1="140" x2="232" y2="92" class="s-terra" stroke-width="1.6"/>
+      <text x="238" y="112" class="s-lbl f-terra">ε</text>
+      <!-- converging points -->
+      <g class="f-terra">
+        <circle cx="120" cy="200" r="4"/><circle cx="165" cy="178" r="4"/>
+        <circle cx="200" cy="160" r="4"/><circle cx="218" cy="150" r="4"/>
+      </g>
+      <text x="320" y="100" class="s-lbl-s">𝒰(x) … okolí</text>
+    </svg>
+    <figcaption>V obecném prostoru $E$ měříme blízkost metrikou; konvergence znamená, že členy nakonec uvíznou v každé $\varepsilon$-kouli kolem $x$.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================ II ============================ -->
+<section id="s2">
+  <h2>Landauova symbolika a asymptotická ekvivalence</h2>
+  <p class="sub">Jazyk pro porovnávání rychlostí. Máme tři posloupnosti $\{x_n\}$, $\{y_n\}$ a $\{z_n>0\}$ a ptáme se, jak se chová rozdíl $x_n-y_n$ vůči měřítku $z_n$.</p>
+
+  <div class="duo">
+    <div class="mini">
+      <h4>malé o — řádově menší</h4>
+      <p>$x_n=y_n+o(z_n)$, tj. $x_n-y_n=o(z_n)$, znamená, že rozdíl je <strong>řádově menší</strong> než $z_n$:</p>
+      <div class="center-eq">$$\frac{x_n-y_n}{z_n}\xrightarrow{\,n\to\infty\,}0.$$</div>
+      <p style="font-size:15px; color:var(--ink2)">$\forall\varepsilon>0:\ \left|\dfrac{x_n-y_n}{z_n}\right|<\varepsilon$ pro skoro všechna $n$.</p>
+    </div>
+    <div class="mini">
+      <h4>velké O — omezený</h4>
+      <p>$x_n=y_n+O(z_n)$, tj. $x_n-y_n=O(z_n)$, znamená, že rozdíl je <strong>omezený</strong> ve srovnání se $z_n$:</p>
+      <div class="center-eq">$$\exists\,K>0:\ \left|\frac{x_n-y_n}{z_n}\right|<K$$</div>
+      <p style="font-size:15px; color:var(--ink2)">($K$ konečné) pro skoro všechna $n$. Rozdíl smí být stejného řádu, jen ne větší.</p>
+    </div>
+  </div>
+
+  <p>Rozdíl jednou větou: $o$ říká, že podíl <em class="t">spadne až na nulu</em>; $O$ říká, že podíl <em class="t">zůstane pod nějakou hranicí</em>. Každé $o(z_n)$ je tedy zároveň $O(z_n)$, ale ne naopak.</p>
+
+  <figure>
+    <svg viewBox="0 0 580 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Srovnání malé o a velké O">
+      <!-- left: small o -->
+      <text x="40" y="30" class="s-lbl f-pine" font-size="15">o(zₙ): podíl → 0</text>
+      <line x1="40" y1="200" x2="270" y2="200" class="s-axis"/>
+      <line x1="40" y1="40" x2="40" y2="200" class="s-axis"/>
+      <line x1="40" y1="120" x2="270" y2="120" class="s-grid s-dash"/>
+      <text x="14" y="124" class="s-lbl-s">0</text>
+      <path d="M48,60 C100,70 150,108 210,116 C235,119 255,119 265,120" class="s-pine"/>
+      <text x="190" y="240" class="s-lbl-s">n →</text>
+      <!-- right: big O -->
+      <text x="330" y="30" class="s-lbl f-terra" font-size="15">O(zₙ): podíl &lt; K</text>
+      <line x1="330" y1="200" x2="560" y2="200" class="s-axis"/>
+      <line x1="330" y1="40" x2="330" y2="200" class="s-axis"/>
+      <line x1="330" y1="70" x2="560" y2="70" class="s-terra s-dash" stroke-width="1.4"/>
+      <line x1="330" y1="170" x2="560" y2="170" class="s-terra s-dash" stroke-width="1.4"/>
+      <rect x="330" y="70" width="230" height="100" class="f-band2"/>
+      <text x="305" y="74" class="s-lbl-s f-terra">+K</text>
+      <text x="305" y="174" class="s-lbl-s f-terra">−K</text>
+      <path d="M338,150 C390,90 430,160 480,100 C515,140 540,110 558,130" class="s-terra"/>
+      <text x="480" y="240" class="s-lbl-s">n →</text>
+    </svg>
+    <figcaption>Vlevo podíl klesá k nule ($o$), vpravo jen poskakuje uvnitř pásu $\pm K$ ($O$).</figcaption>
+  </figure>
+
+  <h3>Asymptotická ekvivalence $\sim$</h3>
+  <div class="box def">
+    <span class="tag">Definice</span>
+    <p>Posloupnosti <strong>kladných</strong> čísel $x_n,y_n>0$ jsou <strong>asymptoticky ekvivalentní</strong>, pokud</p>
+    <div class="center-eq">$$x_n\sim y_n\ \Longleftrightarrow\ \frac{x_n}{y_n}\xrightarrow{\,n\to\infty\,}1\quad\Big(\Longleftrightarrow\ \frac{y_n}{x_n}\to 1\Big).$$</div>
+    <p>Ekvivalentně $\forall\varepsilon>0:\ \left|\dfrac{x_n}{y_n}-1\right|<\varepsilon$, tj. $1-\varepsilon<\dfrac{x_n}{y_n}<1+\varepsilon$ pro skoro všechna $n$.</p>
+  </div>
+  <p>Důsledek: $\forall K>1$ platí $x_n<K\,y_n$ a zároveň $y_n<K\,x_n$ pro skoro všechna $n$ — posloupnosti se „obklíčí" libovolně těsným multiplikativním pásem.</p>
+
+  <h3>Dva pohledy na „blízkost": rozdíl vs. podíl</h3>
+  <p>Že jsou si dvě kladné posloupnosti $\{x_n>0\}$, $\{y_n>0\}$ limitně „blízké", lze chápat dvěma <strong>nezávislými</strong> způsoby:</p>
+
+  <div class="duo">
+    <div class="mini">
+      <h4>(A) rozdíl mizí</h4>
+      <p>$x_n-y_n=o(1)\ \Longleftrightarrow\ x_n-y_n\to 0$.</p>
+      <p style="font-size:15.5px">Posloupnosti mají <strong>stejnou konečnou limitu</strong>, nebo <strong>obě divergují</strong> (rozdíl se ztrácí v aditivním smyslu).</p>
+    </div>
+    <div class="mini">
+      <h4>(B) podíl → 1</h4>
+      <p>$x_n\sim y_n\ \Longleftrightarrow\ \dfrac{x_n}{y_n}\to 1$.</p>
+      <p style="font-size:15.5px">Posloupnosti mají <strong>stejnou nenulovou konečnou limitu</strong>, NEBO nenulová limita neexistuje (blízkost v multiplikativním smyslu).</p>
+    </div>
+  </div>
+
+  <div class="box key">
+    <span class="tag">Most mezi A a B</span>
+    <p>Existuje-li společná <strong>nenulová konečná</strong> limita, splývají:
+    $$\text{(A)}\iff\text{(B)}\iff \lim x_n=\lim y_n\ (\neq 0).$$
+    <strong>Obecně ale A $\not\Leftrightarrow$ B</strong> — jde o různé pojmy. Ukážou to dva protipříklady.</p>
+  </div>
+
+  <h4>Protipříklad A ⇏ B</h4>
+  <div class="box ex">
+    <span class="tag">Příklad · rozdíl mizí, podíl ne</span>
+    <p>Vezměme $x_n=\dfrac{1}{n}$, $y_n=\dfrac{1}{n^2}$ (obě jdou k nule). Rozebereme obě podmínky:</p>
+    <ol class="steps">
+      <li><strong>A platí.</strong> $\displaystyle x_n-y_n=\frac1n-\frac1{n^2}=\frac{n-1}{n^2}\xrightarrow{\,n\to\infty\,}0.$ Rozdíl skutečně mizí. ✓</li>
+      <li><strong>B neplatí.</strong> $\displaystyle \frac{x_n}{y_n}=\frac{1/n}{1/n^2}=\frac{n^2}{n}=n\xrightarrow{\,n\to\infty\,}\infty\ \neq 1.$ Podíl exploduje. ✗</li>
+    </ol>
+    <p style="margin-top:14px"><strong>Proč:</strong> obě posloupnosti padají k nule, takže jejich <em class="t">absolutní</em> rozdíl se ztratí. Jenže $x_n$ je řádově větší než $y_n$ (lineární vs. kvadratický pokles), a protože podíl dělíme stále menším $y_n\to 0$, poměr neomezeně roste. Mizící rozdíl tedy negarantuje poměr blízký jedné.</p>
+  </div>
+
+  <h4>Protipříklad B ⇏ A</h4>
+  <div class="box ex">
+    <span class="tag">Příklad · podíl → 1, rozdíl ne</span>
+    <p>Vezměme $x_n=n^2$, $y_n=n^2+n$ (obě rostou do nekonečna).</p>
+    <ol class="steps">
+      <li><strong>B platí.</strong> $\displaystyle \frac{x_n}{y_n}=\frac{n^2}{n^2+n}=\frac{n}{n+1}\xrightarrow{\,n\to\infty\,}1.$ Poměr se blíží jedné. ✓</li>
+      <li><strong>A neplatí.</strong> $\displaystyle x_n-y_n=n^2-(n^2+n)=-n\xrightarrow{\,n\to\infty\,}-\infty\ \neq 0.$ Rozdíl utíká do nekonečna. ✗</li>
+    </ol>
+    <p style="margin-top:14px"><strong>Proč:</strong> obě posloupnosti rostou neomezeně, takže přídavek $n$ je vůči řádu $n^2$ zanedbatelný — <em class="t">relativně</em> jsou si blízké a poměr jde k jedné. Absolutní rozdíl $-n$ ale roste, protože samotné velikosti rostou. Poměr blízký jedné tedy negarantuje mizící rozdíl.</p>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Poznámka · logaritmický most</span>
+    <p>Podmínka B se dá převést na A přes logaritmus:
+    $$\frac{x_n}{y_n}\to 1\iff \ln\frac{x_n}{y_n}\to 0\iff \ln x_n-\ln y_n\to 0.$$
+    Multiplikativní blízkost ($\sim$) je tedy přesně aditivní blízkost (A) na logaritmické škále. Hezky to vysvětluje, proč jsou A a B „stejný nápad", ale aplikovaný na jiné veličiny.</p>
+  </div>
+</section>
+
+<!-- ============================ III ============================ -->
+<section id="s3">
+  <h2>Konvergence v distribuci <span class="chip">→ᴰ</span></h2>
+  <p class="sub">Nejslabší konvergence náhodných veličin. Hlídá se jen <strong>rozdělení</strong>, ne hodnoty na jednotlivých $\omega$. Říká se jí i <strong>slabá konvergence rozdělení</strong>.</p>
+
+  <div class="box def">
+    <span class="tag">Definice</span>
+    <p>Posloupnost reálných NV $\{X_n\}$ <strong>konverguje v distribuci</strong> k reálné NV $X$, jestliže</p>
+    <div class="center-eq">$$F_n(x)\xrightarrow{\,n\to\infty\,}F(x)\qquad\text{ve všech bodech }x\text{, kde je }F\text{ spojitá,}$$</div>
+    <p>kde $F_n$ je distribuční funkce $X_n$ a $F$ distribuční funkce $X$. Značíme $X_n\xrightarrow{\,\mathcal{D}\,}X$, případně pro rozdělení $Q_n\xrightarrow{\text{slabě}}Q$.</p>
+  </div>
+
+  <p>Stručně: distribuční funkce „v podstatě" konvergují. Podstatné je, že NV ani nemusí žít na stejném pravděpodobnostním prostoru — porovnáváme jen jejich rozdělení.</p>
+
+  <figure>
+    <svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Distribuční funkce Fn se blíží k F">
+      <line x1="60" y1="50" x2="60" y2="260" class="s-axis"/>
+      <line x1="60" y1="260" x2="540" y2="260" class="s-axis"/>
+      <polygon points="60,46 56,56 64,56" class="f-ink"/>
+      <polygon points="544,260 534,256 534,264" class="f-ink"/>
+      <line x1="60" y1="70" x2="520" y2="70" class="s-grid s-dash"/>
+      <text x="34" y="74" class="s-lbl-s">1</text>
+      <text x="44" y="264" class="s-lbl-s">0</text>
+      <!-- F band -->
+      <path d="M70,250 C170,248 230,150 300,95 C360,78 430,72 520,71" class="s-terra s-dash" stroke-width="1.5"/>
+      <path d="M70,232 C170,230 230,132 300,77 C360,60 430,54 520,53" class="s-terra s-dash" stroke-width="1.5"/>
+      <!-- F center -->
+      <path d="M70,241 C170,239 230,141 300,86 C360,69 430,63 520,62" class="s-pine" stroke-width="2.8"/>
+      <text x="500" y="86" class="s-lbl f-pine">F</text>
+      <text x="380" y="120" class="s-lbl-s f-terra">Fₙ uvnitř ε-pásu</text>
+      <line x1="335" y1="69" x2="335" y2="86" class="s-terra" stroke-width="1.3"/>
+      <text x="340" y="82" class="s-lbl-s f-terra">ε</text>
+      <text x="500" y="280" class="s-lbl-s">x</text>
+    </svg>
+    <figcaption>Konvergence v distribuci = sblížení distribučních funkcí. Je-li $F$ spojitá, dokonce <strong>stejnoměrně</strong> v celém $x$.</figcaption>
+  </figure>
+
+  <h3>Proč jen v bodech spojitosti $F$?</h3>
+  <p>Vynechání bodů nespojitosti není kosmetika — bez něj by ani úplně přirozená konvergence „neprošla". Ukažme to.</p>
+
+  <div class="box ex">
+    <span class="tag">Příklad · degenerovaná NV</span>
+    <p>Nechť $X_n$ je s jistotou rovno $\tfrac1n$ a $X$ rovno $0$. Intuitivně $X_n$ míří k $0$, takže chceme $X_n\xrightarrow{\mathcal D}X$. Distribuční funkce jsou skoky:</p>
+    <div class="center-eq">$$F_n(x)=\begin{cases}0,&x<\tfrac1n\\[2pt]1,&x\ge\tfrac1n\end{cases}\qquad\qquad F(x)=\begin{cases}0,&x<0\\1,&x\ge 0.\end{cases}$$</div>
+    <ol class="steps">
+      <li>Pro libovolné $x\neq 0$ se $F_n(x)\to F(x)$ (od jistého $n$ je $\tfrac1n<x$ resp. $x<0$). ✓</li>
+      <li>V bodě $x=0$ je ale $F_n(0)=0$ pro <strong>každé</strong> $n$ (protože $0<\tfrac1n$), takže $F_n(0)\to 0$, kdežto $F(0)=1$. Tady konvergence <strong>selhává</strong>.</li>
+      <li>Bod $x=0$ je ovšem právě bodem nespojitosti $F$ (skok z 0 na 1). Definice ho <strong>nevyžaduje</strong> — proto $X_n\xrightarrow{\mathcal D}X$ přesto platí.</li>
+    </ol>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Skoková distribuční funkce a problém v bodě nespojitosti">
+      <line x1="60" y1="40" x2="60" y2="240" class="s-axis"/>
+      <line x1="60" y1="240" x2="540" y2="240" class="s-axis"/>
+      <line x1="60" y1="70" x2="520" y2="70" class="s-grid s-dash"/>
+      <text x="34" y="74" class="s-lbl-s">1</text>
+      <!-- center x=0 -->
+      <line x1="260" y1="40" x2="260" y2="248" class="s-grid s-dash"/>
+      <text x="252" y="262" class="s-lbl-s">0</text>
+      <!-- F : step at 0 (pine) -->
+      <path d="M70,240 L260,240" class="s-pine"/>
+      <path d="M260,70 L520,70" class="s-pine"/>
+      <line x1="260" y1="240" x2="260" y2="70" class="s-pine s-dash" stroke-width="1.4"/>
+      <circle cx="260" cy="70" r="4" class="f-pine"/>
+      <text x="470" y="60" class="s-lbl f-pine">F</text>
+      <!-- Fn : step at 1/n (terra), shifted right -->
+      <path d="M70,240 L330,240" class="s-terra"/>
+      <path d="M330,70 L520,70" class="s-terra"/>
+      <line x1="330" y1="240" x2="330" y2="70" class="s-terra s-dash" stroke-width="1.4"/>
+      <circle cx="330" cy="70" r="4" class="f-terra"/>
+      <text x="338" y="232" class="s-lbl-s f-terra">1/n</text>
+      <!-- gap at x=0 -->
+      <line x1="260" y1="240" x2="260" y2="70" stroke="var(--amber)" stroke-width="3"/>
+      <text x="190" y="160" class="s-lbl f-amber">mezera</text>
+      <text x="150" y="178" class="s-lbl-s f-amber">Fₙ(0)=0, F(0)=1</text>
+      <text x="500" y="262" class="s-lbl-s">x</text>
+    </svg>
+    <figcaption>V bodě nespojitosti $x=0$ se hodnoty $F_n(0)=0$ a $F(0)=1$ nikdy nesblíží — proto definice tento bod vynechává.</figcaption>
+  </figure>
+
+  <h3>Věty o konvergenci v distribuci</h3>
+
+  <div class="box thm">
+    <span class="tag">Věta · stejnoměrnost</span>
+    <p>Je-li limitní $F$ <strong>spojitá</strong>, pak je konvergence $F_n\to F$ <strong>stejnoměrná</strong> v $x\in\mathbb{R}$ (jedno $n_0$ stačí pro celou osu). Bez spojitosti platí jen bodově v bodech spojitosti.</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · charakteristické funkce (Lévy)</span>
+    <p>$$X_n\xrightarrow{\mathcal D}X\iff \psi_n(t)\xrightarrow{\,n\to\infty\,}\psi(t)\quad\forall t\in\mathbb{R},$$
+    kde $\psi_X(t)=\mathbb{E}\,e^{itX}$ je charakteristická funkce. Konvergence v distribuci je tedy ekvivalentní <strong>bodové</strong> konvergenci charakteristických funkcí. (To je technický motor většiny důkazů CLV.)</p>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Poznámka · obecný metrický prostor</span>
+    <p>Pro NV s hodnotami v metrickém prostoru $E$ (s Borelovskou $\sigma$-algebrou $\mathcal{E}=\mathcal{B}(E)$) definujeme $X_n\xrightarrow{\mathcal D}X\equiv Q_n\xrightarrow{\text{slabě}}Q$ pomocí integrálů:
+    $$\int_E f\,\mathrm{d}Q_n\longrightarrow\int_E f\,\mathrm{d}Q\qquad\forall f:E\to\mathbb{R}\text{ (stejnoměrně) spojité a omezené,}$$
+    tj. $\mathbb{E}f(X_n)\to\mathbb{E}f(X)$. Ekvivalentně (Portmanteau): $Q_n(B)\to Q(B)$ pro všechny $B\in\mathcal E$ s $Q(\partial B)=0$ (hranice $B$ má nulovou míru).</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · náhodné vektory</span>
+    <p>Pro konečně rozměrné NV $X_n=(X_{n1},\dots,X_{nk})$ platí
+    $$X_n\xrightarrow{\mathcal D}X\iff \text{konvergence v distribuci }\textbf{všech}\text{ konečně rozměrných rozdělení}\iff F_n\to F\text{ v bodech spojitosti }F.$$</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · hustoty (Scheffé)</span>
+    <p>Mají-li $X_n,X$ rozdělení s hustotou $f_n,f$ vzhledem k téže míře $\mu$ a platí $f_n\to f$ $\mu$-skoro všude, pak $X_n\xrightarrow{\mathcal D}X$. (Bodová konvergence hustot stačí.)</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · spojité zobrazení (continuous mapping)</span>
+    <p>Nechť $X_n\xrightarrow{\mathcal D}X$ a $g$ je spojitá (nebo aspoň $P(X\in\{\text{body nespojitosti }g\})=0$). Pak
+    $$g(X_n)\xrightarrow{\mathcal D}g(X)\qquad(X_n,X\text{ s hodnotami v }E).$$
+    Spojitá transformace konvergenci v distribuci „přenáší".</p>
+  </div>
+</section>
+
+<!-- ============================ IV ============================ -->
+<section id="s4">
+  <h2>Konvergence podle pravděpodobnosti <span class="chip">→ᴾ</span></h2>
+  <p class="sub">O stupínek silnější než distribuce. Tady už NV musí žít na <strong>stejném</strong> prostoru — porovnáváme samotné odchylky $|X_n-X|$.</p>
+
+  <div class="box def">
+    <span class="tag">Definice</span>
+    <p>Posloupnost reálných NV $\{X_n\}$ konverguje k reálné NV $X$ (definované na stejném pravděpodobnostním prostoru) <strong>podle pravděpodobnosti</strong>, jestliže</p>
+    <div class="center-eq">$$\forall\varepsilon>0:\quad P\big(|X_n-X|>\varepsilon\big)\xrightarrow{\,n\to\infty\,}0\qquad\Big[\text{ekviv. } P\big(|X_n-X|\le\varepsilon\big)\to 1\Big].$$</div>
+    <p>Značíme $X_n\xrightarrow{\,P\,}X$. (Potřebujeme sdružené rozdělení $(X_n,X)$, proto stejný prostor.) Obecně v $E$: $P\big(d(X_n,X)>\varepsilon\big)\to 0$.</p>
+  </div>
+
+  <p>Intuice: pro každou pevnou toleranci $\varepsilon$ se <strong>pravděpodobnost</strong> velké odchylky scvrkává k nule. Pozor — pro každé $n$ se může „provinit" jiná část prostoru; nehlídáme jednu trajektorii $\omega$, jen velikost provinilé množiny.</p>
+
+  <figure>
+    <svg viewBox="0 0 560 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hustota se koncentruje, pravdepodobnost mimo pas mizi">
+      <line x1="60" y1="40" x2="60" y2="230" class="s-axis"/>
+      <line x1="60" y1="230" x2="540" y2="230" class="s-axis"/>
+      <!-- target band -->
+      <rect x="250" y="40" width="100" height="190" class="f-band"/>
+      <line x1="250" y1="40" x2="250" y2="235" class="s-pine s-dash" stroke-width="1.4"/>
+      <line x1="350" y1="40" x2="350" y2="235" class="s-pine s-dash" stroke-width="1.4"/>
+      <text x="285" y="252" class="s-lbl-s f-pine">X±ε</text>
+      <!-- wide density (early n) -->
+      <path d="M70,228 C150,220 230,150 300,150 C370,150 450,220 530,228" class="s-terra" stroke-width="2" opacity="0.55"/>
+      <text x="430" y="170" class="s-lbl-s f-terra">malé n</text>
+      <!-- narrow density (large n) -->
+      <path d="M210,228 C270,220 295,60 300,60 C305,60 330,220 390,228" class="s-pine" stroke-width="2.6"/>
+      <text x="360" y="90" class="s-lbl-s f-pine">velké n</text>
+      <text x="500" y="250" class="s-lbl-s">hodnota</text>
+    </svg>
+    <figcaption>Rozdělení $X_n-X$ se koncentruje k nule; pravděpodobnostní hmota mimo pás $\pm\varepsilon$ (oranžové „ocasy") mizí.</figcaption>
+  </figure>
+
+  <h3>Vztah k distribuci</h3>
+  <div class="box thm">
+    <span class="tag">Věta · síla konvergencí</span>
+    <p>$$X_n\xrightarrow{P}X\ \Longrightarrow\ X_n\xrightarrow{\mathcal D}X.$$
+    Opačně to obecně <strong>neplatí</strong>. Výjimka — limita je konstanta:
+    $$X_n\xrightarrow{\mathcal D}c\ \Longrightarrow\ X_n\xrightarrow{P}c\qquad(c\text{ konstanta}).$$
+    Ke konstantě jsou tedy obě konvergence ekvivalentní.</p>
+  </div>
+
+  <h3>Slutského věta</h3>
+  <div class="box thm">
+    <span class="tag">Věta · Slutsky</span>
+    <p>Nechť $X_n\xrightarrow{\mathcal D}X$ a $Y_n\xrightarrow{P}c$ ke <strong>konstantě</strong> $c$. Pak</p>
+    <div class="center-eq">$$X_n+Y_n\xrightarrow{\mathcal D}X+c,\qquad X_n\,Y_n\xrightarrow{\mathcal D}X\,c,\qquad \frac{X_n}{Y_n}\xrightarrow{\mathcal D}\frac{X}{c}\ (c\neq 0).$$</div>
+    <p>Speciálně $X_n\xrightarrow{\mathcal D}X,\ Y_n\xrightarrow{P/\mathcal D}0\Rightarrow X_n+Y_n\xrightarrow{\mathcal D}X$.</p>
+  </div>
+  <div class="box key">
+    <span class="tag">Pozor</span>
+    <p>$Y_n$ musí konvergovat ke <strong>konstantě</strong>, ne k obecné NV. Pro dvě „skutečně náhodné" limity tahle aritmetika neplatí (musely bychom znát jejich sdružené rozdělení).</p>
+  </div>
+
+  <h3>Příklad: studentizace v centrální limitní větě</h3>
+  <p>Klasická úloha — proč smíme ve standardizaci nahradit neznámé $\sigma$ výběrovou směrodatnou odchylkou $s$, aniž změníme limitní rozdělení.</p>
+  <div class="box ex">
+    <span class="tag">Příklad · Slutsky v praxi</span>
+    <p><strong>Vstupy.</strong> Centrální limitní věta (CLV) dává</p>
+    <div class="center-eq">$$\frac{\bar X-\mu}{\sigma}\sqrt{n}\ \xrightarrow{\mathcal D}\ N(0,1),$$</div>
+    <p>a výběrový rozptyl je konzistentní odhad rozptylu:</p>
+    <div class="center-eq">$$S_n^2:=\frac{1}{n-1}\Big(\textstyle\sum_{i=1}^n X_i^2-n\bar X^2\Big)\ \xrightarrow{P}\ \sigma^2.$$</div>
+    <p><strong>Postup.</strong> Studentizovanou statistiku chytře rozložíme na součin:</p>
+    <ol class="steps">
+      <li>Rozklad: $\displaystyle \frac{\bar X-\mu}{s}\sqrt{n}=\underbrace{\frac{\bar X-\mu}{\sigma}\sqrt{n}}_{\xrightarrow{\mathcal D}\,N(0,1)}\cdot\ \underbrace{\frac{\sigma}{s}}_{\xrightarrow{P}\,1}.$</li>
+      <li>První činitel: přímo CLV $\Rightarrow\ \dfrac{\bar X-\mu}{\sigma}\sqrt n\xrightarrow{\mathcal D}N(0,1)$.</li>
+      <li>Druhý činitel: ze $S_n^2\xrightarrow{P}\sigma^2$ plyne $s\xrightarrow{P}\sigma$, a tedy (spojité zobrazení / podíl) $\dfrac{\sigma}{s}\xrightarrow{P}1$.</li>
+      <li>Slutsky (součin, $Y_n=\sigma/s\to$ konstanta $1$): $\displaystyle \frac{\bar X-\mu}{s}\sqrt n\xrightarrow{\mathcal D}N(0,1)\cdot 1=N(0,1).$</li>
+    </ol>
+    <p style="margin-top:14px"><strong>Závěr.</strong> Nahrazení neznámého $\sigma$ konzistentním odhadem $s$ <em class="t">nemění</em> asymptotické rozdělení — to je důvod, proč pro velká $n$ funguje normální aproximace i bez znalosti rozptylu.</p>
+  </div>
+
+  <h3>Slabý zákon velkých čísel</h3>
+  <div class="box thm">
+    <span class="tag">Věta · slabý ZVČ</span>
+    <p>Nechť $X_1,X_2,\dots$ jsou buď</p>
+    <p style="margin:6px 0">(a) <strong>nezávislé stejně rozdělené</strong> s konečnou střední hodnotou $\mu$, <strong>nebo</strong><br>
+    (b) <strong>nekorelované</strong> se střední hodnotou $\mu$ a konečným rozptylem $\sigma^2$.</p>
+    <p>Položme $S_n=\sum_{i=1}^n X_i$. Pak</p>
+    <div class="center-eq">$$\frac{S_n}{n}\ \xrightarrow{P}\ \mu.$$</div>
+    <p>Výběrový průměr konverguje podle pravděpodobnosti ke střední hodnotě.</p>
+  </div>
+</section>
+
+<!-- ============================ V ============================ -->
+<section id="s5">
+  <h2>Konvergence skoro jistě <span class="chip">→ˢ·ʲ·</span></h2>
+  <p class="sub">Silná konvergence. Nehlídáme velikost provinilé množiny v každém $n$, ale ptáme se, zda <strong>celá trajektorie</strong> $X_n(\omega)$ konverguje — a to s pravděpodobností jedna.</p>
+
+  <div class="box def">
+    <span class="tag">Definice</span>
+    <p>Posloupnost reálných NV $X_1,X_2,\dots$ (na stejném $(\Omega,\mathcal{A},P)$) konverguje k NV $X$ <strong>skoro jistě</strong>, jestliže</p>
+    <div class="center-eq">$$P\Big(\lim_{n\to\infty}X_n=X\Big)=1,\qquad\text{tj.}\qquad P\big(\{\omega\in\Omega:\ X_n(\omega)\to X(\omega)\}\big)=1.$$</div>
+    <p>Značíme $X_n\xrightarrow{\,s.j.\,}X$.</p>
+  </div>
+
+  <h3>Rozbor té množinové definice</h3>
+  <p>Množina $\omega$, na nichž posloupnost konverguje, se zapíše čistě množinově. Tohle je formálně nejhustší místo celého okruhu, tak ho rozeberme zevnitř ven:</p>
+  <div class="center-eq">$$\{\omega:\ X_n(\omega)\to X(\omega)\}=\bigcap_{\varepsilon>0}\ \bigcup_{n_0\in\mathbb{N}}\ \bigcap_{n>n_0}\ \big\{\,|X_n(\omega)-X(\omega)|<\varepsilon\,\big\}.$$</div>
+  <ol class="steps">
+    <li>$\displaystyle\bigcap_{n>n_0}\{|X_n-X|<\varepsilon\}$ — od indexu $n_0$ dál jsou <strong>všechny</strong> členy blíž než $\varepsilon$ (to je ono $\forall n>n_0$).</li>
+    <li>$\displaystyle\bigcup_{n_0}$ — <strong>existuje</strong> takové $n_0$, od kterého už to platí napořád ($\exists n_0$).</li>
+    <li>$\displaystyle\bigcap_{\varepsilon>0}$ — a tohle musí platit pro <strong>každé</strong> $\varepsilon>0$ ($\forall\varepsilon$).</li>
+  </ol>
+  <div class="box note">
+    <span class="tag">Poznámka · měřitelnost</span>
+    <p>Stačí brát $\varepsilon=\tfrac1h$, $h\in\mathbb{N}$ — průnik přes spočetně mnoho $\varepsilon$ zachová měřitelnost. Je to doslova ono $\forall\varepsilon\,\exists n_0\,\forall n>n_0$ z definice limity číselné posloupnosti (sekce I), jen „zvážené" pravděpodobností. Obecněji platí i pro NV s hodnotami v <strong>separabilním</strong> metrickém prostoru $(E,\mathcal B(E))$.</p>
+  </div>
+
+  <div class="box key">
+    <span class="tag">P vs. s.j. — v čem je rozdíl</span>
+    <p><strong>Podle ppsti:</strong> pro každé $n$ je <em>malá</em> pravděpodobnost odchylky, ale „hříšník" $\omega$ se může přeskupovat. <strong>Skoro jistě:</strong> téměř každá pevná trajektorie $\omega$ se nakonec usadí a už neuteče. Proto je s.j. silnější.</p>
+  </div>
+
+  <h3>Algebra limit (s.j.)</h3>
+  <div class="box thm">
+    <span class="tag">Věta · operace</span>
+    <p>Nechť $X_n\to X$ s.j. a $Y_n\to Y$ s.j. Pak</p>
+    <div class="center-eq">$$X_n\pm Y_n\to X\pm Y,\qquad X_n\,Y_n\to X\,Y,\qquad \frac{X_n}{Y_n}\to\frac{X}{Y}\quad\text{(s.j.)}$$</div>
+    <p>přičemž podíl existuje, je-li $P(Y\neq 0)=1$.</p>
+  </div>
+
+  <h3>Silný zákon velkých čísel</h3>
+  <div class="box thm">
+    <span class="tag">Věta · silný ZVČ</span>
+    <p>Nechť $X_1,X_2,\dots$ jsou nezávislé stejně rozdělené s konečnou střední hodnotou $\mu$ (stačí <strong>po dvou nezávislé</strong>, tj. $\forall i\neq j$ je $X_i$ nezávislé s $X_j$). Položme $S_n=\sum_{i=1}^n X_i$. Pak</p>
+    <div class="center-eq">$$\frac{S_n}{n}\ \xrightarrow{\,s.j.\,}\ \mu.$$</div>
+    <p>Stejný závěr jako slabý ZVČ, ale se <strong>silnější</strong> konvergencí (s.j. místo P).</p>
+  </div>
+
+  <div class="box ex">
+    <span class="tag">Důsledek · empirická četnost</span>
+    <p>Aplikujme silný ZVČ na indikátory. Pro pevnou množinu $B$ položme $Y_i:=\mathbb{1}_{X_i\in B}$, takže $\mathbb{E}Y_i=P(X_1\in B)$. Pak relativní četnost jevu konverguje s.j. k jeho pravděpodobnosti:</p>
+    <div class="center-eq">$$\frac{\#\{i\le n:\ X_i\in B\}}{n}=\frac1n\sum_{i=1}^n Y_i\ \xrightarrow{\,s.j.\,}\ P(X_1\in B).$$</div>
+    <p>To je teoretické ospravedlnění frekventistické představy pravděpodobnosti jako limity relativní četnosti (a jádro Gliven­ko–Cantelliho věty).</p>
+  </div>
+</section>
+
+<!-- ============================ VI ============================ -->
+<section id="s6">
+  <h2>Konvergence podle středu (v $L^p$) <span class="chip">→ᴸᵖ</span></h2>
+  <p class="sub">Konvergence „v průměru": hlídá se velikost <strong>očekávané</strong> $p$-té mocniny odchylky. Žije v normovaných prostorech $L^p$.</p>
+
+  <div class="box def">
+    <span class="tag">Definice</span>
+    <p>Nechť $p\in[1,\infty)$. Posloupnost reálných NV $X_1,X_2,\dots$ (na stejném $(\Omega,\mathcal A,P)$) konverguje k NV $X$ <strong>v $p$-tém středu (momentu)</strong>, jestliže</p>
+    <div class="center-eq">$$\mathbb{E}\,|X_n-X|^p\ \xrightarrow{\,n\to\infty\,}\ 0.$$</div>
+    <p>Značíme $X_n\xrightarrow{\,p\,}X$ nebo $X_n\xrightarrow{\,L^p\,}X$.</p>
+    <p style="margin-top:10px">$p=1$ … konvergence <strong>podle středu</strong> (v střední hodnotě)<br>
+    $p=2$ … konvergence <strong>podle kvadratického středu</strong> (mean-square).</p>
+  </div>
+
+  <h3>Prostor $L^p$</h3>
+  <div class="box note">
+    <span class="tag">Poznámka · normovaný prostor</span>
+    <p>$L^p(\Omega,\mathcal A,P)$ je prostor NV s konečným $\mathbb{E}|X|^p$ — normovaný lineární prostor s normou a metrikou</p>
+    <div class="center-eq">$$\|X\|_p=\big(\mathbb{E}|X|^p\big)^{1/p},\qquad d(X,Y)=\big(\mathbb{E}|X-Y|^p\big)^{1/p}.$$</div>
+    <p>Konvergence v $L^p$ je přesně konvergence v této normě: $\|X_n-X\|_p\to 0$.</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · monotonie momentů (vnoření)</span>
+    <p>Pro $1\le p\le q$ platí
+    $$\mathbb{E}|X|^q<\infty\ \Longrightarrow\ \mathbb{E}|X|^p<\infty,$$
+    tj. $L^q\subset L^p$ (na pravděpodobnostním prostoru). Plyne z Jensenovy/Ljapunovovy nerovnosti. <strong>Důsledek:</strong> konvergence v $L^q$ je silnější než v $L^p$ — z $X_n\xrightarrow{L^q}X$ plyne $X_n\xrightarrow{L^p}X$ pro $p\le q$.</p>
+  </div>
+</section>
+
+<!-- ============================ VII ============================ -->
+<section id="s7">
+  <h2>Souhrnný diagram vztahů</h2>
+  <p class="sub">Jak do sebe všechny typy zapadají. Šipka = „implikuje". Bodová konvergence je nejsilnější, konvergence v distribuci nejslabší.</p>
+
+  <figure>
+    <svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram vztahu typu konvergence">
+      <defs>
+        <marker id="arr" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L9,4 L0,8 Z" fill="var(--pine)"/>
+        </marker>
+        <marker id="arrT" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L9,4 L0,8 Z" fill="var(--terra)"/>
+        </marker>
+        <marker id="arrA" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto">
+          <path d="M0,0 L9,4 L0,8 Z" fill="var(--amber)"/>
+        </marker>
+      </defs>
+
+      <!-- nodes -->
+      <!-- Bodová -->
+      <rect x="20" y="40" width="150" height="50" rx="10" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="2"/>
+      <text x="95" y="62" text-anchor="middle" class="s-lbl f-pine" font-size="14">Bodová</text>
+      <text x="95" y="80" text-anchor="middle" class="s-lbl-s">nejsilnější</text>
+      <!-- s.j. -->
+      <rect x="270" y="40" width="150" height="50" rx="10" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="2"/>
+      <text x="345" y="70" text-anchor="middle" class="s-lbl f-pine" font-size="15">Skoro jistě (s.j.)</text>
+      <!-- Lp -->
+      <rect x="20" y="200" width="150" height="50" rx="10" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2"/>
+      <text x="95" y="230" text-anchor="middle" class="s-lbl f-amber" font-size="15">Lᵖ (v p-tém středu)</text>
+      <!-- P -->
+      <rect x="500" y="120" width="150" height="50" rx="10" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="2"/>
+      <text x="575" y="150" text-anchor="middle" class="s-lbl f-terra" font-size="15">Podle ppsti (P)</text>
+      <!-- D -->
+      <rect x="500" y="280" width="150" height="50" rx="10" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="2"/>
+      <text x="575" y="302" text-anchor="middle" class="s-lbl f-terra" font-size="15">V distribuci (D)</text>
+      <text x="575" y="320" text-anchor="middle" class="s-lbl-s">nejslabší</text>
+
+      <!-- arrows -->
+      <!-- Bodová -> s.j. -->
+      <line x1="170" y1="65" x2="262" y2="65" class="s-pine" marker-end="url(#arr)"/>
+      <!-- s.j. -> P -->
+      <path d="M420,72 C470,90 480,110 498,128" class="s-pine" fill="none" marker-end="url(#arr)"/>
+      <!-- Lp -> P -->
+      <path d="M170,222 C320,210 420,180 498,158" class="s-pine" fill="none" marker-end="url(#arr)"/>
+      <!-- P -> D -->
+      <line x1="575" y1="170" x2="575" y2="272" class="s-pine" marker-end="url(#arr)"/>
+
+      <!-- back: P -> s.j. subsequence (dashed) -->
+      <path d="M520,122 C440,90 420,80 422,76" class="s-terra s-dash" fill="none" marker-end="url(#arrT)" stroke-width="1.8"/>
+      <text x="430" y="118" class="s-lbl-s f-terra">∃ vybraná podposl. → s.j.</text>
+
+      <!-- back: D -> P only if X=c (dashed) -->
+      <path d="M540,278 C520,240 525,210 545,172" class="s-amber s-dash" fill="none" marker-end="url(#arrA)" stroke-width="1.8"/>
+      <text x="470" y="240" class="s-lbl-s f-amber">jen pro X=c</text>
+
+      <!-- condition: L2 summable -> s.j. -->
+      <path d="M95,200 C95,140 180,95 268,72" class="s-amber s-dash" fill="none" marker-end="url(#arrA)" stroke-width="1.8"/>
+      <text x="120" y="130" class="s-lbl-s f-amber">p=2, X=c,</text>
+      <text x="120" y="146" class="s-lbl-s f-amber">Σ E(Xₙ−c)² &lt; ∞</text>
+    </svg>
+    <figcaption>Plné šipky = obecné implikace. Přerušované = jen za podmínkou. Z konvergence podle ppsti vždy vybereme podposloupnost konvergující s.j.; obrácení $D\to P$ jde jen k&nbsp;konstantě.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Co diagram říká</span>
+    <ul style="margin:0; padding-left:20px">
+      <li><strong>Bodová $\Rightarrow$ s.j.</strong> (bodová konvergence všude je víc než konvergence skoro všude).</li>
+      <li><strong>s.j. $\Rightarrow$ P $\Rightarrow$ D.</strong> Hlavní řetězec síly.</li>
+      <li><strong>$L^p\Rightarrow$ P.</strong> Konvergence v momentu vynutí konvergenci podle ppsti (přes Markovovu nerovnost).</li>
+      <li><strong>P $\Rightarrow$ s.j. neplatí</strong>, ale z každé $\{X_n\}$ s $X_n\xrightarrow{P}X$ lze <strong>vybrat podposloupnost</strong> konvergující s.j.</li>
+      <li><strong>D $\Rightarrow$ P jen pro konstantní limitu</strong> $X=c$.</li>
+      <li><strong>Postačující podmínka pro s.j.:</strong> je-li $X=c$ a $\sum_{n} \mathbb{E}(X_n-c)^2<\infty$, pak $X_n\to c$ s.j. (Markov + Borel–Cantelli). Konvergence v $L^2$ se „sečtenými chybami" tedy dotáhne až na s.j.</li>
+    </ul>
+  </div>
+
+  <h3>Srovnávací tabulka</h3>
+  <div class="tblwrap">
+    <table>
+      <thead>
+        <tr><th>Typ</th><th>Značení</th><th>Podmínka</th><th>Síla / poznámka</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>V distribuci</td>
+          <td><span class="nm">→ᴰ</span></td>
+          <td>$F_n(x)\to F(x)$ v bodech spojitosti $F$</td>
+          <td>Nejslabší. Stačí stejné rozdělení, ne stejný prostor.</td>
+        </tr>
+        <tr>
+          <td>Podle ppsti</td>
+          <td><span class="nm">→ᴾ</span></td>
+          <td>$P(|X_n-X|>\varepsilon)\to 0\ \ \forall\varepsilon$</td>
+          <td>$\Rightarrow$ D. Pravděpodobnost provinění mizí.</td>
+        </tr>
+        <tr>
+          <td>Podle středu</td>
+          <td><span class="nm">→ᴸᵖ</span></td>
+          <td>$\mathbb{E}|X_n-X|^p\to 0$</td>
+          <td>$\Rightarrow$ P. Vyšší $p$ je silnější ($L^q\subset L^p$).</td>
+        </tr>
+        <tr>
+          <td>Skoro jistě</td>
+          <td><span class="nm">→ˢ·ʲ·</span></td>
+          <td>$P(\lim X_n=X)=1$</td>
+          <td>$\Rightarrow$ P. Celá trajektorie se usadí.</td>
+        </tr>
+        <tr>
+          <td>Bodová</td>
+          <td><span class="nm">→</span></td>
+          <td>$X_n(\omega)\to X(\omega)\ \forall\omega$</td>
+          <td>Nejsilnější. $\Rightarrow$ s.j.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Zákony velkých čísel — vedle sebe</span>
+    <p><strong>Slabý ZVČ:</strong> $S_n/n\xrightarrow{P}\mu$ (i.i.d. s konečnou $\mu$, nebo nekorelované s konečným $\sigma^2$).<br>
+    <strong>Silný ZVČ:</strong> $S_n/n\xrightarrow{s.j.}\mu$ (i.i.d. s konečnou $\mu$, stačí po dvou nezávislé). Stejný cíl, silnější konvergence.<br>
+    <strong>CLV:</strong> $\dfrac{\bar X-\mu}{\sigma}\sqrt n\xrightarrow{\mathcal D}N(0,1)$ — popisuje <em class="t">tvar</em> fluktuací kolem $\mu$, řádu $1/\sqrt n$.</p>
+  </div>
+</section>
+
+<p class="footer">Studijní materiál sestavený z přiložených poznámek k okruhu „1. Konvergence". Matematika sázena přes MathJax, nákresy jsou vlastní vektorová grafika. Tip: dokument lze přes Ctrl/Cmd+P uložit jako PDF.</p>
+
+</div>
+</body>
+</html>
