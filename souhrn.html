@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velký souhrn — všechny okruhy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --slate:#3f6b87; --plum:#84566f; --teal:#1f7a8c;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px; margin:0 auto; padding:0 24px 120px;}
+header.hero{ max-width:1040px; margin:0 auto; padding:64px 24px 22px; }
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 14px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(40px,8vw,80px);
+  line-height:.96; letter-spacing:-.022em; margin:0 0 18px; color:var(--pine-d);}
+h1 em{font-style:italic; color:var(--terra);}
+.lead{font-size:20px; color:var(--ink2); max-width:720px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),var(--amber),var(--sage),var(--slate),var(--plum),var(--teal)); margin:26px 0 0; border:0;}
+.backlink{display:inline-flex; align-items:center; gap:7px; margin-top:18px;
+  font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.04em;
+  color:var(--pine); text-decoration:none; border-bottom:1px dotted var(--line2); padding-bottom:2px;}
+.backlink:hover{color:var(--terra);}
+
+nav.toc{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:20px 24px; margin:32px 0 10px;
+  box-shadow:0 1px 0 #fff inset, 0 10px 26px -22px rgba(20,40,30,.5);}
+nav.toc .tt{font-family:"Spline Sans Mono",monospace; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+nav.toc ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:9px;}
+nav.toc a{display:inline-flex; align-items:center; gap:8px; text-decoration:none; color:var(--ink);
+  background:var(--paper2); border:1px solid var(--line); border-radius:999px; padding:6px 14px 6px 8px;
+  font-size:14.5px; transition:.15s;}
+nav.toc a:hover{border-color:var(--acc); color:var(--acc); transform:translateY(-1px);}
+nav.toc a .dot{width:20px; height:20px; border-radius:50%; background:var(--acc); color:#fff;
+  font-family:"Spline Sans Mono",monospace; font-size:11px; display:flex; align-items:center; justify-content:center;}
+
+section{margin:54px 0 0; scroll-margin-top:18px;}
+h2{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(25px,4vw,34px);
+  color:var(--pine-d); letter-spacing:-.015em; line-height:1.05; margin:0 0 4px;
+  display:flex; align-items:center; gap:14px;}
+h2 .chip{font-family:"Fraunces",serif; font-style:italic; font-weight:600; font-size:26px;
+  color:#fff; background:var(--acc); width:46px; height:46px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  box-shadow:0 8px 18px -12px var(--acc);}
+.syl{font-size:13.5px; color:var(--muted); font-style:italic; margin:6px 0 16px;
+  padding:8px 14px; border-left:3px solid var(--acc); background:var(--paper2); border-radius:0 8px 8px 0;}
+.syl b{font-family:"Spline Sans Mono",monospace; font-style:normal; font-weight:500; font-size:10.5px;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--acc); display:block; margin-bottom:3px;}
+
+.cgrid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:14px 0;}
+@media(max-width:700px){ .cgrid{grid-template-columns:1fr;} }
+.tile{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--acc);
+  border-radius:10px; padding:11px 15px; font-size:15px; line-height:1.5;
+  box-shadow:0 6px 16px -18px rgba(20,40,30,.6);}
+.tile .term{display:block; font-family:"Fraunces",serif; font-weight:600; color:var(--pine-d);
+  font-size:16px; margin-bottom:1px; letter-spacing:-.005em;}
+.tile.span2{grid-column:1 / -1;}
+
+.ch1{--acc:var(--pine);} .ch2{--acc:var(--terra);} .ch3{--acc:var(--amber);}
+.ch4{--acc:var(--sage);} .ch5{--acc:var(--slate);} .ch6{--acc:var(--plum);} .ch7{--acc:var(--teal);}
+
+.threads{--acc:var(--pine-d);}
+.threads h2 .chip{font-size:22px;}
+.threadbox{background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:8px 26px 18px; margin-top:16px; box-shadow:0 10px 28px -24px rgba(20,40,30,.6);}
+.thread{padding:16px 0; border-bottom:1px solid var(--line); display:flex; gap:16px; align-items:flex-start;}
+.thread:last-child{border-bottom:0;}
+.thread .ttl{font-family:"Fraunces",serif; font-weight:600; color:var(--pine-d); font-size:17px;
+  flex:0 0 200px;}
+.thread .bd{font-size:15.5px; color:var(--ink2);}
+.thread .bd .k{font-family:"Spline Sans Mono",monospace; font-size:12px; color:var(--terra);
+  background:var(--terra-bg); padding:1px 7px; border-radius:5px; white-space:nowrap;}
+@media(max-width:700px){ .thread{flex-direction:column; gap:5px;} .thread .ttl{flex:none;} }
+
+.footer{margin-top:70px; padding-top:24px; border-top:2px solid var(--line);
+  font-size:14px; color:var(--muted); font-style:italic;}
+mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
+@media print{ body{background:#fff;} .tile,.threadbox,nav.toc{box-shadow:none;} section{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Matematická statistika · Závěrečné opakování</p>
+  <h1>Velký <em>souhrn</em></h1>
+  <p class="lead">Všech sedm okruhů na jednom místě — klíčové definice, věty a vzorce v hutné podobě podle zkouškového sylabu. Pro detaily a důkazy klikni na příslušný materiál v rozcestníku.</p>
+  <a class="backlink" href="index.html">← zpět na rozcestník</a>
+  <hr class="rule">
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <p class="tt">Skok na okruh</p>
+  <ul>
+    <li><a class="ch1" href="#c1"><span class="dot">1</span> Konvergence</a></li>
+    <li><a class="ch2" href="#c2"><span class="dot">2</span> Teorie odhadu</a></li>
+    <li><a class="ch3" href="#c3"><span class="dot">3</span> Toleranční intervaly</a></li>
+    <li><a class="ch4" href="#c4"><span class="dot">4</span> Bayesovské metody</a></li>
+    <li><a class="ch5" href="#c5"><span class="dot">5</span> Testování hypotéz</a></li>
+    <li><a class="ch6" href="#c6"><span class="dot">6</span> Pořádkové testy</a></li>
+    <li><a class="ch7" href="#c7"><span class="dot">7</span> Sekvenční testy</a></li>
+  </ul>
+</nav>
+
+<!-- ===== 1 ===== -->
+<section class="ch1" id="c1">
+  <h2><span class="chip">1</span> Konvergence</h2>
+  <p class="syl"><b>Sylabus</b> Konvergence posloupnosti čísel, asymptotická ekvivalence podle rozdílů a podílů. Konvergence náhodných veličin v distribuci, podle pravděpodobnosti, skoro jistě, podle středu.</p>
+  <div class="cgrid">
+    <div class="tile"><span class="term">Asymptotická ekvivalence</span> $a_n\sim b_n\iff a_n/b_n\to1$; Landau $a_n=o(b_n)$, $a_n=O(b_n)$.</div>
+    <div class="tile"><span class="term">V distribuci</span> $X_n\xrightarrow{d}X$: $F_n(x)\to F(x)$ v bodech spojitosti $F$.</div>
+    <div class="tile"><span class="term">Podle pravděpodobnosti</span> $X_n\xrightarrow{P}X$: $\forall\varepsilon>0\ P(|X_n-X|>\varepsilon)\to0$.</div>
+    <div class="tile"><span class="term">Skoro jistě</span> $X_n\xrightarrow{s.j.}X$: $P(\lim_n X_n=X)=1$.</div>
+    <div class="tile"><span class="term">Podle středu ($L^p$)</span> $X_n\xrightarrow{L^p}X$: $\mathbb E|X_n-X|^p\to0$.</div>
+    <div class="tile"><span class="term">Hierarchie</span> s.j. $\Rightarrow$ P $\Rightarrow$ d; $L^p\Rightarrow$ P. Opačně obecně ne (protipříklady).</div>
+    <div class="tile span2"><span class="term">Zákon velkých čísel</span> $\bar X_n\to\mu$ — slabý (podle ppsti) i silný (skoro jistě); spojuje konvergenci NV s aritmetickým průměrem.</div>
+  </div>
+</section>
+
+<!-- ===== 2 ===== -->
+<section class="ch2" id="c2">
+  <h2><span class="chip">2</span> Teorie odhadu</h2>
+  <p class="syl"><b>Sylabus</b> Bodový odhad (nestrannost, konzistence, MSE). Regulární systém hustot, Raova–Cramérova nerovnost, vydatnost. Rozdělení exponenciálního typu. Souvislost s teorií informace. Intervalový odhad (pivotální funkce, statistika s rozdělením monotónním v parametru).</p>
+  <div class="cgrid">
+    <div class="tile"><span class="term">Nestrannost</span> $\mathbb E_\theta T=\theta$ (bez systematické chyby).</div>
+    <div class="tile"><span class="term">Konzistence</span> $T_n\xrightarrow{P}\theta$ s rostoucím $n$.</div>
+    <div class="tile"><span class="term">Střední čtvercová chyba</span> $\mathrm{MSE}=\operatorname{var}T+(\mathrm{bias})^2$.</div>
+    <div class="tile"><span class="term">Skóre & Fisherova informace</span> $U=\partial_\theta\ln f$, $J(\theta)=\mathbb E U^2=-\mathbb E\,\partial^2_\theta\ln f$.</div>
+    <div class="tile"><span class="term">Raova–Cramérova nerovnost</span> $\operatorname{var}T\ge\dfrac{[g'(\theta)]^2}{n\,J_1(\theta)}$; nestranný pro $\theta$: $\ge\dfrac{1}{nJ_1}$.</div>
+    <div class="tile"><span class="term">Vydatnost</span> Odhad je vydatný, dosahuje-li Raovy–Cramérovy meze (rovnost).</div>
+    <div class="tile"><span class="term">Exponenciální typ</span> $f_\theta(x)=\exp\{c(\theta)T(x)+d(\theta)+S(x)\}$.</div>
+    <div class="tile"><span class="term">Postačující statistika</span> Faktorizace $f(x;\theta)=g(T(x),\theta)\,h(x)$.</div>
+    <div class="tile"><span class="term">Souvislost s informací</span> ML odhad $\equiv$ minimalizace KL divergence / maximalizace entropie.</div>
+    <div class="tile"><span class="term">Intervalový odhad</span> Pivotální funkce $Q(X,\theta)$ se známým rozdělením; nebo statistika s rozdělením monotónním v $\theta$.</div>
+  </div>
+</section>
+
+<!-- ===== 3 ===== -->
+<section class="ch3" id="c3">
+  <h2><span class="chip">3</span> Toleranční intervaly</h2>
+  <p class="syl"><b>Sylabus</b> Predikční interval. Toleranční interval, toleranční faktor pro normální rozdělení, jednostranné toleranční intervaly. Odhad tolerančního intervalu, Wilksovy toleranční meze.</p>
+  <div class="cgrid">
+    <div class="tile"><span class="term">Predikční interval</span> $P(A<X^{*}<B)\ge1-\alpha$ — pokryje budoucí hodnotu $X^{*}$.</div>
+    <div class="tile"><span class="term">Toleranční interval</span> $P\big(F_\theta(B)-F_\theta(A)\ge p\big)\ge1-\alpha$ — pokryje podíl $p$ rozdělení.</div>
+    <div class="tile"><span class="term">Toleranční faktor (normální)</span> $\bar X\pm k\,s$, $k\approx r\sqrt{\tfrac{n-1}{\chi^2_\alpha(n-1)}}$.</div>
+    <div class="tile"><span class="term">Jednostranný = kvantil</span> $(-\infty,B)$ s pokrytím $p$ $\equiv$ interval spolehlivosti pro $X_p$.</div>
+    <div class="tile"><span class="term">Konstrukce z CI pro $\theta$</span> $(D,H)$ CI pro $\theta$ $\Rightarrow$ $\big(X_{\frac{1-p}{2}}(H),X_{\frac{1+p}{2}}(D)\big)$.</div>
+    <div class="tile"><span class="term">Wilksovy meze (neparam.)</span> Pokrytí $Y_{(j)}\sim\mathrm{B}(j,n{-}j{+}1)$; $j$ z binomické podmínky. Distribution-free.</div>
+    <div class="tile span2"><span class="term">Binomická–beta dualita</span> $F_{\mathrm{B}(j,n-j+1)}(p)=P(\mathrm{Bi}(n,p)\ge j)$ — most mezi pořádkovými statistikami a binomickým rozdělením.</div>
+  </div>
+</section>
+
+<!-- ===== 4 ===== -->
+<section class="ch4" id="c4">
+  <h2><span class="chip">4</span> Bayesovské metody</h2>
+  <p class="syl"><b>Sylabus</b> Klasický a bayesovský přístup, Bayesova věta pro hustoty, volba apriorního rozdělení. Ztrátová, rozhodovací a bayesovská rozhodovací funkce. Bayesovský bodový a intervalový odhad, bayesovské testování hypotéz.</p>
+  <div class="cgrid">
+    <div class="tile"><span class="term">Bayesova věta</span> $\pi(\theta\mid x)\propto f(x\mid\theta)\,\pi(\theta)$ (aposteriorní $\propto$ věrohodnost $\times$ apriorní).</div>
+    <div class="tile"><span class="term">Volba apriorna</span> Indiference $\pi\propto1$; Jeffreys $\pi\propto\sqrt{\det J(\theta)}$; konjugované systémy.</div>
+    <div class="tile"><span class="term">Konjugovaný systém</span> $\pi\in\mathcal K\Rightarrow\pi(\cdot\mid x)\in\mathcal K$ (apriorno = $m$ fiktivních pozorování).</div>
+    <div class="tile"><span class="term">Ztráta & riziko</span> $L(\theta,d)$; $R(\theta,\delta)=\mathbb E[L\mid\theta]$; minimax vs. průměr (Bayes).</div>
+    <div class="tile"><span class="term">Bayesovo pravidlo</span> $\delta^{*}(x)=\arg\min_d\mathbb E[L(\theta,d)\mid x]$ — stačí aposteriorní rozdělení.</div>
+    <div class="tile"><span class="term">Bodový odhad</span> Kvadr. $\to\mathbb E(\theta\mid x)$; abs. $\to$ medián; 0/1 (MAP) $\to$ modus.</div>
+    <div class="tile"><span class="term">Intervalový odhad (HPD)</span> $\{\theta:\pi(\theta\mid x)\ge h_\alpha\}$ — nejkratší oblast s obsahem $1-\alpha$.</div>
+    <div class="tile"><span class="term">Testování</span> Přijmi $H_0\iff P(\Theta_0\mid x)\ge\dfrac{a_1}{a_0+a_1}$ (pro $a_0{=}a_1$: pravděpodobnější).</div>
+    <div class="tile span2"><span class="term">Prediktivní hustota</span> $f^{*}(x^{*}\mid x)=\int f^{*}(x^{*}\mid\theta)\,\pi(\theta\mid x)\,\mathrm d\theta$ — průměr budoucí hustoty přes aposteriorno.</div>
+  </div>
+</section>
+
+<!-- ===== 5 ===== -->
+<section class="ch5" id="c5">
+  <h2><span class="chip">5</span> Testování hypotéz</h2>
+  <p class="syl"><b>Sylabus</b> Testování hypotéz, test poměrem věrohodností. Randomizovaný test, stejnoměrně nejsilnější test, nestranný test. Neymanovo–Pearsonovo lemma a testy jednoduchých, jednostranných a oboustranných hypotéz.</p>
+  <div class="cgrid">
+    <div class="tile"><span class="term">Chyby</span> 1. druhu: zamítnu platnou $H_0$ ($\le\alpha$). 2. druhu: nezamítnu neplatnou $H_0$.</div>
+    <div class="tile"><span class="term">Hladina významnosti</span> $\sup_{\theta\in\Theta_0}\beta(\theta)\le\alpha$.</div>
+    <div class="tile"><span class="term">Silofunkce</span> $\beta(\theta)=\mathbb E_\theta\Phi(X)$; velikost $=\sup_{\Theta_0}\beta$.</div>
+    <div class="tile"><span class="term">Randomizovaný test</span> $\Phi\in[0,1]$ = ppst zamítnutí $H_0$ (umožní přesnou hladinu).</div>
+    <div class="tile"><span class="term">SN (UMP) test</span> $\beta_{\Phi^{*}}(\theta)\ge\beta_\Phi(\theta)$ na celém $\Theta_1$; existuje-li, je nestranný.</div>
+    <div class="tile"><span class="term">Nestranný</span> $\beta\le\alpha$ na $\Theta_0$ a $\beta\ge\alpha$ na $\Theta_1$.</div>
+    <div class="tile"><span class="term">Poměr věrohodností (LRT)</span> $V=\dfrac{f_{\hat\theta_0}}{f_{\hat\theta}}\le1$; $-2\ln V\xrightarrow{d}\chi^2_\nu$, $\nu=\dim\Theta-\dim\Theta_0$.</div>
+    <div class="tile"><span class="term">Neyman–Pearson</span> Zamítej, když $\dfrac{f_{\theta_1}}{f_{\theta_0}}>k$ — nejsilnější $\alpha$-test (jedn. vs. jedn.).</div>
+    <div class="tile"><span class="term">Jednostranný (MLR)</span> Zamítej $T>K$; SN pro $H_0:\theta\le\theta_0$; $\beta(\theta)$ rostoucí.</div>
+    <div class="tile"><span class="term">Oboustranný nestranný</span> Zamítej $T<h_1$ nebo $T>h_2$; $\mathbb E_{\theta_0}[T\Phi]=\alpha\,\mathbb E_{\theta_0}T$.</div>
+  </div>
+</section>
+
+<!-- ===== 6 ===== -->
+<section class="ch6" id="c6">
+  <h2><span class="chip">6</span> Pořádkové testy</h2>
+  <p class="syl"><b>Sylabus</b> Pořádkové statistiky a pořadí, invariantní testy hypotéz. Dvouvýběrové testy (Wilcoxonův, mediánový) a testy nezávislosti (Spearmanův a Kendallův).</p>
+  <div class="cgrid">
+    <div class="tile"><span class="term">Pořadí</span> $R_i=\#\{j:X_j\le X_i\}$; $\mathbb E R_i=\tfrac{n+1}{2}$, $\operatorname{var}R_i=\tfrac{n^2-1}{12}$.</div>
+    <div class="tile"><span class="term">Lineární pořadová stat.</span> $S=\sum c_i\,a(R_i)$; $\mathbb E S=n\bar a\bar c$.</div>
+    <div class="tile"><span class="term">Invariance</span> Pořadí = maximální invariant vůči monotónním transformacím (distribution-free).</div>
+    <div class="tile"><span class="term">Wilcoxon dvouvýb.</span> $W=\sum_{Y}R_i$; $\mathbb E W=\tfrac{n_2(n+1)}{2}$, $\operatorname{var}W=\tfrac{n_1n_2(n+1)}{12}$.</div>
+    <div class="tile"><span class="term">Mann–Whitney</span> $U=W-\tfrac{n_2(n_2+1)}{2}$; $\mathbb E U=\tfrac{n_1n_2}{2}$ (ekvivalent Wilcoxona).</div>
+    <div class="tile"><span class="term">Mediánový / van der Waerden</span> Skóre $h$: skok v $\tfrac12$ (mediánový) / $\Phi^{-1}$ (vdW).</div>
+    <div class="tile"><span class="term">Symetrie (signed-rank)</span> $W^{+}=\sum_{Z_i>0}R_i$; znaménkový $N^{+}\sim\mathrm{Bi}(n,\tfrac12)$.</div>
+    <div class="tile"><span class="term">Spearman</span> $\rho_S=1-\dfrac{6\sum(R_i-S_i)^2}{n^3-n}$ (korelace pořadí).</div>
+    <div class="tile span2"><span class="term">Kendall</span> $\tau=\dfrac{\#\text{shodné}-\#\text{neshodné}}{\binom n2}=\dfrac{1}{\binom n2}\sum_{i<j}\operatorname{sign}(R_i-R_j)\operatorname{sign}(S_i-S_j)$.</div>
+  </div>
+</section>
+
+<!-- ===== 7 ===== -->
+<section class="ch7" id="c7">
+  <h2><span class="chip">7</span> Sekvenční testy</h2>
+  <p class="syl"><b>Sylabus</b> Obecný sekvenční test, operační charakteristika, silofunkce. Waldův sekvenční test, aproximace mezí, rozsah výběru a jeho střední hodnota.</p>
+  <div class="cgrid">
+    <div class="tile"><span class="term">Obecný sekvenční test</span> Oblasti $B_{n0}/B_{n1}/B_n$; rozsah $N=\inf\{n:\text{rozhodnu}\}$ je náhodný.</div>
+    <div class="tile"><span class="term">Operační charakteristika</span> $L(\theta)=P_\theta(\text{přijetí }H_0)$; silofunkce $\beta(\theta)=P_\theta(\text{přijetí }H_1)$.</div>
+    <div class="tile"><span class="term">Waldův SPRT</span> $V_n=\prod_{i}\dfrac{f_{\theta_1}(X_i)}{f_{\theta_0}(X_i)}$; $\ge A\to H_1$, $\le B\to H_0$, jinak dál.</div>
+    <div class="tile"><span class="term">Aproximace mezí</span> $A^{*}=\dfrac{1-\beta}{\alpha}$, $B^{*}=\dfrac{\beta}{1-\alpha}$; $\alpha^{*}+\beta^{*}\le\alpha+\beta$.</div>
+    <div class="tile"><span class="term">Náhodná procházka</span> $\ln V_n=\sum Y_i$; drift $\mathbb E_{\theta_0}Y=-\mathrm{KL}<0$, $\mathbb E_{\theta_1}Y=+\mathrm{KL}>0$.</div>
+    <div class="tile"><span class="term">Ukončení</span> $V_1$ nedegenerovaná $\Rightarrow P_\theta(N<\infty)=1$ a $\mathbb E_\theta N<\infty$.</div>
+    <div class="tile"><span class="term">1. Waldova rovnost</span> $\mathbb E\ln V_N=\mathbb E N\cdot\mathbb E\ln V_1$.</div>
+    <div class="tile"><span class="term">Střední rozsah</span> $\mathbb E_\theta N\approx\dfrac{b\,L(\theta)+a\,(1-L(\theta))}{\mathbb E_\theta\ln V_1}$.</div>
+    <div class="tile span2"><span class="term">Optimalita (Wald–Wolfowitz)</span> Pro dané $\alpha,\beta$ má SPRT nejmenší $\mathbb E N$ zároveň při $\theta_0$ i $\theta_1$.</div>
+  </div>
+</section>
+
+<!-- ===== THREADS ===== -->
+<section class="threads" id="threads">
+  <h2><span class="chip">∞</span> Spojnice mezi okruhy</h2>
+  <p class="syl" style="--acc:var(--pine-d)"><b>Proč to drží pohromadě</b> Kurz není sedm oddělených témat — táhne jím několik společných motivů. Při ústní zkoušce se hodí umět je propojit.</p>
+  <div class="threadbox">
+    <div class="thread">
+      <div class="ttl">Poměr věrohodností</div>
+      <div class="bd">Páteř celého testování: <span class="k">Neyman–Pearson</span> (5) → testová statistika <span class="k">LRT V</span> (5) → sekvenční <span class="k">Waldův Vₙ</span> (7). Pořád stejná myšlenka „kolikrát líp sedí $H_1$ než $H_0$".</div>
+    </div>
+    <div class="thread">
+      <div class="ttl">Fisher & Kullback–Leibler</div>
+      <div class="bd">Informace prostupuje vším: <span class="k">Rao–Cramér</span> mez přes $J(\theta)$ (2), <span class="k">Jeffreysovo apriorno</span> $\sqrt{\det J}$ (4), drift SPRT $\pm\mathrm{KL}$ (7), a ML jako minimum KL (2).</div>
+    </div>
+    <div class="thread">
+      <div class="ttl">Exponenciální systém</div>
+      <div class="bd">Společná „dobrá" třída rozdělení: dává <span class="k">vydatné odhady</span> (2), <span class="k">konjugovaná apriorna</span> (4) i <span class="k">SN oboustranné testy</span> (5).</div>
+    </div>
+    <div class="thread">
+      <div class="ttl">Pořádkové statistiky</div>
+      <div class="bd">Tatáž mašinérie: <span class="k">Wilksovy toleranční meze</span> (3) a <span class="k">pořadové testy</span> (6) stojí na pořadí; pokrytí i statistiky vedou na <span class="k">Beta / binomické</span> rozdělení.</div>
+    </div>
+    <div class="thread">
+      <div class="ttl">Rozhodovací teorie</div>
+      <div class="bd"><span class="k">Bayesovské rozhodování</span> (4) sjednocuje odhad i test pod jednu ztrátovou funkci; chyby 1./2. druhu (5) odpovídají ztrátám $a_0,a_1$ (4) i v sekvenčním testu (7).</div>
+    </div>
+    <div class="thread">
+      <div class="ttl">Konvergence jako jazyk</div>
+      <div class="bd">Okruh 1 dává slovník pro asymptotiku všude: <span class="k">konzistence</span> (2), <span class="k">Wilks χ²</span> (5), <span class="k">normální aproximace</span> pořadových statistik (6) i <span class="k">ukončení SPRT</span> (7).</div>
+    </div>
+  </div>
+</section>
+
+<p class="footer">Velký souhrn k matematické statistice, sestavený podle zkouškového sylabu (7 okruhů). Hutný přehled pro opakování — pro plné definice, věty a důkazy viz jednotlivé materiály v rozcestníku. Matematika sázena přes MathJax; uložení jako PDF přes Ctrl/Cmd+P.</p>
+
+</div>
+</body>
+</html>
