@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testování hypotéz — studijní materiál</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.66; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px; margin:0 auto; padding:0 24px 120px;}
+header.hero{ max-width:920px; margin:0 auto; padding:64px 24px 26px; }
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 14px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(38px,7.5vw,72px);
+  line-height:.98; letter-spacing:-.02em; margin:0 0 18px; color:var(--pine-d);}
+h1 .num{color:var(--terra); font-style:italic;}
+.lead{font-size:20px; color:var(--ink2); max-width:700px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),transparent); margin:26px 0 0; border:0;}
+nav.toc{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:22px 26px; margin:34px 0 10px;
+  box-shadow:0 1px 0 #fff inset, 0 10px 26px -22px rgba(20,40,30,.5);}
+nav.toc .tt{font-family:"Spline Sans Mono",monospace; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+nav.toc ol{margin:0; padding:0; list-style:none; counter-reset:t; columns:2; column-gap:40px;}
+nav.toc li{break-inside:avoid; margin:0 0 8px; counter-increment:t;}
+nav.toc a{color:var(--ink); text-decoration:none; display:flex; gap:12px; align-items:baseline;
+  padding:4px 0; border-bottom:1px dotted transparent; transition:.15s;}
+nav.toc a:hover{color:var(--pine); border-bottom-color:var(--line2);}
+nav.toc a::before{content:counter(t,upper-roman); font-family:"Spline Sans Mono",monospace;
+  font-size:12px; color:var(--terra); min-width:34px; font-weight:500;}
+.backlink{display:inline-flex; align-items:center; gap:7px; margin-top:18px;
+  font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.04em;
+  color:var(--pine); text-decoration:none; border-bottom:1px dotted var(--line2); padding-bottom:2px;}
+.backlink:hover{color:var(--terra);}
+section{margin:62px 0 0; scroll-margin-top:18px;}
+h2{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(26px,4.2vw,37px);
+  color:var(--pine-d); letter-spacing:-.015em; line-height:1.08; margin:0 0 6px;
+  display:flex; align-items:baseline; gap:16px;}
+h2 .chip{font-family:"Spline Sans Mono",monospace; font-size:13px; font-weight:500;
+  color:#fff; background:var(--terra); padding:5px 11px; border-radius:8px;
+  letter-spacing:.04em; transform:translateY(-4px); white-space:nowrap;}
+.sub{color:var(--muted); font-style:italic; margin:0 0 26px; font-size:17px;}
+h3{font-family:"Fraunces",serif; font-weight:600; font-size:23px; color:var(--pine-d);
+  margin:38px 0 10px; letter-spacing:-.01em;}
+h4{font-family:"Spline Sans Mono",monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--terra); margin:26px 0 6px;}
+p{margin:12px 0;}
+strong{font-weight:600; color:var(--pine-d);}
+em.t{font-style:italic; color:var(--terra);}
+ul.clean{margin:8px 0; padding-left:22px;}
+ul.clean li{margin:6px 0;}
+.box{border-radius:12px; padding:20px 24px 18px; margin:22px 0; position:relative;
+  border:1px solid var(--line); box-shadow:0 8px 24px -22px rgba(20,40,30,.55);}
+.box .tag{font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; display:inline-block; margin:0 0 8px;}
+.box p:first-of-type{margin-top:0;} .box p:last-child{margin-bottom:0;}
+.def{background:var(--pine-bg); border-left:5px solid var(--pine);}
+.def .tag{color:var(--pine);}
+.thm{background:var(--terra-bg); border-left:5px solid var(--terra);}
+.thm .tag{color:var(--terra);}
+.ex{background:var(--amber-bg); border-left:5px solid var(--amber);}
+.ex .tag{color:var(--amber);}
+.note{background:var(--sage-bg); border-left:5px solid var(--sage);}
+.note .tag{color:var(--sage);}
+.key{background:#fff; border:1px dashed var(--terra); border-left:5px solid var(--terra);}
+.key .tag{color:var(--terra);}
+.proof{background:var(--paper2); border-left:5px solid var(--sage);}
+.proof .tag{color:var(--sage);}
+figure{margin:30px 0; text-align:center;}
+figure svg{max-width:100%; height:auto; background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:14px; box-shadow:0 10px 28px -24px rgba(20,40,30,.6);}
+figcaption{font-size:14.5px; color:var(--muted); font-style:italic; margin-top:11px; max-width:660px; margin-left:auto; margin-right:auto;}
+.s-axis{stroke:var(--ink2); stroke-width:1.6; fill:none;}
+.s-grid{stroke:var(--line2); stroke-width:1; fill:none;}
+.s-dash{stroke-dasharray:5 5;}
+.s-pine{stroke:var(--pine); fill:none; stroke-width:2.4;}
+.s-terra{stroke:var(--terra); fill:none; stroke-width:2.4;}
+.s-amber{stroke:var(--amber); fill:none; stroke-width:2.4;}
+.s-sage{stroke:var(--sage); fill:none; stroke-width:2.4;}
+.f-pine{fill:var(--pine);} .f-terra{fill:var(--terra);} .f-amber{fill:var(--amber);}
+.f-ink{fill:var(--ink2);} .f-sage{fill:var(--sage);}
+.f-band{fill:var(--pine); opacity:.10;} .f-band2{fill:var(--terra); opacity:.12;}
+.f-banda{fill:var(--amber); opacity:.16;}
+.s-lbl{font-family:"Spline Sans Mono",monospace; font-size:13px; fill:var(--ink2);}
+.s-lbl-s{font-family:"Spline Sans Mono",monospace; font-size:11px; fill:var(--muted);}
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0;}
+.duo .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+.duo .mini h4{margin-top:0;}
+@media(max-width:640px){ .duo{grid-template-columns:1fr;} nav.toc ol{columns:1;} }
+.tblwrap{overflow-x:auto; margin:24px 0;}
+table{border-collapse:collapse; width:100%; font-size:15.5px; background:var(--card);
+  border-radius:12px; overflow:hidden; box-shadow:0 10px 28px -26px rgba(20,40,30,.6);}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+th{background:var(--pine); color:#fff; font-family:"Spline Sans Mono",monospace;
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:500;}
+tbody tr:nth-child(even){background:var(--paper2);}
+tbody tr:last-child td{border-bottom:0;}
+td .nm{font-family:"Spline Sans Mono",monospace; color:var(--terra); font-size:13px;}
+.steps{counter-reset:st; list-style:none; padding:0; margin:14px 0;}
+.steps>li{counter-increment:st; position:relative; padding:6px 0 6px 46px; margin:6px 0;}
+.steps>li::before{content:counter(st); position:absolute; left:0; top:6px;
+  width:30px; height:30px; border-radius:50%; background:var(--pine); color:#fff;
+  font-family:"Spline Sans Mono",monospace; font-size:14px; display:flex;
+  align-items:center; justify-content:center;}
+.proof .steps>li::before{background:var(--sage);}
+.footer{margin-top:80px; padding-top:24px; border-top:2px solid var(--line);
+  font-size:14px; color:var(--muted); font-style:italic;}
+mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
+.center-eq{text-align:center; margin:16px 0;}
+@media print{ body{background:#fff;} .box,figure svg,table{box-shadow:none;} nav.toc{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Matematická statistika · Studijní materiály</p>
+  <h1><span class="num">5.</span> Testování hypotéz</h1>
+  <p class="lead">Rozhodnout mezi dvěma tvrzeními o parametru tak, aby chyba prvního druhu nepřesáhla danou mez a síla proti alternativě byla co největší. Neymanův–Pearsonův rámec od základů po klasické testy.</p>
+  <a class="backlink" href="index.html">← zpět na rozcestník</a>
+  <hr class="rule">
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <p class="tt">Obsah okruhu</p>
+  <ol>
+    <li><a href="#s1">Základní pojmy</a></li>
+    <li><a href="#s2">Silofunkce a vlastnosti testů</a></li>
+    <li><a href="#s3">Testy poměrem věrohodností</a></li>
+    <li><a href="#s4">Neymanovo–Pearsonovo lemma</a></li>
+    <li><a href="#s5">Jednostranné testy a MLR</a></li>
+    <li><a href="#s6">Oboustranné a nestranné testy</a></li>
+    <li><a href="#s7">Rušivé parametry a klasické testy</a></li>
+  </ol>
+</nav>
+
+<!-- ============== I ============== -->
+<section id="s1">
+  <h2>Základní pojmy</h2>
+  <p class="sub">Pozorujeme $X$, jehož rozdělení závisí na neznámém $\theta\in\Theta=\Theta_0\cup\Theta_1$ (disjunktně). Chceme rozhodnout, do které části $\theta$ patří.</p>
+
+  <div class="box def">
+    <span class="tag">Hypotézy a test</span>
+    <ul class="clean">
+      <li><strong>Nulová hypotéza</strong> $H_0:\theta\in\Theta_0$ proti <strong>alternativní</strong> $H_1:\theta\in\Theta_1$.</li>
+      <li><strong>(Nerandomizovaný) test</strong> $\Phi(X)=\begin{cases}0&\text{nezamítám }H_0\ (X\notin W)\\1&\text{zamítám }H_0\text{ ve prospěch }H_1\ (X\in W)\end{cases}$, kde $W$ je <strong>kritický obor</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="box def">
+    <span class="tag">Definice · randomizovaný test</span>
+    <p>Randomizovaným testem $H_0$ proti $H_1$ rozumíme funkci $\Phi=\Phi(X)$ s hodnotami v $[0,1]$, kde</p>
+    <div class="center-eq">$$\Phi=\text{pravděpodobnost zamítnutí }H_0,\qquad 1-\Phi=P(\text{nezamítám }H_0).$$</div>
+    <p>(Při hraniční hodnotě dat „si hodíme mincí" s pravděpodobností $\Phi$ — to umožní přesně doladit hladinu.)</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tabulka chyb prvniho a druheho druhu">
+      <!-- headers -->
+      <text x="190" y="30" text-anchor="middle" class="s-lbl-s">nezamítám H₀</text>
+      <text x="360" y="30" text-anchor="middle" class="s-lbl-s">zamítám H₀</text>
+      <text x="60" y="95" text-anchor="middle" class="s-lbl-s f-pine">H₀ platí</text>
+      <text x="60" y="170" text-anchor="middle" class="s-lbl-s f-terra">H₀ neplatí</text>
+      <!-- cells -->
+      <rect x="110" y="50" width="160" height="65" rx="8" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="1.5"/>
+      <text x="190" y="88" text-anchor="middle" class="s-lbl f-pine">správně</text>
+      <rect x="280" y="50" width="160" height="65" rx="8" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="1.5"/>
+      <text x="360" y="82" text-anchor="middle" class="s-lbl f-terra">chyba 1. druhu</text>
+      <text x="360" y="100" text-anchor="middle" class="s-lbl-s f-terra">Pθ(X∈W), θ∈Θ₀</text>
+      <rect x="110" y="125" width="160" height="65" rx="8" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="1.5"/>
+      <text x="190" y="157" text-anchor="middle" class="s-lbl f-terra">chyba 2. druhu</text>
+      <text x="190" y="175" text-anchor="middle" class="s-lbl-s f-terra">Pθ(X∉W), θ∈Θ₁</text>
+      <rect x="280" y="125" width="160" height="65" rx="8" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="1.5"/>
+      <text x="360" y="157" text-anchor="middle" class="s-lbl f-pine">správně</text>
+      <text x="360" y="175" text-anchor="middle" class="s-lbl-s f-pine">síla</text>
+    </svg>
+    <figcaption>Dvě možné chyby: zamítnout platnou $H_0$ (1. druhu) a nezamítnout neplatnou $H_0$ (2. druhu). Testy stavíme nesymetricky — chybu 1. druhu držíme pod mezí $\alpha$.</figcaption>
+  </figure>
+
+  <div class="box key">
+    <span class="tag">Hladina významnosti</span>
+    <p>Hladina významnosti $\alpha\in(0,1)$ je horní mez pro pravděpodobnost chyby 1. druhu:</p>
+    <div class="center-eq">$$P_\theta(X\in W)\le\alpha\qquad\forall\theta\in\Theta_0.$$</div>
+    <p>Chyby nejsou rovnocenné: chybu 1. druhu (zamítnout pravdivou $H_0$) považujeme za vážnější a striktně ji omezujeme; až poté maximalizujeme sílu.</p>
+  </div>
+</section>
+
+<!-- ============== II ============== -->
+<section id="s2">
+  <h2>Silofunkce a vlastnosti testů</h2>
+  <p class="sub">Kvalitu testu shrnuje jediná funkce parametru — pravděpodobnost, že zamítneme, v závislosti na tom, jaká je pravda.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · silofunkce, velikost, síla</span>
+    <ul class="clean">
+      <li><strong>Silofunkce</strong> $\beta(\theta):=\mathbb E_\theta\Phi(X)$, $\theta\in\Theta$ — celková pravděpodobnost zamítnutí $H_0$ při parametru $\theta$.</li>
+      <li><strong>Velikost</strong> testu $=\sup_{\theta\in\Theta_0}\beta(\theta)$ — nejhorší pravděpodobnost chyby 1. druhu (hladina významnosti).</li>
+      <li><strong>Síla</strong> proti alternativě $\theta\in\Theta_1$ je číslo $\beta(\theta)$.</li>
+    </ul>
+    <p><strong>Chceme:</strong> $\beta(\theta)$ malé na $\Theta_0$ (málo chyb 1. druhu) a velké na $\Theta_1$ (vysoká síla, tj. malá chyba 2. druhu $1-\beta$).</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Idealni silofunkce pres Theta0 a Theta1">
+      <line x1="50" y1="40" x2="50" y2="210" class="s-axis"/>
+      <line x1="50" y1="210" x2="540" y2="210" class="s-axis"/>
+      <line x1="50" y1="55" x2="520" y2="55" class="s-grid s-dash"/>
+      <text x="30" y="59" class="s-lbl-s">1</text>
+      <!-- alpha line -->
+      <line x1="50" y1="175" x2="520" y2="175" class="s-terra s-dash"/>
+      <text x="28" y="179" class="s-lbl-s f-terra">α</text>
+      <!-- boundary -->
+      <line x1="270" y1="40" x2="270" y2="216" class="s-grid s-dash"/>
+      <text x="150" y="232" text-anchor="middle" class="s-lbl-s f-pine">Θ₀ (H₀)</text>
+      <text x="400" y="232" text-anchor="middle" class="s-lbl-s f-terra">Θ₁ (H₁)</text>
+      <!-- power curve -->
+      <path d="M60,205 C160,202 230,190 270,175 C320,150 400,70 520,58" class="s-pine" stroke-width="2.8"/>
+      <text x="430" y="80" class="s-lbl-s f-pine">β(θ)</text>
+      <!-- arrows showing beta<=alpha on Theta0 -->
+      <text x="100" y="195" class="s-lbl-s">β ≤ α zde</text>
+    </svg>
+    <figcaption>Ideální silofunkce zůstává pod $\alpha$ na $\Theta_0$ a co nejrychleji roste k 1 na $\Theta_1$.</figcaption>
+  </figure>
+
+  <div class="box def">
+    <span class="tag">Definice · vlastnosti testu</span>
+    <ul class="clean">
+      <li><strong>Velikost $\le\alpha$ („$\alpha$-test"):</strong> $\beta(\theta)\le\alpha$ pro všechna $\theta\in\Theta_0$.</li>
+      <li><strong>Nestranný</strong> velikosti $\le\alpha$: navíc $\beta(\theta)\ge\alpha$ pro všechna $\theta\in\Theta_1$ (alternativu zamítáme aspoň tak často jako nulu — nikdy hůř než náhoda).</li>
+      <li><strong>Invariantní</strong> vůči transformaci $g$: $\Phi(g(X))=\Phi(X)$ pro všechna $x$ (a $g(X)\in H_0\iff X\in H_0$).</li>
+    </ul>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Definice · stejnoměrně nejsilnější (SN / UMP) test</span>
+    <p>Test je <strong>stejnoměrně nejsilnější</strong> (v rámci nějaké třídy testů), jestliže jeho silofunkce dominuje silofunkci každého jiného testu z té třídy na celé alternativě:</p>
+    <div class="center-eq">$$\beta_{\Phi^{*}}(\theta)\ \ge\ \beta_\Phi(\theta)\qquad\forall\theta\in\Theta_1,\ \forall\Phi\text{ z třídy}.$$</div>
+    <p>Obvykle hledáme <strong>SN $\alpha$-test</strong>, případně SN <strong>nestranný</strong> $\alpha$-test nebo SN <strong>invariantní</strong> $\alpha$-test (když SN test ve velké třídě neexistuje, zúžíme třídu).</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SN test dominuje ostatnim na alternative">
+      <line x1="50" y1="40" x2="50" y2="200" class="s-axis"/>
+      <line x1="50" y1="200" x2="540" y2="200" class="s-axis"/>
+      <line x1="270" y1="40" x2="270" y2="206" class="s-grid s-dash"/>
+      <text x="150" y="222" text-anchor="middle" class="s-lbl-s f-pine">Θ₀</text>
+      <text x="400" y="222" text-anchor="middle" class="s-lbl-s f-terra">Θ₁</text>
+      <line x1="50" y1="170" x2="270" y2="170" class="s-terra s-dash"/>
+      <text x="28" y="174" class="s-lbl-s f-terra">α</text>
+      <!-- UMP (top) -->
+      <path d="M60,196 C160,192 240,180 270,170 C320,140 400,60 520,52" class="s-pine" stroke-width="2.8"/>
+      <text x="430" y="66" class="s-lbl-s f-pine">β_Φ* (SN)</text>
+      <!-- other test (below on Theta1) -->
+      <path d="M60,196 C160,192 240,180 270,170 C330,158 410,120 520,95" class="s-sage" stroke-width="2.2"/>
+      <text x="430" y="118" class="s-lbl-s f-sage">jiný α-test</text>
+    </svg>
+    <figcaption>SN test má na celé alternativě $\Theta_1$ aspoň takovou sílu jako kterýkoli jiný $\alpha$-test.</figcaption>
+  </figure>
+
+  <div class="box note">
+    <span class="tag">Poznámka · SN test je nestranný</span>
+    <p>Existuje-li SN $\alpha$-test $\Phi^{*}$, je automaticky nestranný: porovnej ho s triviálním testem $\Phi\equiv\alpha$ (zamítá s ppstí $\alpha$ bez ohledu na data), který má $\beta_\Phi(\theta)=\alpha$ všude. Protože $\Phi^{*}$ je nejsilnější, $\beta_{\Phi^{*}}(\theta)\ge\beta_\Phi(\theta)=\alpha$ na $\Theta_1$ — což je přesně nestrannost.</p>
+  </div>
+</section>
+
+<!-- ============== III ============== -->
+<section id="s3">
+  <h2>Testy poměrem věrohodností</h2>
+  <p class="sub">Univerzální recept: porovnej nejlepší vysvětlení dat pod $H_0$ s nejlepším vysvětlením vůbec.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · poměr věrohodností</span>
+    <p>Pro $H_0:\theta\in\Theta_0$ proti $H_1:\theta\notin\Theta_0$ definujeme statistiku</p>
+    <div class="center-eq">$$V:=\frac{\sup_{\theta\in\Theta_0}f_\theta(x)}{\sup_{\theta\in\Theta}f_\theta(x)}=\frac{f_{\hat\theta_0}(x)}{f_{\hat\theta}(x)}\ \ (\le 1),$$</div>
+    <p>kde $\hat\theta$ je ML odhad na celém $\Theta$ a $\hat\theta_0$ ML odhad na $\Theta_0$ (tj. „za $H_0$"). <strong>Zamítáme, je-li $V<c$</strong> — $c$ je konstanta zvolená tak, aby hladina byla $\alpha$.</p>
+  </div>
+
+  <p>Intuice: za $H_0$ čekáme $V$ blízké 1 (omezení na $\Theta_0$ data vysvětlí skoro stejně dobře). Malé $V$ znamená, že volnější model vysvětlí data podstatně lépe — svědčí to proti $H_0$.</p>
+
+  <figure>
+    <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pomer verohodnosti: maximum pres Theta0 vs pres Theta">
+      <line x1="50" y1="40" x2="50" y2="200" class="s-axis"/>
+      <line x1="50" y1="200" x2="540" y2="200" class="s-axis"/>
+      <text x="510" y="220" class="s-lbl-s">θ</text>
+      <text x="20" y="50" class="s-lbl-s">f_θ(x)</text>
+      <!-- likelihood curve -->
+      <path d="M70,195 C180,150 260,60 330,60 C400,60 470,150 530,190" class="s-pine" stroke-width="2.6"/>
+      <!-- Theta0 region (left of boundary) -->
+      <line x1="220" y1="40" x2="220" y2="206" class="s-grid s-dash"/>
+      <text x="120" y="222" class="s-lbl-s f-pine">Θ₀</text>
+      <!-- global max -->
+      <line x1="330" y1="60" x2="330" y2="206" class="s-amber s-dash"/>
+      <circle cx="330" cy="60" r="4" class="f-amber"/>
+      <text x="336" y="56" class="s-lbl-s f-amber">f_θ̂ (sup přes Θ)</text>
+      <!-- restricted max (at boundary of Theta0) -->
+      <circle cx="220" cy="92" r="4" class="f-terra"/>
+      <text x="80" y="86" class="s-lbl-s f-terra">f_θ̂₀ (sup přes Θ₀)</text>
+      <!-- ratio bracket -->
+      <text x="360" y="130" class="s-lbl-s">V = f_θ̂₀ / f_θ̂ ≤ 1</text>
+    </svg>
+    <figcaption>$V$ porovnává nejlepší věrohodnost omezenou na $\Theta_0$ s nejlepší vůbec. Velký propad (malé $V$) je důkaz proti $H_0$.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Věta · Wilksova asymptotika</span>
+    <p>Za jistých předpokladů (náhodný výběr $X=(X_1,\dots,X_n)$, $\theta_0$ vnitřní bod $\Theta$, regularita) platí</p>
+    <div class="center-eq">$$-2\ln V\ \xrightarrow[n\to\infty]{\mathcal D}\ \chi^2_{\nu},\qquad \nu=\dim\Theta-\dim\Theta_0,$$</div>
+    <p>kde $\nu$ je <strong>počet parametrů, které $H_0$ fixuje</strong> (počet omezení). To dává praktické kritické hodnoty: zamítáme, když $-2\ln V$ přesáhne $(1-\alpha)$-kvantil $\chi^2_\nu$.</p>
+  </div>
+  <div class="box note">
+    <span class="tag">Poznámka · stupně volnosti</span>
+    <p>V poznámkách je $\nu$ zapsáno jako „počet parametrů". Standardně jde o rozdíl dimenzí $\dim\Theta-\dim\Theta_0$ — tedy o počet rovností, které $H_0$ na parametr klade. Pro bodovou nulu v $p$-rozměrném modelu vyjde $\nu=p$.</p>
+  </div>
+</section>
+
+<!-- ============== IV ============== -->
+<section id="s4">
+  <h2>Neymanovo–Pearsonovo lemma <span class="chip">jedn. vs jedn.</span></h2>
+  <p class="sub">Nejjednodušší případ — jednoduchá nula proti jednoduché alternativě — má dokonalé řešení. A je to základ všeho ostatního.</p>
+
+  <div class="box def">
+    <span class="tag">Nastavení</span>
+    <p>$\Theta=\{\theta_0,\theta_1\}$, $H_0:\theta=\theta_0$ proti $H_1:\theta=\theta_1$. Data mají za $\theta_0$ hustotu $f_{\theta_0}$ a za $\theta_1$ hustotu $f_{\theta_1}$ (vzhledem k téže míře $\mu$).</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · Neyman–Pearson</span>
+    <p>Pro každé $\alpha\in(0,1)$ existují $k\ge0$ a $\gamma\in[0,1)$ tak, že test</p>
+    <div class="center-eq">$$\Phi(X)=\begin{cases}1,& f_{\theta_1}(x)>k\,f_{\theta_0}(x)\\[2pt]\gamma,& f_{\theta_1}(x)=k\,f_{\theta_0}(x)\\[2pt]0,& f_{\theta_1}(x)<k\,f_{\theta_0}(x)\end{cases}$$</div>
+    <p>má $\beta(\theta_0)=\alpha$ a je <strong>nejsilnějším $\alpha$-testem</strong> $H_0$ proti $H_1$. Navíc <strong>každý</strong> nejsilnější $\alpha$-test je tohoto tvaru.</p>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Poznámka · tvar přes poměr</span>
+    <p>Vyděleno $f_{\theta_0}$ je to test podle <strong>poměru věrohodností</strong>: zamítáme, když $\dfrac{f_{\theta_1}(x)}{f_{\theta_0}(x)}>k$ (s randomizací při rovnosti). Předpoklad o hustotách lze vždy splnit — vezmeme dominující míru $Q:=Q_0+Q_1$, vůči níž jsou obě rozdělení absolutně spojitá.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Neyman-Pearson: kriticky obor podle pomeru verohodnosti">
+      <line x1="50" y1="190" x2="540" y2="190" class="s-axis"/>
+      <text x="515" y="210" class="s-lbl-s">x</text>
+      <!-- f_theta0 -->
+      <path d="M70,188 C150,182 190,80 240,80 C290,80 330,182 410,188" class="s-pine" stroke-width="2.4"/>
+      <text x="150" y="96" class="s-lbl-s f-pine">f_θ₀</text>
+      <!-- f_theta1 (shifted right) -->
+      <path d="M180,188 C260,182 300,70 350,70 C400,70 440,182 520,188" class="s-terra" stroke-width="2.4"/>
+      <text x="430" y="86" class="s-lbl-s f-terra">f_θ₁</text>
+      <!-- rejection region where LR>k (right tail) -->
+      <line x1="360" y1="50" x2="360" y2="196" class="s-amber s-dash"/>
+      <rect x="360" y="50" width="170" height="140" class="f-banda"/>
+      <text x="380" y="220" class="s-lbl-s f-amber">zamítám: f_θ₁/f_θ₀ &gt; k</text>
+    </svg>
+    <figcaption>Kritický obor leží tam, kde je poměr $f_{\theta_1}/f_{\theta_0}$ velký — tj. kde data mnohem lépe sedí na alternativu.</figcaption>
+  </figure>
+
+  <div class="box proof">
+    <span class="tag">Proč to funguje (intuice)</span>
+    <p>Máme „rozpočet" $\alpha$ na chybu 1. druhu a chceme za něj koupit co nejvíc síly. Poměr $f_{\theta_1}/f_{\theta_0}$ v bodě $x$ je přesně <em class="t">síla získaná za jednotku utracené velikosti</em>. Optimální strategie je proto zařazovat body do kritického oboru v sestupném pořadí podle tohoto poměru, dokud rozpočet $\alpha$ nevyčerpáme — to je právě prahové pravidlo „poměr $>k$". $\blacksquare$</p>
+  </div>
+</section>
+
+<!-- ============== V ============== -->
+<section id="s5">
+  <h2>Jednostranné testy a monotónní poměr věrohodností</h2>
+  <p class="sub">Neyman–Pearson zobecníme z jednoho bodu na celý poloprostor, pokud má rodina rozdělení „uspořádaný" poměr věrohodností.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · monotónní poměr věrohodností (MLR)</span>
+    <p>Systém $\{f_\theta,\theta\in\Theta\subset\mathbb R\}$ má <strong>monotónní poměr věrohodností</strong> ve statistice $T(x)$, jestliže pro každé $\theta<\theta'$ je</p>
+    <div class="center-eq">$$\frac{f_{\theta'}(x)}{f_\theta(x)}\quad\text{neklesající funkcí }T(x).$$</div>
+    <p>(Splňuje ho mj. každý jednoparametrický exponenciální systém s rostoucím $c(\theta)$.)</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · SN jednostranný test</span>
+    <p>Za MLR existují $K\in\mathbb R$, $\gamma\in[0,1)$ tak, že test</p>
+    <div class="center-eq">$$\Phi(X)=\begin{cases}1,&T(x)>K\\\gamma,&T(x)=K\\0,&T(x)<K\end{cases}\qquad\text{s }\ \beta(\theta_0)=\alpha$$</div>
+    <p>je <strong>SN $\alpha$-testem</strong> $H_0:\theta\le\theta_0$ proti $H_1:\theta>\theta_0$. Jeho silofunkce $\beta(\theta)$ je rostoucí (na $\{\theta:\beta(\theta)<1\}$).</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jednostranny test: rostouci silofunkce, zamitam pro velke T">
+      <line x1="50" y1="40" x2="50" y2="200" class="s-axis"/>
+      <line x1="50" y1="200" x2="540" y2="200" class="s-axis"/>
+      <line x1="50" y1="55" x2="520" y2="55" class="s-grid s-dash"/>
+      <text x="30" y="59" class="s-lbl-s">1</text>
+      <line x1="50" y1="165" x2="290" y2="165" class="s-terra s-dash"/>
+      <text x="28" y="169" class="s-lbl-s f-terra">α</text>
+      <line x1="290" y1="40" x2="290" y2="206" class="s-grid s-dash"/>
+      <text x="282" y="220" class="s-lbl f-pine">θ₀</text>
+      <text x="150" y="36" class="s-lbl-s f-pine">H₀: θ ≤ θ₀</text>
+      <text x="410" y="36" class="s-lbl-s f-terra">H₁: θ &gt; θ₀</text>
+      <!-- increasing power crossing alpha at theta0 -->
+      <path d="M60,196 C160,190 250,178 290,165 C340,145 420,70 520,57" class="s-pine" stroke-width="2.8"/>
+      <circle cx="290" cy="165" r="4" class="f-terra"/>
+      <text x="420" y="88" class="s-lbl-s f-pine">β(θ) rostoucí</text>
+    </svg>
+    <figcaption>Zamítáme pro velká $T$. Silofunkce roste, v $\theta_0$ má přesně hodnotu $\alpha$ — vlevo (na $H_0$) je $\le\alpha$, vpravo (síla) roste k 1.</figcaption>
+  </figure>
+
+  <div class="box note">
+    <span class="tag">Poznámka · opačná orientace</span>
+    <p>Pro $H_0:\theta\ge\theta_0$ proti $H_1:\theta<\theta_0$ je vše analogické se zrcadlovým testem: $\Phi=1$ pro $T(x)<K$, $\gamma$ při rovnosti, $0$ pro $T(x)>K$.</p>
+  </div>
+</section>
+
+<!-- ============== VI ============== -->
+<section id="s6">
+  <h2>Oboustranné a nestranné testy</h2>
+  <p class="sub">U $H_1:\theta\neq\theta_0$ narazíme: dva jednostranné SN testy si protiřečí. Východiskem je zúžit se na nestranné testy.</p>
+
+  <div class="box key">
+    <span class="tag">Proč u $H_0:\theta=\theta_0$ vs $H_1:\theta\neq\theta_0$ obvykle SN test neexistuje</span>
+    <p>Nejsilnější test proti $\theta_1>\theta_0$ zamítá pro <strong>velká</strong> $T$; nejsilnější proti $\theta_1<\theta_0$ zamítá pro <strong>malá</strong> $T$. Žádný jeden test nemůže být nejsilnější na obou stranách — každý z jednostranných je SN jen na „půlce" alternativy. Proto <strong>se omezíme jen na nestranné $\alpha$-testy</strong> ($\beta(\theta)\ge\alpha$ pro všechna $\theta$).</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dve jednostranne silofunkce se krizi, nestranny dvoustranny test">
+      <line x1="50" y1="40" x2="50" y2="200" class="s-axis"/>
+      <line x1="50" y1="200" x2="540" y2="200" class="s-axis"/>
+      <line x1="295" y1="40" x2="295" y2="210" class="s-grid s-dash"/>
+      <text x="288" y="224" class="s-lbl f-pine">θ₀</text>
+      <line x1="50" y1="150" x2="520" y2="150" class="s-terra s-dash"/>
+      <text x="28" y="154" class="s-lbl-s f-terra">α</text>
+      <!-- one-sided UMP for theta>theta0 (rises right) -->
+      <path d="M70,190 C170,182 250,165 295,150 C350,130 430,70 520,55" class="s-sage" stroke-width="2"/>
+      <text x="455" y="70" class="s-lbl-s f-sage">SN pro θ&gt;θ₀</text>
+      <!-- one-sided for theta<theta0 (rises left) -->
+      <path d="M70,55 C160,70 240,130 295,150 C340,165 420,182 520,190" class="s-amber" stroke-width="2"/>
+      <text x="80" y="70" class="s-lbl-s f-amber">SN pro θ&lt;θ₀</text>
+      <!-- unbiased two-sided: U-shape with min alpha at theta0 -->
+      <path d="M70,70 C170,120 255,150 295,150 C335,150 420,120 520,70" class="s-pine" stroke-width="2.8"/>
+      <circle cx="295" cy="150" r="4" class="f-terra"/>
+      <text x="200" y="135" class="s-lbl-s f-pine">nestranný dvoustranný</text>
+    </svg>
+    <figcaption>Dvě jednostranné silofunkce se v $\theta_0$ kříží a každá klesá pod $\alpha$ na opačné straně (porušení nestrannosti). Nestranný dvoustranný test má v $\theta_0$ minimum $\alpha$ a roste na obě strany.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Věta · SN nestranný dvoustranný test (exp. systém)</span>
+    <p>Má-li $X$ hustotu $f_\theta(x)=e^{\theta T(x)+A(\theta)+B(x)}$, pak pro každé $\alpha$ existuje test tvaru</p>
+    <div class="center-eq">$$\Phi(X)=\begin{cases}1,&T(x)<h_1\ \text{nebo}\ T(x)>h_2\\\gamma_i,&T(x)=h_i,\ i=1,2\\0,&h_1<T(x)<h_2\end{cases}$$</div>
+    <p>splňující dvě podmínky</p>
+    <div class="center-eq">$$\beta(\theta_0)=\alpha,\qquad \mathbb E_{\theta_0}\big[T(X)\,\Phi(X)\big]=\alpha\,\mathbb E_{\theta_0}T(X),$$</div>
+    <p>a tento test je <strong>SN nestranným $\alpha$-testem</strong> $H_0:\theta=\theta_0$ proti $H_1:\theta\neq\theta_0$. Zamítáme tedy v <strong>obou ocasech</strong> $T$.</p>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Poznámka · symetrický případ a „vnitřní" alternativa</span>
+    <p>Je-li rozdělení $T(X)$ za $\theta_0$ symetrické kolem nějakého $\Delta$, jsou $h_1,h_2$ symetrické kolem $\Delta$, $\gamma_1=\gamma_2=\gamma$ a každý ocas nese polovinu hladiny: $P_{\theta_0}(T<h_1)+\gamma\,P_{\theta_0}(T=h_1)=\tfrac{\alpha}{2}$.</p>
+    <p>Druhá podmínka $\mathbb E_{\theta_0}[T\Phi]=\alpha\,\mathbb E_{\theta_0}T$ je podmínka nestrannosti $\beta'(\theta_0)=0$ — silofunkce má v $\theta_0$ minimum. <strong>Zobecněné NP lemma</strong> řeší i obrácenou úlohu (alternativa „uvnitř" $H_1:\theta\in(\theta_1,\theta_2)$), kde se naopak zamítá pro $T$ <em class="t">mezi</em> dvěma mezemi.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dvoustranny test: zamitam v obou ocasech T">
+      <line x1="50" y1="180" x2="540" y2="180" class="s-axis"/>
+      <text x="515" y="200" class="s-lbl-s">T(x)</text>
+      <!-- density of T under theta0 -->
+      <path d="M70,178 C180,172 230,60 295,60 C360,60 410,172 520,178" class="s-pine" stroke-width="2.4"/>
+      <text x="270" y="50" class="s-lbl-s f-pine">rozdělení T za θ₀</text>
+      <!-- thresholds -->
+      <line x1="170" y1="60" x2="170" y2="186" class="s-amber s-dash"/>
+      <line x1="420" y1="60" x2="420" y2="186" class="s-amber s-dash"/>
+      <text x="150" y="200" class="s-lbl-s f-amber">h₁</text>
+      <text x="410" y="200" class="s-lbl-s f-amber">h₂</text>
+      <!-- tails shaded -->
+      <path d="M70,178 C130,174 160,120 170,108 L170,178 Z" class="f-banda"/>
+      <path d="M420,178 C440,140 470,160 520,178 L420,178 Z" class="f-banda"/>
+      <text x="78" y="150" class="s-lbl-s f-amber">α/2</text>
+      <text x="455" y="150" class="s-lbl-s f-amber">α/2</text>
+      <text x="250" y="150" class="s-lbl-s">nezamítám</text>
+    </svg>
+    <figcaption>Dvoustranný test zamítá, padne-li $T$ do některého ocasu (za $h_1$ nebo $h_2$). U symetrického rozdělení připadá na každý ocas polovina hladiny.</figcaption>
+  </figure>
+</section>
+
+<!-- ============== VII ============== -->
+<section id="s7">
+  <h2>Rušivé parametry a klasické testy</h2>
+  <p class="sub">V praxi testujeme jeden parametr, zatímco další (rušivé) neznáme — typicky $\mu$ při neznámém $\sigma^2$. Teorie říká, kdy to jde vyřešit optimálně.</p>
+
+  <div class="box thm">
+    <span class="tag">Tvrzení · existence SN nestranných testů</span>
+    <p>Máme-li <strong>rušivé parametry</strong>, ale existuje pro ně postačující statistika (např. úplná postačující v exponenciálním systému) a <strong>testová statistika $V$ na ní nezávislá</strong> (rozdělení $V$ za $\theta=\theta_0$ nezávisí na rušivých parametrech), pak existují SN nestranné $\alpha$-testy pro</p>
+    <div class="center-eq">$$H_0:\theta=\theta_0\ \text{vs}\ H_1:\theta\neq\theta_0\qquad\text{i}\qquad H_0:\theta\le\theta_0\ \text{vs}\ H_1:\theta>\theta_0.$$</div>
+  </div>
+
+  <p>Z téhle konstrukce vyplývají všechny klasické testy, které se používají v praxi:</p>
+
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Testujeme</th><th>Situace (rušivé parametry)</th><th>Test</th></tr></thead>
+      <tbody>
+        <tr><td>$\mu$</td><td>náhodný výběr z $N(\mu,\sigma^2)$, $\sigma^2$ neznámé</td><td class="nm">obvyklý t-test</td></tr>
+        <tr><td>$\mu_1-\mu_2$</td><td>nezávislé výběry z $N(\mu_1,\sigma^2),N(\mu_2,\sigma^2)$, $\sigma^2$ nezn.</td><td class="nm">dvouvýběrový t-test</td></tr>
+        <tr><td>$\sigma_1^2=\sigma_2^2$</td><td>z $N(\mu_1,\sigma_1^2),N(\mu_2,\sigma_2^2)$, $\mu_1,\mu_2$ nezn.</td><td class="nm">F-test</td></tr>
+        <tr><td>$\rho=0$</td><td>z dvourozměrného $N_2(\cdot,\cdot)$</td><td class="nm">t-test (korelace)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Proč nezávislost na rušivém parametru</span>
+    <p>Jádro triku: testová statistika $V$ je zkonstruovaná tak, aby její rozdělení za $H_0$ <em class="t">nezáviselo na neznámých rušivých parametrech</em> (např. $t$-statistika dělí odchylku průměru výběrovou směrodatnou odchylkou, takže neznámé $\sigma$ „vypadne"). Pak lze kritické hodnoty stanovit bez znalosti rušivých parametrů — a test je přesto SN nestranný.</p>
+  </div>
+</section>
+
+<!-- ============== SUMMARY ============== -->
+<section id="s8">
+  <h2>Souhrn</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Pojem / situace</th><th>Klíčový vztah</th><th>Poznámka</th></tr></thead>
+      <tbody>
+        <tr><td>Silofunkce</td><td class="nm">β(θ) = E_θ Φ(X)</td><td>ppst zamítnutí H₀ při θ</td></tr>
+        <tr><td>Velikost (hladina)</td><td class="nm">sup_{Θ₀} β(θ) ≤ α</td><td>mez chyby 1. druhu</td></tr>
+        <tr><td>SN test</td><td class="nm">β_{Φ*}(θ) ≥ β_Φ(θ) na Θ₁</td><td>existuje-li, je nestranný</td></tr>
+        <tr><td>Poměr věrohodností</td><td class="nm">V = f_θ̂₀/f_θ̂ ≤ 1, zamítej V&lt;c</td><td>−2 ln V → χ²_{ν}, ν = dim Θ − dim Θ₀</td></tr>
+        <tr><td>Neyman–Pearson (jedn./jedn.)</td><td class="nm">zamítej f_θ₁/f_θ₀ &gt; k</td><td>nejsilnější α-test</td></tr>
+        <tr><td>MLR, jednostranný</td><td class="nm">zamítej T &gt; K</td><td>SN α-test H₀:θ≤θ₀; β rostoucí</td></tr>
+        <tr><td>Dvoustranný (exp. systém)</td><td class="nm">zamítej T&lt;h₁ nebo T&gt;h₂</td><td>SN nestranný; E_{θ₀}[TΦ]=αE_{θ₀}T</td></tr>
+        <tr><td>Symetrický případ</td><td class="nm">α/2 v každém ocasu</td><td>h₁,h₂ symetrické</td></tr>
+        <tr><td>Rušivé parametry</td><td class="nm">V nezávislá na postač. stat.</td><td>→ t-test, F-test</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Nit, která vším prochází</span>
+    <p>Celá teorie staví na jediné myšlence: <strong>za pevný rozpočet chyby 1. druhu</strong> $\alpha$ koupit co nejvíc síly. Neyman–Pearson to vyřeší pro dva body (poměr věrohodností), MLR to rozšíří na jednostrannou alternativu, a u oboustranné alternativy — kde optimalita „rozpočtu" naráží na dvě strany — se omezíme na nestranné testy. Klasické $t$- a $F$-testy jsou jen tyto optimální testy upravené tak, aby neznámé rušivé parametry vypadly.</p>
+  </div>
+</section>
+
+<p class="footer">Studijní materiál sestavený z přiložených poznámek k okruhu „5. Testování hypotéz". Matematika sázena přes MathJax, nákresy jsou vlastní vektorová grafika. Tip: dokument lze přes Ctrl/Cmd+P uložit jako PDF.</p>
+
+</div>
+</body>
+</html>

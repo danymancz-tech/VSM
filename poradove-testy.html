@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pořádkové testy — studijní materiál</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.66; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px; margin:0 auto; padding:0 24px 120px;}
+header.hero{ max-width:920px; margin:0 auto; padding:64px 24px 26px; }
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 14px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(38px,7.5vw,72px);
+  line-height:.98; letter-spacing:-.02em; margin:0 0 18px; color:var(--pine-d);}
+h1 .num{color:var(--terra); font-style:italic;}
+.lead{font-size:20px; color:var(--ink2); max-width:700px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),transparent); margin:26px 0 0; border:0;}
+nav.toc{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:22px 26px; margin:34px 0 10px;
+  box-shadow:0 1px 0 #fff inset, 0 10px 26px -22px rgba(20,40,30,.5);}
+nav.toc .tt{font-family:"Spline Sans Mono",monospace; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+nav.toc ol{margin:0; padding:0; list-style:none; counter-reset:t; columns:2; column-gap:40px;}
+nav.toc li{break-inside:avoid; margin:0 0 8px; counter-increment:t;}
+nav.toc a{color:var(--ink); text-decoration:none; display:flex; gap:12px; align-items:baseline;
+  padding:4px 0; border-bottom:1px dotted transparent; transition:.15s;}
+nav.toc a:hover{color:var(--pine); border-bottom-color:var(--line2);}
+nav.toc a::before{content:counter(t,upper-roman); font-family:"Spline Sans Mono",monospace;
+  font-size:12px; color:var(--terra); min-width:34px; font-weight:500;}
+.backlink{display:inline-flex; align-items:center; gap:7px; margin-top:18px;
+  font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.04em;
+  color:var(--pine); text-decoration:none; border-bottom:1px dotted var(--line2); padding-bottom:2px;}
+.backlink:hover{color:var(--terra);}
+section{margin:62px 0 0; scroll-margin-top:18px;}
+h2{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(26px,4.2vw,37px);
+  color:var(--pine-d); letter-spacing:-.015em; line-height:1.08; margin:0 0 6px;
+  display:flex; align-items:baseline; gap:16px;}
+h2 .chip{font-family:"Spline Sans Mono",monospace; font-size:13px; font-weight:500;
+  color:#fff; background:var(--terra); padding:5px 11px; border-radius:8px;
+  letter-spacing:.04em; transform:translateY(-4px); white-space:nowrap;}
+.sub{color:var(--muted); font-style:italic; margin:0 0 26px; font-size:17px;}
+h3{font-family:"Fraunces",serif; font-weight:600; font-size:23px; color:var(--pine-d);
+  margin:38px 0 10px; letter-spacing:-.01em;}
+h4{font-family:"Spline Sans Mono",monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--terra); margin:26px 0 6px;}
+p{margin:12px 0;}
+strong{font-weight:600; color:var(--pine-d);}
+em.t{font-style:italic; color:var(--terra);}
+ul.clean{margin:8px 0; padding-left:22px;}
+ul.clean li{margin:6px 0;}
+.box{border-radius:12px; padding:20px 24px 18px; margin:22px 0; position:relative;
+  border:1px solid var(--line); box-shadow:0 8px 24px -22px rgba(20,40,30,.55);}
+.box .tag{font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; display:inline-block; margin:0 0 8px;}
+.box p:first-of-type{margin-top:0;} .box p:last-child{margin-bottom:0;}
+.def{background:var(--pine-bg); border-left:5px solid var(--pine);}
+.def .tag{color:var(--pine);}
+.thm{background:var(--terra-bg); border-left:5px solid var(--terra);}
+.thm .tag{color:var(--terra);}
+.ex{background:var(--amber-bg); border-left:5px solid var(--amber);}
+.ex .tag{color:var(--amber);}
+.note{background:var(--sage-bg); border-left:5px solid var(--sage);}
+.note .tag{color:var(--sage);}
+.key{background:#fff; border:1px dashed var(--terra); border-left:5px solid var(--terra);}
+.key .tag{color:var(--terra);}
+.proof{background:var(--paper2); border-left:5px solid var(--sage);}
+.proof .tag{color:var(--sage);}
+figure{margin:30px 0; text-align:center;}
+figure svg{max-width:100%; height:auto; background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:14px; box-shadow:0 10px 28px -24px rgba(20,40,30,.6);}
+figcaption{font-size:14.5px; color:var(--muted); font-style:italic; margin-top:11px; max-width:660px; margin-left:auto; margin-right:auto;}
+.s-axis{stroke:var(--ink2); stroke-width:1.6; fill:none;}
+.s-grid{stroke:var(--line2); stroke-width:1; fill:none;}
+.s-dash{stroke-dasharray:5 5;}
+.s-pine{stroke:var(--pine); fill:none; stroke-width:2.4;}
+.s-terra{stroke:var(--terra); fill:none; stroke-width:2.4;}
+.s-amber{stroke:var(--amber); fill:none; stroke-width:2.4;}
+.s-sage{stroke:var(--sage); fill:none; stroke-width:2.4;}
+.f-pine{fill:var(--pine);} .f-terra{fill:var(--terra);} .f-amber{fill:var(--amber);}
+.f-ink{fill:var(--ink2);} .f-sage{fill:var(--sage);}
+.f-band{fill:var(--pine); opacity:.10;} .f-band2{fill:var(--terra); opacity:.12;}
+.f-banda{fill:var(--amber); opacity:.16;}
+.s-lbl{font-family:"Spline Sans Mono",monospace; font-size:13px; fill:var(--ink2);}
+.s-lbl-s{font-family:"Spline Sans Mono",monospace; font-size:11px; fill:var(--muted);}
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0;}
+.duo .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+.duo .mini h4{margin-top:0;}
+@media(max-width:640px){ .duo{grid-template-columns:1fr;} nav.toc ol{columns:1;} }
+.tblwrap{overflow-x:auto; margin:24px 0;}
+table{border-collapse:collapse; width:100%; font-size:15.5px; background:var(--card);
+  border-radius:12px; overflow:hidden; box-shadow:0 10px 28px -26px rgba(20,40,30,.6);}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+th{background:var(--pine); color:#fff; font-family:"Spline Sans Mono",monospace;
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:500;}
+tbody tr:nth-child(even){background:var(--paper2);}
+tbody tr:last-child td{border-bottom:0;}
+td .nm{font-family:"Spline Sans Mono",monospace; color:var(--terra); font-size:13px;}
+.steps{counter-reset:st; list-style:none; padding:0; margin:14px 0;}
+.steps>li{counter-increment:st; position:relative; padding:6px 0 6px 46px; margin:6px 0;}
+.steps>li::before{content:counter(st); position:absolute; left:0; top:6px;
+  width:30px; height:30px; border-radius:50%; background:var(--pine); color:#fff;
+  font-family:"Spline Sans Mono",monospace; font-size:14px; display:flex;
+  align-items:center; justify-content:center;}
+.proof .steps>li::before{background:var(--sage);}
+.footer{margin-top:80px; padding-top:24px; border-top:2px solid var(--line);
+  font-size:14px; color:var(--muted); font-style:italic;}
+mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
+.center-eq{text-align:center; margin:16px 0;}
+@media print{ body{background:#fff;} .box,figure svg,table{box-shadow:none;} nav.toc{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Matematická statistika · Studijní materiály</p>
+  <h1><span class="num">6.</span> Pořádkové testy</h1>
+  <p class="lead">Neparametrika: zahodíme číselné hodnoty a ponecháme jen pořadí. Testy, které nepředpokládají tvar rozdělení a jsou invariantní vůči monotónním transformacím — od Wilcoxona po Kendalla.</p>
+  <a class="backlink" href="index.html">← zpět na rozcestník</a>
+  <hr class="rule">
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <p class="tt">Obsah okruhu</p>
+  <ol>
+    <li><a href="#s1">Pořadí a pořádkové statistiky</a></li>
+    <li><a href="#s2">Invariance a permutační testy</a></li>
+    <li><a href="#s3">Dvouvýběrové testy shody</a></li>
+    <li><a href="#s4">Testy symetrie</a></li>
+    <li><a href="#s5">Testy nezávislosti</a></li>
+  </ol>
+</nav>
+
+<!-- ============== I ============== -->
+<section id="s1">
+  <h2>Pořadí a pořádkové statistiky</h2>
+  <p class="sub">Náhodné veličiny $X_1,\dots,X_n$ s pravděpodobností 1 různé (spojité rozdělení). Z hodnot si ponecháme jen jejich vzájemné pořadí.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · pořádkové statistiky a pořadí</span>
+    <ul class="clean">
+      <li><strong>Pořádkové statistiky</strong> jsou uspořádané hodnoty $X_{(1)}\le\dots\le X_{(n)}$ (díky spojitosti rovnost s ppstí 0).</li>
+      <li><strong>Pořadí</strong> $R_1,\dots,R_n$ udává pozici každého $X_i$ v uspořádání: $\displaystyle R_i:=\#\{j=1,\dots,n:\ X_j\le X_i\}.$</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hodnoty, jejich poradi a poradkove statistiky">
+      <line x1="40" y1="70" x2="520" y2="70" class="s-axis"/>
+      <!-- unsorted points with original index -->
+      <g class="f-pine">
+        <circle cx="110" cy="70" r="6"/><circle cx="300" cy="70" r="6"/><circle cx="180" cy="70" r="6"/>
+        <circle cx="460" cy="70" r="6"/><circle cx="240" cy="70" r="6"/><circle cx="380" cy="70" r="6"/>
+      </g>
+      <g class="s-lbl-s">
+        <text x="98" y="56">X₃</text><text x="288" y="56">X₁</text><text x="168" y="56">X₅</text>
+        <text x="448" y="56">X₂</text><text x="228" y="56">X₆</text><text x="368" y="56">X₄</text>
+      </g>
+      <!-- ranks below -->
+      <g class="s-lbl f-terra">
+        <text x="104" y="98">1</text><text x="174" y="98">2</text><text x="234" y="98">3</text>
+        <text x="294" y="98">4</text><text x="374" y="98">5</text><text x="454" y="98">6</text>
+      </g>
+      <text x="40" y="130" class="s-lbl-s">pořadí Rᵢ zleva doprava: 1…n</text>
+      <text x="40" y="150" class="s-lbl-s f-terra">např. R₃ = 1, R₁ = 4, R₂ = 6</text>
+    </svg>
+    <figcaption>Pořadí $R_i$ je pozice hodnoty $X_i$ po seřazení. Pořádkové statistiky jsou ty seřazené hodnoty; pořadí říká, kdo skončil kolikátý.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Tvrzení · rozdělení pořadí</span>
+    <p>Jsou-li $X_1,\dots,X_n$ nezávislé stejně rozdělené se spojitou hustotou, pak $(X_{(1)},\dots,X_{(n)})$ je <strong>úplná postačující statistika</strong> a vektor pořadí $(R_1,\dots,R_n)$ má <strong>rovnoměrné rozdělení na všech $n!$ permutacích</strong> $(1,\dots,n)$ a je <strong>nezávislý</strong> na pořádkových statistikách.</p>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Důsledek · momenty pořadí</span>
+    <p>Každé $R_i$ je rovnoměrné na $\{1,\dots,n\}$, takže</p>
+    <div class="center-eq">$$\mathbb E R_i=\frac{n+1}{2},\qquad \operatorname{var}R_i=\frac{n^2-1}{12},\qquad \operatorname{cov}(R_i,R_j)=-\frac{n+1}{12}\ (i\neq j).$$</div>
+    <p><em class="t">Odvození:</em> $\mathbb E R_i=\tfrac1n\sum_{k=1}^n k=\tfrac{n+1}{2}$; $\mathbb E R_i^2=\tfrac1n\sum k^2=\tfrac{(n+1)(2n+1)}{6}$, odtud rozptyl. Kovariance plyne z $\mathbb E R_iR_j=\tfrac{1}{n(n-1)}\big[(\sum k)^2-\sum k^2\big]$.</p>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Poznámka · spojení s pořádkovými statistikami (okruh 3)</span>
+    <p>Distribuční funkce $i$-té pořádkové statistiky je binomický součet $F_{X_{(i)}}(x)=\sum_{k=i}^n\binom nk F(x)^k(1-F(x))^{n-k}$ („aspoň $i$ hodnot $\le x$"). Přes PIT $Y_{(i)}=F(X_{(i)})\sim\mathrm{B}(i,n+1-i)$, takže $\mathbb E F(X_{(i)})=\tfrac{i}{n+1}$ a $X_{(i)}\approx F^{-1}\!\big(\tfrac{i}{n+1}\big)$ je bodový odhad $\tfrac{i}{n+1}$-kvantilu.</p>
+  </div>
+
+  <h3>Lineární pořadové statistiky</h3>
+  <div class="box thm">
+    <span class="tag">Tvrzení · momenty $S=\sum c_i\,a(R_i)$</span>
+    <p>Pro statistiku tvaru $S=\sum_{i=1}^n c_i\,a(R_i)$ s konstantami $c_i\in\mathbb R$ a skórovou funkcí $a:\{1,\dots,n\}\to\mathbb R$ (kde $R_i$ jsou pořadí náhodného výběru):</p>
+    <div class="center-eq">$$\mathbb E S=n\,\bar a\,\bar c,\qquad \operatorname{var}S=\frac{1}{n-1}\Big(\sum_i(c_i-\bar c)^2\Big)\Big(\sum_k(a(k)-\bar a)^2\Big),$$</div>
+    <p>kde $\bar c=\tfrac1n\sum c_i$, $\bar a=\tfrac1n\sum a(k)$. <strong>Symetrie:</strong> platí-li $c_i+c_{n-i+1}=\text{konst}$ pro všechna $i$, <em>nebo</em> $a(i)+a(n-i+1)=\text{konst}$, je rozdělení $S$ symetrické kolem $\mathbb E S$ (tj. $S-\mathbb E S\sim -(S-\mathbb E S)$). To dává symetrické kritické hodnoty.</p>
+  </div>
+</section>
+
+<!-- ============== II ============== -->
+<section id="s2">
+  <h2>Invariance a permutační testy</h2>
+  <p class="sub">Proč zrovna pořadí? Jsou to přesně ty statistiky, které „nevidí" monotónní deformaci dat. Tedy maximální invariant vůči rostoucím transformacím.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · invariantní problém a test</span>
+    <p>Problém testování $H_0$ proti $H_1$ je <strong>invariantní</strong> vůči skupině prostých transformací $G=\{g:E\to E\}$, jestliže pro každé $g\in G$ rozdělení $X$ splňuje $H_0$ (resp. $H_1$) právě tehdy, když ho splňuje rozdělení $g(X)$. Test $\Phi$ je <strong>invariantní</strong> vzhledem k $G$, jestliže $\Phi(g(x))=\Phi(x)$ pro všechna $x$.</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Maximální invariant</span>
+    <p>Existuje-li statistika $T=T(x)$ taková, že</p>
+    <ul class="clean">
+      <li>$T(g(x))=T(x)$ pro všechna $g\in G$ (je invariantní), a</li>
+      <li>$T(x_1)=T(x_2)\Rightarrow\exists g\in G:\ x_2=g(x_1)$ (rozlišuje vše ostatní),</li>
+    </ul>
+    <p>nazýváme ji <strong>maximální invariant</strong>. Pak je každý invariantní test funkcí $T$ (tj. $\Phi(x)=\tilde\Phi(T(x))$).</p>
+  </div>
+
+  <div class="box key">
+    <span class="tag">Pořadí = maximální invariant vůči monotónním transformacím</span>
+    <p>Pro skupinu $G=\{g:\ \text{spojité rostoucí funkce}\}$ je maximálním invariantem právě vektor pořadí:</p>
+    <div class="center-eq">$$T(X_1,\dots,X_n)=(R_1,\dots,R_n).$$</div>
+    <p>Rostoucí $g$ nemění uspořádání hodnot, takže nemění pořadí — a pořadí je to jediné, co po všech takových deformacích zbude. <strong>Pořadové testy jsou tedy přesně testy invariantní vůči monotónním transformacím</strong> (a jsou distribution-free).</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Monotonni transformace zachovava poradi">
+      <!-- x axis bottom -->
+      <line x1="60" y1="180" x2="520" y2="180" class="s-axis"/>
+      <text x="500" y="200" class="s-lbl-s">x</text>
+      <!-- y axis left -->
+      <line x1="60" y1="180" x2="60" y2="30" class="s-axis"/>
+      <text x="20" y="40" class="s-lbl-s">g(x)</text>
+      <!-- monotone increasing curve -->
+      <path d="M70,176 C160,160 220,90 300,70 C380,52 460,46 510,44" class="s-pine" stroke-width="2.6"/>
+      <!-- three points -->
+      <g>
+        <line x1="150" y1="180" x2="150" y2="150" class="s-grid s-dash"/><line x1="60" y1="150" x2="150" y2="150" class="s-grid s-dash"/>
+        <line x1="250" y1="180" x2="250" y2="92" class="s-grid s-dash"/><line x1="60" y1="92" x2="250" y2="92" class="s-grid s-dash"/>
+        <line x1="360" y1="180" x2="360" y2="58" class="s-grid s-dash"/><line x1="60" y1="58" x2="360" y2="58" class="s-grid s-dash"/>
+      </g>
+      <g class="f-terra"><circle cx="150" cy="150" r="4"/><circle cx="250" cy="92" r="4"/><circle cx="360" cy="58" r="4"/></g>
+      <g class="s-lbl-s"><text x="142" y="196">x₁</text><text x="242" y="196">x₂</text><text x="352" y="196">x₃</text></g>
+      <text x="200" y="120" class="s-lbl-s f-pine">x₁&lt;x₂&lt;x₃ ⟹ g(x₁)&lt;g(x₂)&lt;g(x₃)</text>
+      <text x="280" y="140" class="s-lbl-s f-terra">pořadí beze změny</text>
+    </svg>
+    <figcaption>Rostoucí $g$ posune hodnoty, ale jejich uspořádání (a tedy pořadí) nechá netknuté. Pořadí je „to, co přežije" každou monotónní deformaci.</figcaption>
+  </figure>
+</section>
+
+<!-- ============== III ============== -->
+<section id="s3">
+  <h2>Dvouvýběrové testy shody</h2>
+  <p class="sub">Dva nezávislé výběry — pocházejí ze stejného rozdělení, nebo je jeden „posunutý"? Neparametrická obdoba dvouvýběrového t-testu.</p>
+
+  <div class="box def">
+    <span class="tag">Nastavení</span>
+    <p>$X_1,\dots,X_{n_1}$ ze spojitého $F$ a nezávisle $Y_1,\dots,Y_{n_2}$ z $G$. Testujeme</p>
+    <div class="center-eq">$$H_0:F=G\quad\text{proti}\quad H_1:G\text{ stochasticky větší než }F\ \big(\text{tj. }G(x)=F(x-\Delta),\ \Delta>0\big).$$</div>
+    <p>Spojíme vzorky do $(Z_1,\dots,Z_n)=(X_1,\dots,X_{n_1},Y_1,\dots,Y_{n_2})$, $n=n_1+n_2$, a vezmeme jejich společná pořadí $(R_1,\dots,R_n)$. <strong>Za $H_0$ je všech $\binom{n}{n_2}$ rozmístění pořadí druhého výběru stejně pravděpodobných.</strong></p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spojene poradi dvou vyberu, Wilcoxon W">
+      <line x1="40" y1="80" x2="520" y2="80" class="s-axis"/>
+      <!-- pooled points: X (pine) and Y (terra) -->
+      <g class="f-pine"><circle cx="80" cy="80" r="6"/><circle cx="150" cy="80" r="6"/><circle cx="260" cy="80" r="6"/><circle cx="400" cy="80" r="6"/></g>
+      <g class="f-terra"><circle cx="115" cy="80" r="6"/><circle cx="330" cy="80" r="6"/><circle cx="470" cy="80" r="6"/></g>
+      <!-- ranks below -->
+      <g class="s-lbl-s">
+        <text x="74" y="104">1</text><text x="109" y="104">2</text><text x="144" y="104">3</text>
+        <text x="254" y="104">4</text><text x="324" y="104">5</text><text x="394" y="104">6</text><text x="464" y="104">7</text>
+      </g>
+      <text x="60" y="48" class="s-lbl-s f-pine">● X (1. výběr)</text>
+      <text x="240" y="48" class="s-lbl-s f-terra">● Y (2. výběr)</text>
+      <text x="60" y="140" class="s-lbl f-terra">W = součet pořadí Y = 2 + 5 + 7 = 14</text>
+    </svg>
+    <figcaption>Vzorky se slijí a očíslují společným pořadím. Velký součet pořadí $Y$ ($W$) značí, že hodnoty $Y$ leží spíš vpravo — důkaz, že $G$ je posunuté.</figcaption>
+  </figure>
+
+  <h3>Wilcoxonův dvouvýběrový test (rank-sum)</h3>
+  <div class="box thm">
+    <span class="tag">Statistika a rozhodnutí</span>
+    <p>$\displaystyle W:=\sum_{i=n_1+1}^{n}R_i$ — součet pořadí druhého výběru. Zamítáme $H_0$ pro velká $W$ (s randomizací při rovnosti, $P(W>C_\alpha)+\gamma P(W=C_\alpha)=\alpha$). Za $H_0$:</p>
+    <div class="center-eq">$$\mathbb E W=\frac{n_2(n+1)}{2},\qquad \operatorname{var}W=\frac{n_1 n_2(n+1)}{12}.$$</div>
+    <p>(Plyne z lineární pořadové statistiky s $c_i=\mathbb 1[i>n_1]$ a $a(i)=i$, tedy $\bar c=\tfrac{n_2}{n}$, $\bar a=\tfrac{n+1}{2}$.) Pro malá $n$ se přesné rozdělení spočítá kombinatoricky $P(W=w)=\tfrac{\#\{\text{uspořádání se součtem }w\}}{\binom{n}{n_2}}$; pro velká $n$ aproximace</p>
+    <div class="center-eq">$$\frac{W-\mathbb E W}{\sqrt{\operatorname{var}W}}\ \xrightarrow[n_1,n_2\to\infty]{\mathcal D}\ N(0,1).$$</div>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Poznámky</span>
+    <ul class="clean">
+      <li>Skóre $a(i)=i$ jsou symetrická, takže $W$ je symetrické kolem $\mathbb E W$. Proti $H_1:G$ stochasticky <em>menší</em> zamítáme pro malá $W$ ($W\le \mathbb E W-C_\alpha$); lze i oboustranně.</li>
+      <li><strong>Odpovídá dvouvýběrovému t-testu aplikovanému na pořadí</strong>: $t$-statistika počítaná z pořadí je lineární transformací $W$ (rozdíl součtů pořadí obou skupin je $\text{konst}-W$).</li>
+      <li><strong>Shody (ties):</strong> uvnitř výběru nevadí; mezi výběry — je-li jich málo, vyřadíme, jinak přiřadíme <em class="t">průměrné pořadí</em> (mění to $\operatorname{var}W$).</li>
+    </ul>
+  </div>
+
+  <h3>Mann–Whitneyho U a mediánový test</h3>
+  <div class="duo">
+    <div class="mini">
+      <h4>Mann–Whitney U</h4>
+      <p style="font-size:15.5px">Počet dvojic, kde $Y$ převýší $X$:</p>
+      <div class="center-eq">$$U=\sum_{i,j}\mathbb 1[Y_i\ge X_j]=W-\tfrac{n_2(n_2+1)}{2}.$$</div>
+      <p style="font-size:15.5px">Ekvivalentní Wilcoxonovi, jen posunutý. Za $H_0$: $\mathbb E U=\tfrac{n_1 n_2}{2}$.</p>
+    </div>
+    <div class="mini">
+      <h4>Mediánový test</h4>
+      <p style="font-size:15.5px">Počet hodnot 2. výběru <em>nad</em> společným mediánem:</p>
+      <div class="center-eq">$$W'=\sum_{i=n_1+1}^n\mathbb 1\big[R_i>\tfrac{n+1}{2}\big].$$</div>
+      <p style="font-size:15.5px">Za $H_0$: $\mathbb E W'=\tfrac{n_2}{2}$; pro $n$ sudé má $W'$ hypergeometrické rozdělení $\mathrm{HG}$.</p>
+    </div>
+  </div>
+
+  <h3>Společný rámec: skórové funkce</h3>
+  <div class="box thm">
+    <span class="tag">Obecná lineární pořadová statistika</span>
+    <p>Wilcoxon i mediánový test jsou speciální případy</p>
+    <div class="center-eq">$$W''=\sum_{i=n_1+1}^{n}h\!\Big(\frac{R_i}{n+1}\Big)=\sum_{i=1}^{n}h\!\Big(\frac{i}{n+1}\Big)\mathbb 1[Z_{(i)}\text{ je z 2. výběru}],$$</div>
+    <p>kde $h$ je neklesající <strong>skórová funkce</strong>. Volba $h$ určuje test:</p>
+    <ul class="clean">
+      <li>$h(x)=x$ (identita) $\Rightarrow$ <strong>Wilcoxon</strong>;</li>
+      <li>$h(x)=\mathbb 1[x>\tfrac12]$ (skok) $\Rightarrow$ <strong>mediánový test</strong>;</li>
+      <li>$h(x)=\Phi^{-1}(x)$ (inverzní normální) $\Rightarrow$ <strong>van der Waerdenův test</strong>.</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Skorove funkce: Wilcoxon, median, van der Waerden">
+      <line x1="60" y1="190" x2="520" y2="190" class="s-axis"/>
+      <line x1="60" y1="30" x2="60" y2="190" class="s-axis"/>
+      <text x="40" y="200" class="s-lbl-s">0</text>
+      <text x="500" y="206" class="s-lbl-s">1</text>
+      <line x1="290" y1="30" x2="290" y2="196" class="s-grid s-dash"/>
+      <text x="278" y="206" class="s-lbl-s">½</text>
+      <!-- Wilcoxon: diagonal -->
+      <line x1="60" y1="190" x2="510" y2="40" class="s-pine"/>
+      <text x="430" y="60" class="s-lbl-s f-pine">Wilcoxon (h=x)</text>
+      <!-- median: step -->
+      <path d="M60,190 L290,190 L290,40 L510,40" class="s-terra"/>
+      <circle cx="290" cy="115" r="4" class="f-terra"/>
+      <text x="120" y="150" class="s-lbl-s f-terra">mediánový (skok)</text>
+      <!-- van der Waerden: S-curve (inverse normal) -->
+      <path d="M70,185 C150,175 230,140 290,115 C350,90 420,55 505,45" class="s-amber"/>
+      <text x="330" y="160" class="s-lbl-s f-amber">van der Waerden (Φ⁻¹)</text>
+    </svg>
+    <figcaption>Tři způsoby, jak ohodnotit pořadí: lineárně (Wilcoxon), binárně podle mediánu (mediánový), nebo „normálními skóre" (van der Waerden).</figcaption>
+  </figure>
+</section>
+
+<!-- ============== IV ============== -->
+<section id="s4">
+  <h2>Testy symetrie <span class="chip">párová data</span></h2>
+  <p class="sub">Jeden výběr párů — je rozdělení symetrické vůči záměně složek, nebo posunuté? Neparametrická obdoba párového t-testu.</p>
+
+  <div class="box def">
+    <span class="tag">Nastavení</span>
+    <p>Náhodný výběr párů $(X_1,Y_1),\dots,(X_n,Y_n)$ se spojitou $F(x,y)$. Testujeme</p>
+    <div class="center-eq">$$H_0:F(x,y)=F(y,x)\ \forall x,y\quad\text{proti}\quad H_1:\text{rozdělení posunuté do }y>x.$$</div>
+    <p>Pracujeme s rozdíly $Z_i:=Y_i-X_i$; vezmeme pořadí jejich <strong>absolutních hodnot</strong> $R_i$ (pořadí $|Z_i|$). (Pro výběr z $N_2$ se $H_0:\mu_1=\mu_2$ řeší párovým $t$-testem.)</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Znamenkove poradi: rozdily Z, znamenka, poradi absolutnich hodnot">
+      <line x1="40" y1="90" x2="520" y2="90" class="s-axis"/>
+      <line x1="280" y1="40" x2="280" y2="140" class="s-grid s-dash"/>
+      <text x="276" y="156" class="s-lbl-s">0</text>
+      <!-- positive Z (terra), negative Z (sage) -->
+      <g class="f-terra"><circle cx="340" cy="90" r="6"/><circle cx="420" cy="90" r="6"/><circle cx="470" cy="90" r="6"/></g>
+      <g class="f-sage"><circle cx="230" cy="90" r="6"/><circle cx="150" cy="90" r="6"/></g>
+      <!-- ranks of |Z| -->
+      <g class="s-lbl-s">
+        <text x="334" y="76">+</text><text x="414" y="76">+</text><text x="464" y="76">+</text>
+        <text x="226" y="76">−</text><text x="146" y="76">−</text>
+      </g>
+      <text x="60" y="40" class="s-lbl-s f-sage">Zᵢ &lt; 0</text>
+      <text x="400" y="40" class="s-lbl-s f-terra">Zᵢ &gt; 0</text>
+      <text x="60" y="170" class="s-lbl f-terra">W⁺ = součet pořadí |Zᵢ| pro kladná Zᵢ</text>
+    </svg>
+    <figcaption>Rozdíly $Z_i$ rozdělíme podle znaménka a seřadíme podle velikosti $|Z_i|$. Signed-rank sečte pořadí kladných rozdílů.</figcaption>
+  </figure>
+
+  <div class="duo">
+    <div class="mini">
+      <h4>Wilcoxonův (signed-rank)</h4>
+      <div class="center-eq">$$W^{+}=\sum_{i:\,Z_i>0}R_i$$</div>
+      <p style="font-size:15.5px">Zamítáme pro velká $W^{+}$. Za $H_0$:</p>
+      <div class="center-eq">$$\mathbb E W^{+}=\frac{n(n+1)}{4},\quad \operatorname{var}W^{+}=\frac{n(n+1)(2n+1)}{24}.$$</div>
+    </div>
+    <div class="mini">
+      <h4>Znaménkový test</h4>
+      <p style="font-size:15.5px">Počet kladných rozdílů:</p>
+      <div class="center-eq">$$N^{+}=\#\{i:\ Z_i>0\}.$$</div>
+      <p style="font-size:15.5px">Zamítáme pro velká $N^{+}$. Za $H_0$ jednoduše $N^{+}\sim\mathrm{Bi}(n,\tfrac12)$. Ignoruje velikost, jen znaménko.</p>
+    </div>
+  </div>
+  <p>Signed-rank je silnější (využívá i velikosti rozdílů přes pořadí $|Z_i|$), znaménkový test je nejjednodušší a nejrobustnější.</p>
+</section>
+
+<!-- ============== V ============== -->
+<section id="s5">
+  <h2>Testy nezávislosti</h2>
+  <p class="sub">Souvisí dvě veličiny? Neparametricky — přes shodu jejich pořadí. Spearman měří monotónní vztah, Kendall shodu/neshodu dvojic.</p>
+
+  <div class="box def">
+    <span class="tag">Nastavení</span>
+    <p>Náhodný výběr párů $(X_1,Y_1),\dots,(X_n,Y_n)$ se spojitou $F(x,y)$. Testujeme</p>
+    <div class="center-eq">$$H_0:F(x,y)=F_X(x)F_Y(y)\ \ (X,Y\text{ nezávislé})\quad\text{proti}\quad H_1:\text{„kladná" závislost}.$$</div>
+    <p>Klíč: <strong>za $H_0$ jsou vektor pořadí $(R_1,\dots,R_n)$ hodnot $X$ a vektor pořadí $(S_1,\dots,S_n)$ hodnot $Y$ nezávislé.</strong> (Pro $N_2$ známe $H_0:\rho=0$ s $T=\tfrac{r\sqrt{n-2}}{\sqrt{1-r^2}}\sim t_{n-2}$.)</p>
+  </div>
+
+  <h3>Spearmanův koeficient</h3>
+  <div class="box thm">
+    <span class="tag">Spearman $\rho_S$ — korelace pořadí</span>
+    <p>Pearsonova korelace aplikovaná na pořadí $R_i,S_i$:</p>
+    <div class="center-eq">$$\rho_S=\frac{\sum_i R_iS_i-n\bar R\bar S}{\sqrt{\sum(R_i-\bar R)^2\sum(S_i-\bar S)^2}}=1-\frac{6}{n^3-n}\sum_{i=1}^n(R_i-S_i)^2.$$</div>
+    <p>Za $H_0$: $\mathbb E\rho_S=0$, $\operatorname{var}\rho_S=\tfrac{1}{n-1}$. Ekvivalentně přes $S:=\sum R_iS_i$ s $\mathbb E S=\tfrac14 n(n+1)^2$, $\operatorname{var}S=\tfrac{n^2(n+1)^2(n-1)}{144}$, a $S\approx N(\mathbb E S,\operatorname{var}S)$ pro $n>30$. Zamítáme pro velká $\rho_S$.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Spearman: rozptyl poradi s monotonnim trendem">
+      <line x1="50" y1="190" x2="250" y2="190" class="s-axis"/>
+      <line x1="50" y1="190" x2="50" y2="30" class="s-axis"/>
+      <text x="20" y="40" class="s-lbl-s">Sᵢ</text>
+      <text x="240" y="208" class="s-lbl-s">Rᵢ</text>
+      <g class="f-pine">
+        <circle cx="70" cy="170" r="4"/><circle cx="95" cy="150" r="4"/><circle cx="120" cy="155" r="4"/>
+        <circle cx="145" cy="120" r="4"/><circle cx="170" cy="100" r="4"/><circle cx="195" cy="75" r="4"/><circle cx="220" cy="60" r="4"/>
+      </g>
+      <line x1="60" y1="178" x2="232" y2="55" class="s-terra s-dash" stroke-width="1.6"/>
+      <text x="90" y="80" class="s-lbl-s f-terra">monotónní vztah</text>
+    </svg>
+    <figcaption>Spearman je Pearsonova korelace pořadí — zachytí libovolný monotónní vztah, ne jen lineární.</figcaption>
+  </figure>
+
+  <h3>Kendallův koeficient</h3>
+  <div class="box thm">
+    <span class="tag">Kendall $\tau$ — shodné vs. neshodné dvojice</span>
+    <div class="center-eq">$$\tau=\frac{1}{\binom n2}\sum_{i<j}\operatorname{sign}(R_i-R_j)\,\operatorname{sign}(S_i-S_j).$$</div>
+    <p>Každá dvojice $(i,j)$ přispěje $+1$, je-li <strong>shodná</strong> (obě složky rostou stejným směrem: $X_i>X_j\wedge Y_i>Y_j$ nebo obojí menší), a $-1$, je-li <strong>neshodná</strong>. Za $H_0$: $\mathbb E\tau=0$, $\operatorname{var}\tau=\tfrac{2(2n+5)}{9n(n-1)}$, asymptoticky normální. Zamítáme pro velká $\tau$. Jsou-li páry předem seřazeny dle $X$ ($X_1<\dots<X_n$), zjednoduší se na $\tau=\tfrac{2}{n(n-1)}\sum_{i<j}\operatorname{sign}(S_i-S_j)$.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kendall: shodna a neshodna dvojice">
+      <line x1="50" y1="180" x2="270" y2="180" class="s-axis"/>
+      <line x1="50" y1="180" x2="50" y2="30" class="s-axis"/>
+      <text x="240" y="200" class="s-lbl-s">X</text><text x="22" y="40" class="s-lbl-s">Y</text>
+      <!-- concordant pair -->
+      <circle cx="90" cy="150" r="5" class="f-pine"/><circle cx="200" cy="70" r="5" class="f-pine"/>
+      <line x1="90" y1="150" x2="200" y2="70" class="s-pine" stroke-width="1.6"/>
+      <text x="120" y="100" class="s-lbl-s f-pine">+1 shodná</text>
+      <text x="80" y="210" class="s-lbl-s">X↑ Y↑</text>
+
+      <!-- discordant pair (right panel) -->
+      <line x1="330" y1="180" x2="550" y2="180" class="s-axis"/>
+      <line x1="330" y1="180" x2="330" y2="30" class="s-axis"/>
+      <text x="520" y="200" class="s-lbl-s">X</text><text x="302" y="40" class="s-lbl-s">Y</text>
+      <circle cx="370" cy="70" r="5" class="f-terra"/><circle cx="480" cy="150" r="5" class="f-terra"/>
+      <line x1="370" y1="70" x2="480" y2="150" class="s-terra" stroke-width="1.6"/>
+      <text x="395" y="100" class="s-lbl-s f-terra">−1 neshodná</text>
+      <text x="360" y="210" class="s-lbl-s">X↑ Y↓</text>
+    </svg>
+    <figcaption>Kendall sčítá přes všechny dvojice: shodná (oba rostou) přidá $+1$, neshodná (jeden roste, druhý klesá) $-1$. Převaha shodných ⟹ kladná závislost.</figcaption>
+  </figure>
+
+  <div class="box note">
+    <span class="tag">Poznámka</span>
+    <p>Spearmanův i Kendallův koeficient jsou <strong>nestranné proti jednostranným alternativám</strong> (kladné/záporné závislosti). Oba jsou distribution-free — za $H_0$ závisí jejich rozdělení jen na $n$, ne na tvaru $F$.</p>
+  </div>
+</section>
+
+<!-- ============== SUMMARY ============== -->
+<section id="s6">
+  <h2>Souhrn</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Test</th><th>Statistika</th><th>Použití</th></tr></thead>
+      <tbody>
+        <tr><td>Pořadí Rᵢ</td><td class="nm">Rᵢ = #{j: Xⱼ≤Xᵢ}</td><td>ERᵢ=(n+1)/2, var=(n²−1)/12</td></tr>
+        <tr><td>Lin. pořadová stat.</td><td class="nm">S = Σ cᵢ a(Rᵢ)</td><td>ES = n c̄ā; základ všech testů</td></tr>
+        <tr><td>Wilcoxon 2-výb.</td><td class="nm">W = Σ pořadí Y</td><td>F=G vs posun; EW=n₂(n+1)/2</td></tr>
+        <tr><td>Mann–Whitney</td><td class="nm">U = #{Yᵢ≥Xⱼ} = W − n₂(n₂+1)/2</td><td>ekvivalent Wilcoxona; EU=n₁n₂/2</td></tr>
+        <tr><td>Mediánový</td><td class="nm">W' = #{Y nad mediánem}</td><td>hrubší, hypergeometrické</td></tr>
+        <tr><td>van der Waerden</td><td class="nm">skóre h = Φ⁻¹</td><td>„normální" skóre, vyšší síla</td></tr>
+        <tr><td>Wilcoxon symetrie</td><td class="nm">W⁺ = Σ_{Zᵢ>0} pořadí|Zᵢ|</td><td>párová data; EW⁺=n(n+1)/4</td></tr>
+        <tr><td>Znaménkový</td><td class="nm">N⁺ = #{Zᵢ>0} ~ Bi(n,½)</td><td>nejrobustnější, jen znaménka</td></tr>
+        <tr><td>Spearman</td><td class="nm">ρ_S = 1 − 6Σ(Rᵢ−Sᵢ)²/(n³−n)</td><td>nezávislost; monotónní vztah</td></tr>
+        <tr><td>Kendall</td><td class="nm">τ = (shodné−neshodné)/C(n,2)</td><td>nezávislost; shoda dvojic</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Nit, která vším prochází</span>
+    <p>Všechny tyto testy zahodí číselné hodnoty a pracují jen s <strong>pořadím</strong> — to je maximální invariant vůči monotónním transformacím, takže testy nezávisí na tvaru rozdělení (distribution-free). Za $H_0$ je pořadí rovnoměrné přes permutace, což dává přesné kombinatorické rozdělení i jednoduché momenty. Wilcoxon, mediánový a van der Waerden jsou jen různé <em class="t">skórové funkce</em> téže lineární pořadové statistiky; Spearman a Kendall přenášejí stejnou myšlenku na měření závislosti dvou pořadí.</p>
+  </div>
+</section>
+
+<p class="footer">Studijní materiál sestavený z přiložených poznámek k okruhu „6. Pořádkové testy". Matematika sázena přes MathJax, nákresy jsou vlastní vektorová grafika. Tip: dokument lze přes Ctrl/Cmd+P uložit jako PDF.</p>
+
+</div>
+</body>
+</html>

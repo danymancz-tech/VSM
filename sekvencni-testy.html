@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sekvenční testy — studijní materiál</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.66; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px; margin:0 auto; padding:0 24px 120px;}
+header.hero{ max-width:920px; margin:0 auto; padding:64px 24px 26px; }
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 14px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(38px,7.5vw,72px);
+  line-height:.98; letter-spacing:-.02em; margin:0 0 18px; color:var(--pine-d);}
+h1 .num{color:var(--terra); font-style:italic;}
+.lead{font-size:20px; color:var(--ink2); max-width:700px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),transparent); margin:26px 0 0; border:0;}
+nav.toc{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:22px 26px; margin:34px 0 10px;
+  box-shadow:0 1px 0 #fff inset, 0 10px 26px -22px rgba(20,40,30,.5);}
+nav.toc .tt{font-family:"Spline Sans Mono",monospace; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+nav.toc ol{margin:0; padding:0; list-style:none; counter-reset:t; columns:2; column-gap:40px;}
+nav.toc li{break-inside:avoid; margin:0 0 8px; counter-increment:t;}
+nav.toc a{color:var(--ink); text-decoration:none; display:flex; gap:12px; align-items:baseline;
+  padding:4px 0; border-bottom:1px dotted transparent; transition:.15s;}
+nav.toc a:hover{color:var(--pine); border-bottom-color:var(--line2);}
+nav.toc a::before{content:counter(t,upper-roman); font-family:"Spline Sans Mono",monospace;
+  font-size:12px; color:var(--terra); min-width:34px; font-weight:500;}
+.backlink{display:inline-flex; align-items:center; gap:7px; margin-top:18px;
+  font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.04em;
+  color:var(--pine); text-decoration:none; border-bottom:1px dotted var(--line2); padding-bottom:2px;}
+.backlink:hover{color:var(--terra);}
+section{margin:62px 0 0; scroll-margin-top:18px;}
+h2{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(26px,4.2vw,37px);
+  color:var(--pine-d); letter-spacing:-.015em; line-height:1.08; margin:0 0 6px;
+  display:flex; align-items:baseline; gap:16px;}
+h2 .chip{font-family:"Spline Sans Mono",monospace; font-size:13px; font-weight:500;
+  color:#fff; background:var(--terra); padding:5px 11px; border-radius:8px;
+  letter-spacing:.04em; transform:translateY(-4px); white-space:nowrap;}
+.sub{color:var(--muted); font-style:italic; margin:0 0 26px; font-size:17px;}
+h3{font-family:"Fraunces",serif; font-weight:600; font-size:23px; color:var(--pine-d);
+  margin:38px 0 10px; letter-spacing:-.01em;}
+h4{font-family:"Spline Sans Mono",monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--terra); margin:26px 0 6px;}
+p{margin:12px 0;}
+strong{font-weight:600; color:var(--pine-d);}
+em.t{font-style:italic; color:var(--terra);}
+ul.clean{margin:8px 0; padding-left:22px;}
+ul.clean li{margin:6px 0;}
+.box{border-radius:12px; padding:20px 24px 18px; margin:22px 0; position:relative;
+  border:1px solid var(--line); box-shadow:0 8px 24px -22px rgba(20,40,30,.55);}
+.box .tag{font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; display:inline-block; margin:0 0 8px;}
+.box p:first-of-type{margin-top:0;} .box p:last-child{margin-bottom:0;}
+.def{background:var(--pine-bg); border-left:5px solid var(--pine);}
+.def .tag{color:var(--pine);}
+.thm{background:var(--terra-bg); border-left:5px solid var(--terra);}
+.thm .tag{color:var(--terra);}
+.ex{background:var(--amber-bg); border-left:5px solid var(--amber);}
+.ex .tag{color:var(--amber);}
+.note{background:var(--sage-bg); border-left:5px solid var(--sage);}
+.note .tag{color:var(--sage);}
+.key{background:#fff; border:1px dashed var(--terra); border-left:5px solid var(--terra);}
+.key .tag{color:var(--terra);}
+.proof{background:var(--paper2); border-left:5px solid var(--sage);}
+.proof .tag{color:var(--sage);}
+figure{margin:30px 0; text-align:center;}
+figure svg{max-width:100%; height:auto; background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:14px; box-shadow:0 10px 28px -24px rgba(20,40,30,.6);}
+figcaption{font-size:14.5px; color:var(--muted); font-style:italic; margin-top:11px; max-width:660px; margin-left:auto; margin-right:auto;}
+.s-axis{stroke:var(--ink2); stroke-width:1.6; fill:none;}
+.s-grid{stroke:var(--line2); stroke-width:1; fill:none;}
+.s-dash{stroke-dasharray:5 5;}
+.s-pine{stroke:var(--pine); fill:none; stroke-width:2.4;}
+.s-terra{stroke:var(--terra); fill:none; stroke-width:2.4;}
+.s-amber{stroke:var(--amber); fill:none; stroke-width:2.4;}
+.s-sage{stroke:var(--sage); fill:none; stroke-width:2.4;}
+.f-pine{fill:var(--pine);} .f-terra{fill:var(--terra);} .f-amber{fill:var(--amber);}
+.f-ink{fill:var(--ink2);} .f-sage{fill:var(--sage);}
+.f-band{fill:var(--pine); opacity:.10;} .f-band2{fill:var(--terra); opacity:.12;}
+.f-banda{fill:var(--amber); opacity:.16;}
+.s-lbl{font-family:"Spline Sans Mono",monospace; font-size:13px; fill:var(--ink2);}
+.s-lbl-s{font-family:"Spline Sans Mono",monospace; font-size:11px; fill:var(--muted);}
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0;}
+.duo .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+.duo .mini h4{margin-top:0;}
+@media(max-width:640px){ .duo{grid-template-columns:1fr;} nav.toc ol{columns:1;} }
+.tblwrap{overflow-x:auto; margin:24px 0;}
+table{border-collapse:collapse; width:100%; font-size:15.5px; background:var(--card);
+  border-radius:12px; overflow:hidden; box-shadow:0 10px 28px -26px rgba(20,40,30,.6);}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+th{background:var(--pine); color:#fff; font-family:"Spline Sans Mono",monospace;
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:500;}
+tbody tr:nth-child(even){background:var(--paper2);}
+tbody tr:last-child td{border-bottom:0;}
+td .nm{font-family:"Spline Sans Mono",monospace; color:var(--terra); font-size:13px;}
+.steps{counter-reset:st; list-style:none; padding:0; margin:14px 0;}
+.steps>li{counter-increment:st; position:relative; padding:6px 0 6px 46px; margin:6px 0;}
+.steps>li::before{content:counter(st); position:absolute; left:0; top:6px;
+  width:30px; height:30px; border-radius:50%; background:var(--pine); color:#fff;
+  font-family:"Spline Sans Mono",monospace; font-size:14px; display:flex;
+  align-items:center; justify-content:center;}
+.proof .steps>li::before{background:var(--sage);}
+.footer{margin-top:80px; padding-top:24px; border-top:2px solid var(--line);
+  font-size:14px; color:var(--muted); font-style:italic;}
+mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
+.center-eq{text-align:center; margin:16px 0;}
+@media print{ body{background:#fff;} .box,figure svg,table{box-shadow:none;} nav.toc{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Matematická statistika · Studijní materiály</p>
+  <h1><span class="num">7.</span> Sekvenční testy</h1>
+  <p class="lead">Nečekáme na pevný počet dat — pozorujeme jedno po druhém a po každém se ptáme, zda už máme dost. Rozsah výběru je náhodný; Waldův test minimalizuje jeho očekávanou hodnotu.</p>
+  <a class="backlink" href="index.html">← zpět na rozcestník</a>
+  <hr class="rule">
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <p class="tt">Obsah okruhu</p>
+  <ol>
+    <li><a href="#s1">Obecný sekvenční test</a></li>
+    <li><a href="#s2">Waldův sekvenční test (SPRT)</a></li>
+    <li><a href="#s3">Aproximace mezí A, B</a></li>
+    <li><a href="#s4">Náhodná procházka a ukončení</a></li>
+    <li><a href="#s5">Očekávaný rozsah a optimalita</a></li>
+  </ol>
+</nav>
+
+<!-- ============== I ============== -->
+<section id="s1">
+  <h2>Obecný sekvenční test</h2>
+  <p class="sub">Data nepřicházejí najednou, ale postupně. Po každém pozorování buď rozhodneme, nebo si vyžádáme další — počet dat tak není pevný, ale náhodný.</p>
+
+  <div class="box def">
+    <span class="tag">Nastavení</span>
+    <p>Posloupnost nezávislých stejně rozdělených NV $X_1,X_2,\dots$ s hustotou $f_\theta(x)$. Testujeme $H_0:\theta\in\Theta_0$ proti $H_1:\theta\in\Theta_1$. Po každém kroku $n$ rozdělíme prostor dat na tři části:</p>
+    <div class="center-eq">$$(X_1,\dots,X_n)\in\begin{cases}B_{n0}&\Rightarrow\ \text{rozhodnu pro }H_0\\ B_{n1}&\Rightarrow\ \text{rozhodnu pro }H_1\\ B_n&\Rightarrow\ \text{učiním další pozorování}\end{cases}$$</div>
+    <p><strong>(Náhodný) rozsah výběru</strong> je první okamžik rozhodnutí: $\ N:=\inf\{n:(X_1,\dots,X_n)\in B_{n0}\cup B_{n1}\}$ (může být i $N=\infty$).</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sekvencni rozhodovani: tri oblasti v kazdem kroku">
+      <defs><marker id="sq" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--pine)"/></marker></defs>
+      <rect x="20" y="80" width="120" height="44" rx="10" fill="var(--paper2)" stroke="var(--ink2)" stroke-width="1.6"/>
+      <text x="80" y="100" text-anchor="middle" class="s-lbl">krok n</text>
+      <text x="80" y="116" text-anchor="middle" class="s-lbl-s">(X₁,…,Xₙ)</text>
+      <!-- three outcomes -->
+      <rect x="350" y="14" width="190" height="40" rx="9" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="1.6"/>
+      <text x="445" y="39" text-anchor="middle" class="s-lbl f-pine">B_{n0} → přijmu H₀</text>
+      <rect x="350" y="80" width="190" height="40" rx="9" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="1.6"/>
+      <text x="445" y="105" text-anchor="middle" class="s-lbl f-terra">B_{n1} → přijmu H₁</text>
+      <rect x="350" y="146" width="190" height="40" rx="9" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="1.6"/>
+      <text x="445" y="171" text-anchor="middle" class="s-lbl f-amber">B_n → další (n+1)</text>
+      <line x1="140" y1="95" x2="346" y2="40" class="s-pine" marker-end="url(#sq)"/>
+      <line x1="140" y1="102" x2="346" y2="100" class="s-pine" marker-end="url(#sq)"/>
+      <line x1="140" y1="110" x2="346" y2="160" class="s-pine" marker-end="url(#sq)"/>
+      <!-- loop back -->
+      <path d="M445,186 C445,210 80,210 80,128" fill="none" stroke="var(--amber)" stroke-width="1.4" stroke-dasharray="4 4" marker-end="url(#sq)"/>
+    </svg>
+    <figcaption>V každém kroku tři možnosti: rozhodnout pro $H_0$, pro $H_1$, nebo si vzít další pozorování a zkusit to znovu.</figcaption>
+  </figure>
+
+  <div class="box note">
+    <span class="tag">Druhy sekvenčních testů</span>
+    <ul class="clean">
+      <li><strong>Pevný rozsah</strong>: žádné předčasné rozhodnutí ($B_{n0}=B_{n1}=\emptyset$ pro $n<$ daný), nakonec rozhodneme — $N=n$ (klasický test).</li>
+      <li><strong>Useknutý rozsah</strong>: nejpozději v kroku $n$ musíme rozhodnout ($B_n=\emptyset$) — $N\le n$.</li>
+      <li><strong>Dvoustupňový</strong>: po $n_1$ pozorováních zkusíme rozhodnout, jinak přidáme $n_2$ — $N\in\{n_1,n_1+n_2\}$.</li>
+      <li><strong>Plně sekvenční</strong> (Wald): rozhodujeme po každém pozorování bez horní meze.</li>
+    </ul>
+  </div>
+
+  <div class="box def">
+    <span class="tag">Definice · operační charakteristika a silofunkce</span>
+    <div class="center-eq">$$L(\theta)=P_\theta(\text{přijetí }H_0)=\sum_{n=1}^\infty P\big((X_1,\dots,X_n)\in B_{n0}\big),$$</div>
+    <div class="center-eq">$$\beta(\theta)=P_\theta(\text{přijetí }H_1)=\sum_{n=1}^\infty P\big((X_1,\dots,X_n)\in B_{n1}\big).$$</div>
+    <p>Připouštíme $L(\theta)+\beta(\theta)<1$ (⟺ $P_\theta(N=\infty)>0$); pokud test skončí s ppstí 1, je $L(\theta)+\beta(\theta)=1$.</p>
+  </div>
+</section>
+
+<!-- ============== II ============== -->
+<section id="s2">
+  <h2>Waldův sekvenční test <span class="chip">SPRT</span></h2>
+  <p class="sub">Sekvenční verze Neymana–Pearsona: po každém pozorování přepočítáme poměr věrohodností a porovnáme ho se dvěma mezemi.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · SPRT (jednoduchá vs. jednoduchá)</span>
+    <p>$H_0:\theta=\theta_0$ proti $H_1:\theta=\theta_1$. Po $n$ pozorováních počítáme <strong>poměr věrohodností</strong></p>
+    <div class="center-eq">$$V_n:=\prod_{i=1}^{n}\frac{f_{\theta_1}(X_i)}{f_{\theta_0}(X_i)},\qquad\text{a rozhodneme}\quad\begin{cases}V_n\ge A&\Rightarrow\ \text{přijmu }H_1\\ B<V_n<A&\Rightarrow\ \text{další pozorování}\\ V_n\le B&\Rightarrow\ \text{přijmu }H_0\end{cases}$$</div>
+    <p>kde $B<A$ se volí tak, aby pravděpodobnosti chyb splňovaly</p>
+    <div class="center-eq">$$P_{\theta_0}(\text{zamítnu }H_0)=\sum_{n}P_{\theta_0}(V_n\ge A)\le\alpha,\qquad P_{\theta_1}(\text{přijmu }H_0)=\sum_{n}P_{\theta_1}(V_n\le B)\le\beta.$$</div>
+  </div>
+
+  <div class="box key">
+    <span class="tag">Klíčový rozdíl od klasických testů</span>
+    <p>U klasického testu fixujeme rozsah $n$ a hladinu $\alpha$, a síla (resp. $\beta$) z toho vyjde. <strong>U Waldova testu fixujeme obě chyby $\alpha,\beta$ předem — a cenou je, že rozsah $N$ je náhodný.</strong> Test sbírá data tak dlouho, dokud nemá dost důkazů pro spolehlivé rozhodnutí.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SPRT pasmo: ln V_n jako nahodna prochazka mezi b a a">
+      <line x1="50" y1="200" x2="540" y2="200" class="s-axis"/>
+      <text x="515" y="220" class="s-lbl-s">n</text>
+      <line x1="50" y1="30" x2="50" y2="200" class="s-axis"/>
+      <text x="14" y="40" class="s-lbl-s">ln Vₙ</text>
+      <!-- continuation band -->
+      <rect x="50" y="60" width="490" height="100" class="f-banda"/>
+      <line x1="50" y1="60" x2="540" y2="60" class="s-terra"/>
+      <text x="544" y="64" class="s-lbl-s f-terra">a → H₁</text>
+      <line x1="50" y1="160" x2="540" y2="160" class="s-pine"/>
+      <text x="544" y="164" class="s-lbl-s f-pine">b → H₀</text>
+      <text x="300" y="115" class="s-lbl-s">pásmo: další pozorování</text>
+      <!-- random walk path crossing top -->
+      <polyline points="60,120 95,108 130,128 165,100 200,116 235,86 270,98 305,72 340,84 375,58" class="s-sage" stroke-width="2.2" fill="none"/>
+      <circle cx="375" cy="58" r="4" class="f-terra"/>
+      <text x="360" y="48" class="s-lbl-s f-terra">N (přijmu H₁)</text>
+    </svg>
+    <figcaption>V logaritmu je $\ln V_n$ náhodná procházka; test běží, dokud se drží v pásmu $(b,a)$. Jakmile ho opustí nahoře, přijme $H_1$, dole $H_0$.</figcaption>
+  </figure>
+</section>
+
+<!-- ============== III ============== -->
+<section id="s3">
+  <h2>Aproximace mezí A, B</h2>
+  <p class="sub">Přesné meze zaručující dané $\alpha,\beta$ jsou těžko spočitatelné. Wald ukázal jednoduché náhradní hranice, které nezávisí na rozdělení.</p>
+
+  <div class="box proof">
+    <span class="tag">Odvození horní meze (za předpokladu $P_\theta(N=\infty)=0$)</span>
+    <ol class="steps">
+      <li>$\alpha=\displaystyle\sum_{n}P_{\theta_0}(V_n\ge A)=\sum_n\int_{\{V_n\ge A\}}\prod_i f_{\theta_0}(x_i)\,\mathrm dx.$</li>
+      <li>Na $\{V_n\ge A\}$ je $\prod f_{\theta_1}/\prod f_{\theta_0}\ge A$, tedy $\prod f_{\theta_0}\le\tfrac1A\prod f_{\theta_1}$. Dosadíme:
+      $$\alpha\le\frac1A\sum_n\int_{\{V_n\ge A\}}\prod_i f_{\theta_1}(x_i)\,\mathrm dx=\frac1A\,P_{\theta_1}(\text{přijmu }H_1)=\frac{1-\beta}{A}.$$</li>
+      <li>Odtud $\ A\le\dfrac{1-\beta}{\alpha}=:A^{*}.$ Symetricky $\ \beta\le B(1-\alpha)\Rightarrow B\ge\dfrac{\beta}{1-\alpha}=:B^{*}.$ $\blacksquare$</li>
+    </ol>
+  </div>
+
+  <div class="box key">
+    <span class="tag">Waldovy hranice</span>
+    <div class="center-eq">$$A^{*}=\frac{1-\beta}{\alpha},\qquad B^{*}=\frac{\beta}{1-\alpha}.$$</div>
+    <p>Použijeme $A^{*},B^{*}$ místo těžko spočitatelných $A,B$. Jsou <strong>snadné a nezávislé na $f$</strong>. Protože $A^{*}\ge A$ a $B^{*}\le B$, je nerozhodné pásmo <strong>širší</strong> ⟹ větší rozsah výběru; skutečné chyby se změní na $\alpha^{*},\beta^{*}$.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sirsi pasmo s mezemi A* a B*">
+      <line x1="50" y1="30" x2="540" y2="30" class="s-terra s-dash"/>
+      <text x="544" y="34" class="s-lbl-s f-terra">a* (= ln A*)</text>
+      <line x1="50" y1="55" x2="540" y2="55" class="s-terra"/>
+      <text x="544" y="59" class="s-lbl-s">a</text>
+      <line x1="50" y1="125" x2="540" y2="125" class="s-pine"/>
+      <text x="544" y="129" class="s-lbl-s">b</text>
+      <line x1="50" y1="150" x2="540" y2="150" class="s-pine s-dash"/>
+      <text x="544" y="154" class="s-lbl-s f-pine">b* (= ln B*)</text>
+      <rect x="50" y="30" width="480" height="120" class="f-banda"/>
+      <rect x="50" y="55" width="480" height="70" class="f-band"/>
+      <text x="160" y="95" class="s-lbl-s">původní pásmo (b,a)</text>
+      <text x="160" y="44" class="s-lbl-s f-terra">rozšíření → větší N</text>
+    </svg>
+    <figcaption>Náhradní meze rozšíří nerozhodné pásmo (z $(b,a)$ na $(b^{*},a^{*})$). Test pak sbírá víc dat, ale výpočet hranic je triviální.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Cena za aproximaci</span>
+    <p>Skutečné chyby s hranicemi $A^{*},B^{*}$ splňují</p>
+    <div class="center-eq">$$\alpha^{*}\le\frac{\alpha}{1-\beta},\qquad \beta^{*}\le\frac{\beta}{1-\alpha},\qquad\text{a navíc}\qquad \boxed{\ \alpha^{*}+\beta^{*}\le\alpha+\beta.\ }$$</div>
+    <p>Aproximace tedy <strong>nikdy nezvětší součet obou chyb</strong> — pro malá $\alpha,\beta$ je rozdíl zanedbatelný.</p>
+  </div>
+</section>
+
+<!-- ============== IV ============== -->
+<section id="s4">
+  <h2>Náhodná procházka a ukončení testu</h2>
+  <p class="sub">Proč Waldův test vůbec skončí? Logaritmus poměru věrohodností je náhodná procházka s nenulovým driftem — a ta pásmo dříve či později opustí.</p>
+
+  <div class="box def">
+    <span class="tag">Logaritmus jako náhodná procházka</span>
+    <div class="center-eq">$$\ln V_n=\sum_{i=1}^{n}\underbrace{\ln\frac{f_{\theta_1}(X_i)}{f_{\theta_0}(X_i)}}_{=:Y_i}=\sum_{i=1}^n Y_i,$$</div>
+    <p>kde $Y_i$ jsou nezávislé stejně rozdělené přírůstky. Meze v logaritmu: $a=\ln A^{*}$, $b=\ln B^{*}$ (typicky $b<0<a$).</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Drift procházky (Jensen)</span>
+    <p><strong>Za $H_0$</strong> ($\theta=\theta_0$): konkávní $\ln$ a Jensenova nerovnost dají</p>
+    <div class="center-eq">$$\mathbb E_{\theta_0}Y_i=\mathbb E_{\theta_0}\ln\frac{f_{\theta_1}}{f_{\theta_0}}\ \le\ \ln\mathbb E_{\theta_0}\frac{f_{\theta_1}}{f_{\theta_0}}=\ln\!\int f_{\theta_1}\,\mathrm dx=\ln 1=0,$$</div>
+    <p>ostře $<0$, není-li $V_1$ degenerovaná. <strong>Za $H_1$</strong> analogicky $\mathbb E_{\theta_1}Y_i>0$. Procházka tedy <strong>klesá pod $H_0$</strong> (dorazí k $b$) a <strong>stoupá pod $H_1$</strong> (dorazí k $a$).</p>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Intuice · vzdálenost rozdělení</span>
+    <p>Drift je přesně Kullbackova–Leiblerova divergence: $\mathbb E_{\theta_0}Y=-\mathrm{KL}(f_{\theta_0}\Vert f_{\theta_1})<0$ a $\mathbb E_{\theta_1}Y=+\mathrm{KL}(f_{\theta_1}\Vert f_{\theta_0})>0$. Čím dál od sebe obě hypotézy jsou, tím silnější drift a tím rychleji test rozhodne.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drift prochazky: dolu pod H0, nahoru pod H1">
+      <line x1="50" y1="115" x2="540" y2="115" class="s-grid s-dash"/>
+      <text x="20" y="119" class="s-lbl-s">0</text>
+      <line x1="50" y1="40" x2="540" y2="40" class="s-terra"/>
+      <text x="544" y="44" class="s-lbl-s f-terra">a</text>
+      <line x1="50" y1="190" x2="540" y2="190" class="s-pine"/>
+      <text x="544" y="194" class="s-lbl-s f-pine">b</text>
+      <!-- H1 path drifting up -->
+      <polyline points="60,110 100,96 140,104 180,80 220,88 260,64 300,72 340,50 370,40" class="s-terra" stroke-width="2" fill="none"/>
+      <text x="300" y="34" class="s-lbl-s f-terra">za H₁: drift ↑ (EY&gt;0)</text>
+      <!-- H0 path drifting down -->
+      <polyline points="60,120 100,134 140,126 180,148 220,140 260,164 300,158 340,180 360,190" class="s-pine" stroke-width="2" fill="none"/>
+      <text x="120" y="178" class="s-lbl-s f-pine">za H₀: drift ↓ (EY&lt;0)</text>
+    </svg>
+    <figcaption>Nenulový drift žene procházku k jedné z mezí — test proto skončí. Pod $H_0$ klesá k $b$, pod $H_1$ stoupá k $a$.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Věty o ukončení</span>
+    <ul class="clean">
+      <li>Je-li $V_1$ <strong>nedegenerovaná</strong> (za $\theta_0$ i $\theta_1$), pak $P_\theta(N<\infty)=1$ — test skončí s pravděpodobností 1.</li>
+      <li>Je-li $P(\ln V_1\neq0)>0$, pak dokonce $\mathbb E_\theta N<\infty$.</li>
+    </ul>
+  </div>
+  <div class="box proof">
+    <span class="tag">Důkaz $\mathbb E_\theta N<\infty$</span>
+    <p>Položme $p:=P(|Y_1|>a-b)>0$ (jeden krok může „přeskočit" celé pásmo). Aby test po $n$ krocích ještě běžel, musí být všechny přírůstky „malé":</p>
+    <div class="center-eq">$$P(N>n)\le P\big(|Y_i|<a-b,\ i=2,\dots,n\big)\le(1-p)^{n-1}.$$</div>
+    <p>Pak $\ \mathbb E N=\sum_{n\ge0}P(N>n)\le\sum_n(1-p)^{n-1}=\tfrac1p<\infty$ (geometrická řada). Je-li $p=0$, použijí se bloky $Y_1^{*}=Y_1+\dots+Y_k$ atd. Navíc existují i konečné momenty všech řádů (konečná MGF $M_N(t)$). $\blacksquare$</p>
+  </div>
+</section>
+
+<!-- ============== V ============== -->
+<section id="s5">
+  <h2>Očekávaný rozsah a optimalita</h2>
+  <p class="sub">Kolik dat test v průměru spotřebuje? Odpoví Waldova rovnost — a vyjde, že SPRT je v tomto smyslu nejlepší možný.</p>
+
+  <div class="box thm">
+    <span class="tag">1. Waldova rovnost</span>
+    <p>Je-li $\mathbb E N<\infty$ a $\mathbb E|\ln V_1|<\infty$ (a $N$ je markovský čas procházky $\{\ln V_n\}$), pak</p>
+    <div class="center-eq">$$\mathbb E\ln V_N=\mathbb E N\cdot\mathbb E\ln V_1\qquad\Longrightarrow\qquad \mathbb E_\theta N=\frac{\mathbb E_\theta\ln V_N}{\mathbb E_\theta\ln V_1}.$$</div>
+  </div>
+
+  <div class="box ex">
+    <span class="tag">Aproximace očekávaného rozsahu</span>
+    <p>Při ukončení je $\ln V_N$ přibližně $b$ (přijmu $H_0$) nebo $a$ (přijmu $H_1$), s pravděpodobnostmi $L(\theta)$ a $1-L(\theta)$. Tedy $\mathbb E_\theta\ln V_N\approx b\,L(\theta)+a\,(1-L(\theta))$, odkud</p>
+    <div class="center-eq">$$\mathbb E_\theta N\ \approx\ \frac{b\,L(\theta)+a\,\big(1-L(\theta)\big)}{\mathbb E_\theta\ln V_1}.$$</div>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Poznámka · nulový drift (2. Waldova rovnost)</span>
+    <p>Pokud by $\mathbb E_\theta\ln V_1=0$ (zlomek by dělil nulou), použije se druhá Waldova rovnost $\operatorname{var}\ln V_N=\mathbb E_\theta N\cdot\operatorname{var}_\theta\ln V_1$, tj.</p>
+    <div class="center-eq">$$\mathbb E_\theta N\ \approx\ \frac{b^2\,L(\theta)+a^2\,\big(1-L(\theta)\big)}{\mathbb E_\theta(\ln V_1)^2}.$$</div>
+  </div>
+
+  <div class="box key">
+    <span class="tag">Optimalita Waldova testu (Wald–Wolfowitz)</span>
+    <p>Mezi <strong>všemi</strong> testy (sekvenčními i pevnými) s $P(N=\infty)=0$ a chybami $P(\text{ch. 1. druhu})=\alpha$, $P(\text{ch. 2. druhu})=\beta$ má Waldův SPRT <strong>nejmenší očekávaný rozsah $\mathbb E N$ zároveň při $\theta=\theta_0$ i při $\theta=\theta_1$</strong>. Žádný test se stejnými chybami nedokáže v průměru rozhodnout z menšího počtu pozorování.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Wald SPRT ma mensi ocekavany rozsah nez pevny test">
+      <line x1="60" y1="170" x2="540" y2="170" class="s-axis"/>
+      <text x="40" y="40" class="s-lbl-s">rozsah</text>
+      <!-- fixed test bars -->
+      <rect x="110" y="50" width="50" height="120" fill="var(--sage)" opacity="0.4"/>
+      <rect x="350" y="50" width="50" height="120" fill="var(--sage)" opacity="0.4"/>
+      <text x="100" y="186" class="s-lbl-s">θ₀</text>
+      <text x="340" y="186" class="s-lbl-s">θ₁</text>
+      <!-- Wald bars (shorter) -->
+      <rect x="170" y="105" width="50" height="65" fill="var(--terra)" opacity="0.85"/>
+      <rect x="410" y="100" width="50" height="70" fill="var(--terra)" opacity="0.85"/>
+      <text x="150" y="40" class="s-lbl-s f-sage">■ pevný rozsah n</text>
+      <text x="360" y="40" class="s-lbl-s f-terra">■ Wald EN</text>
+    </svg>
+    <figcaption>Pro stejné chyby $\alpha,\beta$ spotřebuje Waldův test v průměru méně dat než klasický test s pevným rozsahem — a to současně při obou hypotézách.</figcaption>
+  </figure>
+</section>
+
+<!-- ============== SUMMARY ============== -->
+<section id="s6">
+  <h2>Souhrn</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Pojem</th><th>Vztah</th><th>Poznámka</th></tr></thead>
+      <tbody>
+        <tr><td>Rozsah výběru</td><td class="nm">N = inf{n: rozhodnu}</td><td>náhodný; může být ∞</td></tr>
+        <tr><td>Operační char.</td><td class="nm">L(θ) = P_θ(přijetí H₀)</td><td>β(θ) = P_θ(přijetí H₁)</td></tr>
+        <tr><td>SPRT statistika</td><td class="nm">Vₙ = ∏ f_θ₁(Xᵢ)/f_θ₀(Xᵢ)</td><td>poměr věrohodností</td></tr>
+        <tr><td>Pravidlo</td><td class="nm">Vₙ≥A → H₁; ≤B → H₀; jinak dál</td><td>α, β dané; N náhodné</td></tr>
+        <tr><td>Waldovy meze</td><td class="nm">A* = (1−β)/α, B* = β/(1−α)</td><td>nezávislé na f; α*+β* ≤ α+β</td></tr>
+        <tr><td>Procházka</td><td class="nm">ln Vₙ = Σ Yᵢ</td><td>EY = ∓KL ⟹ drift ⟹ N&lt;∞</td></tr>
+        <tr><td>1. Waldova rovnost</td><td class="nm">E ln V_N = EN · E ln V₁</td><td>EN = E ln V_N / E ln V₁</td></tr>
+        <tr><td>Očekávaný rozsah</td><td class="nm">EN ≈ [bL(θ)+a(1−L(θ))]/E ln V₁</td><td>2.W při nulovém driftu</td></tr>
+        <tr><td>Optimalita</td><td class="nm">min EN při θ₀ i θ₁</td><td>Wald–Wolfowitz</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Nit, která vším prochází</span>
+    <p>Sekvenční test obrátí klasické zadání: místo „kolik dat na danou sílu" se ptá „kdy už máme dost". Waldův SPRT sleduje poměr věrohodností jako <strong>náhodnou procházku s driftem</strong> $\pm\mathrm{KL}$ mezi dvěma mezemi $A^{*},B^{*}$ — drift zaručí ukončení, Waldova rovnost spočítá průměrný rozsah, a Wald–Wolfowitzova věta tvrdí, že to nikdo nezvládne z méně dat. Vše stojí na téže myšlence jako Neyman–Pearson, jen rozprostřené do času.</p>
+  </div>
+</section>
+
+<p class="footer">Studijní materiál sestavený z přiložených poznámek k okruhu „7. Sekvenční testy". Matematika sázena přes MathJax, nákresy jsou vlastní vektorová grafika. Tip: dokument lze přes Ctrl/Cmd+P uložit jako PDF.</p>
+
+</div>
+</body>
+</html>

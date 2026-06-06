@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayesovské metody — studijní materiál</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.66; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px; margin:0 auto; padding:0 24px 120px;}
+header.hero{ max-width:920px; margin:0 auto; padding:64px 24px 26px; }
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 14px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(38px,7.5vw,72px);
+  line-height:.98; letter-spacing:-.02em; margin:0 0 18px; color:var(--pine-d);}
+h1 .num{color:var(--terra); font-style:italic;}
+.lead{font-size:20px; color:var(--ink2); max-width:700px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),transparent); margin:26px 0 0; border:0;}
+nav.toc{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:22px 26px; margin:34px 0 10px;
+  box-shadow:0 1px 0 #fff inset, 0 10px 26px -22px rgba(20,40,30,.5);}
+nav.toc .tt{font-family:"Spline Sans Mono",monospace; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+nav.toc ol{margin:0; padding:0; list-style:none; counter-reset:t; columns:2; column-gap:40px;}
+nav.toc li{break-inside:avoid; margin:0 0 8px; counter-increment:t;}
+nav.toc a{color:var(--ink); text-decoration:none; display:flex; gap:12px; align-items:baseline;
+  padding:4px 0; border-bottom:1px dotted transparent; transition:.15s;}
+nav.toc a:hover{color:var(--pine); border-bottom-color:var(--line2);}
+nav.toc a::before{content:counter(t,upper-roman); font-family:"Spline Sans Mono",monospace;
+  font-size:12px; color:var(--terra); min-width:34px; font-weight:500;}
+.backlink{display:inline-flex; align-items:center; gap:7px; margin-top:18px;
+  font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.04em;
+  color:var(--pine); text-decoration:none; border-bottom:1px dotted var(--line2); padding-bottom:2px;}
+.backlink:hover{color:var(--terra);}
+section{margin:62px 0 0; scroll-margin-top:18px;}
+h2{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(26px,4.2vw,37px);
+  color:var(--pine-d); letter-spacing:-.015em; line-height:1.08; margin:0 0 6px;
+  display:flex; align-items:baseline; gap:16px;}
+h2 .chip{font-family:"Spline Sans Mono",monospace; font-size:13px; font-weight:500;
+  color:#fff; background:var(--terra); padding:5px 11px; border-radius:8px;
+  letter-spacing:.04em; transform:translateY(-4px); white-space:nowrap;}
+.sub{color:var(--muted); font-style:italic; margin:0 0 26px; font-size:17px;}
+h3{font-family:"Fraunces",serif; font-weight:600; font-size:23px; color:var(--pine-d);
+  margin:38px 0 10px; letter-spacing:-.01em;}
+h4{font-family:"Spline Sans Mono",monospace; font-size:13px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--terra); margin:26px 0 6px;}
+p{margin:12px 0;}
+strong{font-weight:600; color:var(--pine-d);}
+em.t{font-style:italic; color:var(--terra);}
+ul.clean{margin:8px 0; padding-left:22px;}
+ul.clean li{margin:6px 0;}
+.box{border-radius:12px; padding:20px 24px 18px; margin:22px 0; position:relative;
+  border:1px solid var(--line); box-shadow:0 8px 24px -22px rgba(20,40,30,.55);}
+.box .tag{font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; font-weight:500; display:inline-block; margin:0 0 8px;}
+.box p:first-of-type{margin-top:0;} .box p:last-child{margin-bottom:0;}
+.def{background:var(--pine-bg); border-left:5px solid var(--pine);}
+.def .tag{color:var(--pine);}
+.thm{background:var(--terra-bg); border-left:5px solid var(--terra);}
+.thm .tag{color:var(--terra);}
+.ex{background:var(--amber-bg); border-left:5px solid var(--amber);}
+.ex .tag{color:var(--amber);}
+.note{background:var(--sage-bg); border-left:5px solid var(--sage);}
+.note .tag{color:var(--sage);}
+.key{background:#fff; border:1px dashed var(--terra); border-left:5px solid var(--terra);}
+.key .tag{color:var(--terra);}
+.proof{background:var(--paper2); border-left:5px solid var(--sage);}
+.proof .tag{color:var(--sage);}
+figure{margin:30px 0; text-align:center;}
+figure svg{max-width:100%; height:auto; background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:14px; box-shadow:0 10px 28px -24px rgba(20,40,30,.6);}
+figcaption{font-size:14.5px; color:var(--muted); font-style:italic; margin-top:11px; max-width:660px; margin-left:auto; margin-right:auto;}
+.s-axis{stroke:var(--ink2); stroke-width:1.6; fill:none;}
+.s-grid{stroke:var(--line2); stroke-width:1; fill:none;}
+.s-dash{stroke-dasharray:5 5;}
+.s-pine{stroke:var(--pine); fill:none; stroke-width:2.4;}
+.s-terra{stroke:var(--terra); fill:none; stroke-width:2.4;}
+.s-amber{stroke:var(--amber); fill:none; stroke-width:2.4;}
+.s-sage{stroke:var(--sage); fill:none; stroke-width:2.4;}
+.f-pine{fill:var(--pine);} .f-terra{fill:var(--terra);} .f-amber{fill:var(--amber);}
+.f-ink{fill:var(--ink2);} .f-sage{fill:var(--sage);}
+.f-band{fill:var(--pine); opacity:.10;} .f-band2{fill:var(--terra); opacity:.12;}
+.f-banda{fill:var(--amber); opacity:.16;}
+.s-lbl{font-family:"Spline Sans Mono",monospace; font-size:13px; fill:var(--ink2);}
+.s-lbl-s{font-family:"Spline Sans Mono",monospace; font-size:11px; fill:var(--muted);}
+.duo{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0;}
+.duo .mini{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px;}
+.duo .mini h4{margin-top:0;}
+@media(max-width:640px){ .duo{grid-template-columns:1fr;} nav.toc ol{columns:1;} }
+.tblwrap{overflow-x:auto; margin:24px 0;}
+table{border-collapse:collapse; width:100%; font-size:15.5px; background:var(--card);
+  border-radius:12px; overflow:hidden; box-shadow:0 10px 28px -26px rgba(20,40,30,.6);}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top;}
+th{background:var(--pine); color:#fff; font-family:"Spline Sans Mono",monospace;
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:500;}
+tbody tr:nth-child(even){background:var(--paper2);}
+tbody tr:last-child td{border-bottom:0;}
+td .nm{font-family:"Spline Sans Mono",monospace; color:var(--terra); font-size:13px;}
+.steps{counter-reset:st; list-style:none; padding:0; margin:14px 0;}
+.steps>li{counter-increment:st; position:relative; padding:6px 0 6px 46px; margin:6px 0;}
+.steps>li::before{content:counter(st); position:absolute; left:0; top:6px;
+  width:30px; height:30px; border-radius:50%; background:var(--pine); color:#fff;
+  font-family:"Spline Sans Mono",monospace; font-size:14px; display:flex;
+  align-items:center; justify-content:center;}
+.proof .steps>li::before{background:var(--sage);}
+.footer{margin-top:80px; padding-top:24px; border-top:2px solid var(--line);
+  font-size:14px; color:var(--muted); font-style:italic;}
+mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
+.center-eq{text-align:center; margin:16px 0;}
+@media print{ body{background:#fff;} .box,figure svg,table{box-shadow:none;} nav.toc{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Matematická statistika · Studijní materiály</p>
+  <h1><span class="num">4.</span> Bayesovské metody</h1>
+  <p class="lead">Parametr není pevné neznámé číslo, ale náhodná veličina s rozdělením. Apriorní víra plus data dají aposteriorní rozdělení — a z něj plynou všechny závěry: odhad, interval, test i predikce.</p>
+  <a class="backlink" href="index.html">← zpět na rozcestník</a>
+  <hr class="rule">
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <p class="tt">Obsah okruhu</p>
+  <ol>
+    <li><a href="#s1">Bayesovský přístup a Bayesova věta</a></li>
+    <li><a href="#s2">Volba apriorního rozdělení</a></li>
+    <li><a href="#s3">Bayesovské rozhodování</a></li>
+    <li><a href="#s4">Bodový odhad</a></li>
+    <li><a href="#s5">Intervalový odhad</a></li>
+    <li><a href="#s6">Testování hypotéz</a></li>
+    <li><a href="#s7">Prediktivní hustoty</a></li>
+  </ol>
+</nav>
+
+<!-- ============== I ============== -->
+<section id="s1">
+  <h2>Bayesovský přístup a Bayesova věta</h2>
+  <p class="sub">Zásadní posun pohledu: neznámý parametr $\theta$ považujeme za <strong>náhodnou veličinu</strong> s rozdělením. To, co o něm víme předem, zapíšeme jako apriorní rozdělení; data toto přesvědčení aktualizují.</p>
+
+  <div class="box def">
+    <span class="tag">Tři stavební kameny</span>
+    <ul class="clean">
+      <li><strong>Apriorní rozdělení</strong> $\pi(\theta)$ — co o $\theta$ víme <em class="t">před</em> daty (θ neznáme, ale jeho rozdělení „známe").</li>
+      <li><strong>Věrohodnost</strong> $f(x\mid\theta)=L(\theta,x)$ — rozdělení dat $X$ jako podmíněné rozdělení při daném $\theta$.</li>
+      <li><strong>Aposteriorní rozdělení</strong> $\pi(\theta\mid x)$ — podmíněné rozdělení $(\theta\mid x)$ <em class="t">po</em> pozorování dat. Z něj plynou všechny závěry (bodový odhad, interval, test, predikce).</li>
+    </ul>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bayesovska aktualizace: apriorni + data = aposteriorni">
+      <defs><marker id="bf" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--pine)"/></marker></defs>
+      <!-- prior -->
+      <rect x="20" y="40" width="160" height="100" rx="12" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="2"/>
+      <path d="M40,118 C90,110 110,80 160,86" class="s-pine" stroke-width="2"/>
+      <text x="100" y="64" text-anchor="middle" class="s-lbl f-pine">π(θ)</text>
+      <text x="100" y="160" text-anchor="middle" class="s-lbl-s">apriorní víra</text>
+      <!-- data -->
+      <rect x="270" y="55" width="160" height="70" rx="12" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2"/>
+      <text x="350" y="86" text-anchor="middle" class="s-lbl f-amber">f(x|θ)</text>
+      <text x="350" y="106" text-anchor="middle" class="s-lbl-s">data / věrohodnost</text>
+      <!-- posterior -->
+      <rect x="520" y="40" width="160" height="100" rx="12" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="2"/>
+      <path d="M540,124 C580,120 590,60 600,60 C610,60 620,120 660,124" class="s-terra" stroke-width="2"/>
+      <text x="600" y="62" text-anchor="middle" class="s-lbl f-terra">π(θ|x)</text>
+      <text x="600" y="160" text-anchor="middle" class="s-lbl-s">aposteriorní</text>
+      <!-- arrows -->
+      <line x1="180" y1="90" x2="266" y2="90" class="s-pine" marker-end="url(#bf)"/>
+      <line x1="430" y1="90" x2="516" y2="90" class="s-pine" marker-end="url(#bf)"/>
+    </svg>
+    <figcaption>Bayesovská aktualizace: data „přetvarují" apriorní rozdělení na aposteriorní, které je obvykle užší a posunuté tam, kam ukazují pozorování.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Věta · Bayesova věta pro hustoty</span>
+    <p>Je-li $\pi(\theta)$ apriorní hustota a $f(x\mid\theta)$ podmíněná hustota dat, pak aposteriorní hustota je</p>
+    <div class="center-eq">$$\pi(\theta\mid x)=\frac{f(x\mid\theta)\,\pi(\theta)}{\displaystyle\int f(x\mid t)\,\pi(t)\,\mathrm dt}\ \ \propto\ \ f(x\mid\theta)\,\pi(\theta).$$</div>
+    <p>Jmenovatel $\int f(x\mid t)\pi(t)\,\mathrm dt$ (marginála dat) <strong>nezávisí na $\theta$</strong> — je to jen normalizační konstanta. Proto stačí pamatovat úměru:</p>
+    <div class="center-eq">$$\boxed{\ \text{aposteriorní}\ \propto\ \text{věrohodnost}\times\text{apriorní}\ }$$</div>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aposteriorni je soucin verohodnosti a apriorni">
+      <line x1="40" y1="180" x2="540" y2="180" class="s-axis"/>
+      <text x="510" y="200" class="s-lbl-s">θ</text>
+      <!-- prior: broad -->
+      <path d="M50,178 C160,168 220,120 290,118 C360,116 430,168 530,176" class="s-pine" stroke-width="2.2"/>
+      <text x="80" y="138" class="s-lbl-s f-pine">π(θ) apriorní (široká)</text>
+      <!-- likelihood: peaked, off-center -->
+      <path d="M180,178 C240,172 270,60 300,60 C330,60 360,172 420,178" class="s-amber" stroke-width="2.2"/>
+      <text x="360" y="90" class="s-lbl-s f-amber">f(x|θ) věrohodnost</text>
+      <!-- posterior: between, narrow -->
+      <path d="M210,178 C260,170 285,40 300,40 C315,40 350,170 410,178" class="s-terra" stroke-width="2.8"/>
+      <text x="305" y="36" class="s-lbl-s f-terra">π(θ|x) aposteriorní</text>
+    </svg>
+    <figcaption>Aposteriorní rozdělení je kompromis: leží mezi apriorní vírou a tím, co říkají data, a je užší než obě (více informace).</figcaption>
+  </figure>
+
+  <div class="box note">
+    <span class="tag">Poznámka · nevlastní apriorno a neparametrika</span>
+    <p>Bayesovu větu lze použít i pro <strong>nevlastní</strong> apriorno: $\pi\ge0$ s $\int\pi(\theta)\,\mathrm d\theta=\infty$ („nevlastní hustota"), pokud aposteriorní $\pi(\theta\mid x)$ vyjde jako řádná hustota. Existuje i <strong>neparametrická</strong> bayesovská metoda, kde neznámým parametrem je celá distribuční funkce $F=(F(t),t\in\mathbb R)$ — nespočetně mnoho parametrů.</p>
+  </div>
+</section>
+
+<!-- ============== II ============== -->
+<section id="s2">
+  <h2>Volba apriorního rozdělení</h2>
+  <p class="sub">Apriorno je vstup metody. Volíme ho podle skutečných znalostí — nebo i bez nich, podle principů, které mají dobré matematické vlastnosti.</p>
+
+  <div class="box def">
+    <span class="tag">Podle skutečných znalostí</span>
+    <ul class="clean">
+      <li><strong>Objektivně</strong> — z fyzikální teorie, z minulých měření.</li>
+      <li><strong>Subjektivně („expertní")</strong> — např. $\theta=1$ s ppstí $0{,}3$; $\theta=2$ s $0{,}4$; $\theta=3$ s $0{,}3$, nebo spojitě $\theta\sim N(105,427)$.</li>
+    </ul>
+  </div>
+
+  <h3>Bez znalostí: principy</h3>
+  <div class="duo">
+    <div class="mini">
+      <h4>Princip neurčitosti</h4>
+      <p style="font-size:15.5px">„Všechny hodnoty $\theta$ stejně pravděpodobné":</p>
+      <div class="center-eq">$$\pi(\theta)\propto 1,\quad\theta\in\Theta$$</div>
+      <p style="font-size:15.5px">(klidně i nevlastní). Vyjadřuje úplnou nevědomost — ale není invariantní vůči reparametrizaci.</p>
+    </div>
+    <div class="mini">
+      <h4>Jeffreysův princip</h4>
+      <p style="font-size:15.5px">Aby volba byla <strong>invariantní</strong> vůči změně parametrizace:</p>
+      <div class="center-eq">$$\pi(\theta)\propto\sqrt{\det J(\theta)}$$</div>
+      <p style="font-size:15.5px">kde $J(\theta)$ je Fisherova informační matice. Pro $p=1$: $J(\theta)=\mathbb E V^2=\operatorname{var}V$.</p>
+    </div>
+  </div>
+  <div class="box note">
+    <span class="tag">Proč Jeffreys funguje</span>
+    <p>Z transformace $\lambda=g(\theta)$ se Fisherova informace mění jako $J(\lambda)=J(\theta)/g'(\theta)^2$ (viz okruh 2), tedy $\sqrt{J(\lambda)}=\sqrt{J(\theta)}/|g'(\theta)|$ — což je přesně jakobián převodu hustoty. Jeffreysovo apriorno se proto při reparametrizaci „přenese" konzistentně: dostaneme tutéž víru vyjádřenou v nových souřadnicích.</p>
+  </div>
+
+  <h3>Konjugovaný systém</h3>
+  <div class="box def">
+    <span class="tag">Definice · konjugovaný systém</span>
+    <p>Systém hustot $\mathcal K=\{\pi_i(\theta),i\in I\}$ nazveme <strong>konjugovaným</strong> s $\{f(x\mid\theta),\theta\in\Theta\}$, jestliže je <strong>uzavřený na aktualizaci</strong>:</p>
+    <div class="center-eq">$$\pi(\theta)\in\mathcal K\ \Longrightarrow\ \pi(\theta\mid x)\in\mathcal K.$$</div>
+    <p>Apriorno i aposteriorno patří do stejné rodiny — aktualizace pak znamená jen „přepočítat parametry".</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Konjugovany system: aposteriorni zustava v rodine">
+      <defs><marker id="cj" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--pine)"/></marker></defs>
+      <ellipse cx="280" cy="100" rx="250" ry="80" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="2" stroke-dasharray="6 5"/>
+      <text x="280" y="40" text-anchor="middle" class="s-lbl f-pine">rodina 𝒦 (např. všechna Beta rozdělení)</text>
+      <!-- prior -->
+      <path d="M120,140 C150,134 160,96 200,100" class="s-pine" stroke-width="2.2"/>
+      <text x="150" y="160" class="s-lbl-s f-pine">π_{m,s}(θ)</text>
+      <!-- posterior -->
+      <path d="M340,140 C370,134 380,86 390,86 C400,86 410,134 440,140" class="s-terra" stroke-width="2.4"/>
+      <text x="360" y="160" class="s-lbl-s f-terra">π_{m+n,s'}(θ|x)</text>
+      <!-- arrow -->
+      <line x1="235" y1="108" x2="320" y2="108" class="s-pine" marker-end="url(#cj)"/>
+      <text x="240" y="98" class="s-lbl-s">+ data</text>
+    </svg>
+    <figcaption>Po přidání dat zůstane aposteriorno ve stejné rodině — změní se jen hyperparametry $(m,s)\to(m+n,s')$.</figcaption>
+  </figure>
+
+  <div class="box thm">
+    <span class="tag">Tvrzení · přirozený konjugovaný systém</span>
+    <p>Nechť $X=(X_1,\dots,X_n)$ je náhodný výběr s $f_n(x\mid\theta)=\prod_i f_1(x_i\mid\theta)$ a existuje $p$-rozměrná postačující statistika $S_n$ s faktorizací (kritérium z okruhu 2)</p>
+    <div class="center-eq">$$f_n(x\mid\theta)=R_n\big(S_n(x),\theta\big)\cdot r_n(x).$$</div>
+    <p>Pak systém $\ \mathcal K:=\big\{\pi_{m,s}(\theta)\propto R_m(s,\theta):\ m\in\mathbb N,\ s\in\{S_m(y):y\in E^m\}\big\}\ $ je konjugovaný s $f$.</p>
+  </div>
+  <div class="box proof">
+    <span class="tag">Důkaz</span>
+    <ol class="steps">
+      <li><strong>Apriorno.</strong> $\pi_{m,s}(\theta)\propto R_m(s,\theta)$, přičemž $s=S_m(y_1,\dots,y_m)$ pro nějaká „fiktivní" data $y$ (s $f_m(y\mid\theta)=R_m(S_m(y),\theta)\,r_m(y)$).</li>
+      <li><strong>Aposteriorno.</strong> $\pi_{m,s}(\theta\mid x)\propto f_n(x\mid\theta)\,R_m(s,\theta)\propto f_n(x\mid\theta)\,f_m(y\mid\theta)=f_{n+m}(x,y\mid\theta).$ (reálná i fiktivní data dohromady)</li>
+      <li><strong>Znovu faktorizace.</strong> $f_{n+m}(x,y\mid\theta)=R_{n+m}\big(S_{n+m}(x,y),\theta\big)\,r_{n+m}(x,y)\propto R_{n+m}\big(S_{n+m}(x,y),\theta\big)=\pi_{\,n+m,\ S_{n+m}(x,y)}(\theta)\in\mathcal K.$ $\blacksquare$</li>
+    </ol>
+    <p><strong>Intuice:</strong> konjugované apriorno se chová, jako bys už viděl $m$ <em class="t">fiktivních</em> pozorování se souhrnem $s$. Reálná data jen přičtou počet $n$ a aktualizují statistiku na $S_{n+m}(x,y)$.</p>
+  </div>
+  <div class="box note">
+    <span class="tag">Poznámka · exponenciální systém a hyperparametry</span>
+    <p>Typický příklad: náhodný výběr z exponenciálního systému $f_\theta(x)=e^{\sum_i c_i(\theta)T_i(x)}\,e^{A(\theta)}\,e^{B(x)}$ má přirozené konjugované apriorno téhož tvaru. Konkrétní hustotu z $\mathcal K$ vybírají parametry $(m,s)$ — ty lze samy považovat za NV s vlastním apriorním rozdělením (<strong>hyperparametry</strong>, např. rovnoměrné). Pro kanonický tvar navíc $\mathbb E(T\mid\theta)=-A'(\theta)$ a $\operatorname{var}(T\mid\theta)=-A''(\theta)$.</p>
+  </div>
+</section>
+
+<!-- ============== III ============== -->
+<section id="s3">
+  <h2>Bayesovské rozhodování</h2>
+  <p class="sub">Společný rámec pro odhad, test i predikci: vybrat rozhodnutí tak, aby minimalizovalo očekávanou ztrátu.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · ztráta, riziko, rozhodovací funkce</span>
+    <ul class="clean">
+      <li><strong>Rozhodnutí</strong> $d\in D$: pro odhad $D=\Theta$, pro test $D=\{d_0,d_1\}$ ($d_0$ pro $H_0$, $d_1$ pro $H_1$).</li>
+      <li><strong>Ztrátová funkce</strong> $L(\theta,d)$: cena za rozhodnutí $d$, je-li pravda $\theta$.</li>
+      <li><strong>Rozhodovací funkce</strong> $\delta(X)$: předpis, jak z dat vybrat $d$.</li>
+      <li><strong>Riziková funkce</strong> $R(\theta,\delta)=\mathbb E\big[L(\theta,\delta(X))\mid\theta\big]$ — průměrná ztráta při pevném $\theta$.</li>
+    </ul>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Příklady ztrátových funkcí</span>
+    <p>Pro $D=\Theta\subset\mathbb R$: $\ L(\theta,d)=|d-\theta|$ (absolutní), $\ L(\theta,d)=(d-\theta)^2$ (kvadratická). Pro $D=\Theta=\mathbb R^p$: $\ L(\theta,d)=(d-\theta)'A(d-\theta)$ s pozitivně definitní $A$ (pro $A=I$ kvadratická). Pro test $\{d_0,d_1\}$: nulová při správném rozhodnutí, $a_0,a_1>0$ při dvou typech chyb.</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · Bayesovo pravidlo minimalizuje aposteriorní ztrátu</span>
+    <p>Bayesovský přístup minimalizuje <strong>průměrné riziko</strong> $\mathbb E_\theta R(\theta,\delta)$. Pomocí záměny pořadí střední hodnoty:</p>
+    <div class="center-eq">$$\mathbb E_\theta R(\theta,\delta)=\mathbb E_\theta\,\mathbb E\big[L(\theta,\delta(X))\mid\theta\big]=\mathbb E\,L(\theta,\delta(X))=\mathbb E_X\,\mathbb E\big[L(\theta,\delta(X))\mid X\big].$$</div>
+    <p>Vnější $\mathbb E_X$ je nezáporný součet, takže stačí minimalizovat <strong>vnitřní aposteriorní očekávanou ztrátu pro každé $x$ zvlášť</strong>:</p>
+    <div class="center-eq">$$\boxed{\ \delta^{*}(x)=\arg\min_{d\in D}\ \mathbb E\big[L(\theta,d)\mid X=x\big]\quad\text{(při }\pi(\theta\mid x)\text{)}.\ }$$</div>
+    <p>K nalezení optimálního rozhodnutí tedy stačí <strong>aposteriorní rozdělení</strong>.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Od ztraty pres riziko k minimaxu a Bayesovi">
+      <defs><marker id="dr" markerWidth="11" markerHeight="11" refX="8" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="var(--pine)"/></marker></defs>
+      <rect x="20" y="80" width="120" height="48" rx="10" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2"/>
+      <text x="80" y="102" text-anchor="middle" class="s-lbl f-amber">L(θ,d)</text>
+      <text x="80" y="119" text-anchor="middle" class="s-lbl-s">ztráta</text>
+      <rect x="200" y="80" width="140" height="48" rx="10" fill="var(--pine-bg)" stroke="var(--pine)" stroke-width="2"/>
+      <text x="270" y="102" text-anchor="middle" class="s-lbl f-pine">R(θ,δ)=E[L|θ]</text>
+      <text x="270" y="119" text-anchor="middle" class="s-lbl-s">riziko</text>
+      <rect x="420" y="30" width="180" height="48" rx="10" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="2"/>
+      <text x="510" y="52" text-anchor="middle" class="s-lbl f-terra">minimax: max_θ R → min</text>
+      <text x="510" y="69" text-anchor="middle" class="s-lbl-s">nejhorší případ</text>
+      <rect x="420" y="128" width="180" height="48" rx="10" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="2"/>
+      <text x="510" y="150" text-anchor="middle" class="s-lbl f-terra">Bayes: E_θ R → min</text>
+      <text x="510" y="167" text-anchor="middle" class="s-lbl-s">průměr přes apriorno</text>
+      <line x1="140" y1="104" x2="196" y2="104" class="s-pine" marker-end="url(#dr)"/>
+      <line x1="340" y1="100" x2="416" y2="58" class="s-pine" marker-end="url(#dr)"/>
+      <line x1="340" y1="108" x2="416" y2="150" class="s-pine" marker-end="url(#dr)"/>
+    </svg>
+    <figcaption>Ze ztráty vznikne riziko; dvě filozofie, jak ho zmenšit napříč $\theta$: minimax hlídá nejhorší případ, Bayes průměruje přes apriorno.</figcaption>
+  </figure>
+</section>
+
+<!-- ============== IV ============== -->
+<section id="s4">
+  <h2>Bayesovský bodový odhad</h2>
+  <p class="sub">Která jediná hodnota nejlépe shrnuje aposteriorní rozdělení? Odpověď závisí na zvolené ztrátě.</p>
+
+  <div class="box thm">
+    <span class="tag">Tři odhady podle tří ztrát</span>
+    <ul class="clean">
+      <li><strong>Kvadratická ztráta</strong> $L=(d-\theta)^2$: $\ \min_d\mathbb E[(d-\theta)^2\mid x]$ nastane pro <strong>aposteriorní střední hodnotu</strong> $\hat\theta=\mathbb E(\theta\mid x)$.</li>
+      <li><strong>Absolutní ztráta</strong> $L=|d-\theta|$: $\ \min_d\mathbb E[\,|d-\theta|\mid x]$ nastane pro <strong>aposteriorní medián</strong> $\hat\theta=\mathrm{med}(\theta\mid x)$.</li>
+      <li><strong>MAP (obdoba ML)</strong>: $\ \hat\theta=\arg\max_\theta\pi(\theta\mid x)$ — <strong>aposteriorní modus</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="box proof">
+    <span class="tag">Proč střední hodnota a medián</span>
+    <p>Pro kvadratickou ztrátu: $\mathbb E[(d-\theta)^2\mid x]$ je parabola v $d$ s minimem v $d=\mathbb E(\theta\mid x)$ (víme z teorie pravděpodobnosti, že střední hodnota minimalizuje střední čtverec). Pro absolutní ztrátu se dá ukázat, že $\mathbb E[\,|d-\theta|\mid x]$ je minimální v mediánu aposteriorního rozdělení. MAP je čistě analog metody maximální věrohodnosti, jen místo $L(\theta,x)$ maximalizujeme $\pi(\theta\mid x)\propto f(x\mid\theta)\pi(\theta)$.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aposteriorni hustota: modus, median, stredni hodnota">
+      <line x1="40" y1="180" x2="540" y2="180" class="s-axis"/>
+      <text x="515" y="200" class="s-lbl-s">θ</text>
+      <!-- skewed posterior -->
+      <path d="M60,178 C160,172 200,50 250,50 C320,50 380,160 530,176" class="s-terra" stroke-width="2.6"/>
+      <!-- mode -->
+      <line x1="250" y1="50" x2="250" y2="184" class="s-pine s-dash"/>
+      <text x="222" y="200" class="s-lbl-s f-pine">modus (MAP)</text>
+      <!-- median -->
+      <line x1="290" y1="80" x2="290" y2="184" class="s-amber s-dash"/>
+      <text x="296" y="120" class="s-lbl-s f-amber">medián (|·|)</text>
+      <!-- mean -->
+      <line x1="320" y1="110" x2="320" y2="184" class="s-sage s-dash"/>
+      <text x="326" y="140" class="s-lbl-s f-sage">stř. hodn. (kvadr.)</text>
+    </svg>
+    <figcaption>U nesymetrického aposteriorního rozdělení se modus, medián a střední hodnota liší — a každý je optimální pro jinou ztrátovou funkci.</figcaption>
+  </figure>
+</section>
+
+<!-- ============== V ============== -->
+<section id="s5">
+  <h2>Bayesovský intervalový odhad</h2>
+  <p class="sub">Místo jednoho čísla oblast, do které $\theta$ padá s danou aposteriorní pravděpodobností.</p>
+
+  <div class="box def">
+    <span class="tag">Definice · bayesovská konfidenční (kredibilní) oblast</span>
+    <p>Bayesovská konfidenční oblast pro $\theta$ se spolehlivostí $1-\alpha$ je $C=C(X)$ taková, že <strong>při aposteriorním rozdělení</strong></p>
+    <div class="center-eq">$$P\big(\theta\in C(X)\mid x\big)=1-\alpha.$$</div>
+    <p>Pozor na rozdíl od klasiky: tady je výrok přímo o pravděpodobnosti, že parametr leží v oblasti (parametr je NV).</p>
+  </div>
+
+  <div class="box key">
+    <span class="tag">Jednoznačnost · oblast nejvyšší hustoty (HPD)</span>
+    <p>$C(X)$ není určena jednoznačně. Přidáme požadavek, aby byla <strong>co nejkratší</strong> — to vede na oblast nejvyšší aposteriorní hustoty:</p>
+    <div class="center-eq">$$C(X)=\big\{\theta:\ \pi(\theta\mid x)\ge h_\alpha(x)\big\},$$</div>
+    <p>kde práh $h_\alpha(x)$ se zvolí tak, aby oblast měla aposteriorní pravděpodobnost $1-\alpha$.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HPD oblast pod aposteriorni hustotou">
+      <line x1="40" y1="180" x2="540" y2="180" class="s-axis"/>
+      <text x="515" y="200" class="s-lbl-s">θ</text>
+      <!-- posterior (slightly bumpy) -->
+      <path d="M50,178 C150,172 180,80 230,68 C270,58 300,120 330,80 C360,50 400,168 530,176" class="s-terra" stroke-width="2.4"/>
+      <!-- threshold line -->
+      <line x1="40" y1="110" x2="500" y2="110" class="s-pine s-dash"/>
+      <text x="505" y="114" class="s-lbl-s f-pine">h_α(x)</text>
+      <!-- shaded HPD region -->
+      <path d="M168,110 C200,80 230,68 250,72 C270,76 290,108 300,108 C312,108 320,96 330,80 C345,90 360,108 372,110 Z" class="f-band2"/>
+      <!-- projected interval -->
+      <line x1="168" y1="180" x2="372" y2="180" class="s-amber" stroke-width="5"/>
+      <text x="210" y="200" class="s-lbl-s f-amber">C(x): plocha 1−α</text>
+    </svg>
+    <figcaption>HPD oblast je vše nad prahem $h_\alpha$ — body s nejvyšší aposteriorní hustotou. Pro daný obsah $1-\alpha$ je to nejkratší možná oblast.</figcaption>
+  </figure>
+</section>
+
+<!-- ============== VI ============== -->
+<section id="s6">
+  <h2>Bayesovské testování hypotéz</h2>
+  <p class="sub">Test je rozhodnutí mezi $H_0$ a $H_1$. Rozhodne aposteriorní pravděpodobnost hypotéz — porovnaná s prahem daným cenami chyb.</p>
+
+  <div class="box def">
+    <span class="tag">Nastavení</span>
+    <p>$H_0:\theta\in\Theta_0$, $H_1:\theta\in\Theta_1$, $\Theta=\Theta_0\cup\Theta_1$ (disjunktní). Rozhodnutí $d_0$ (pro $H_0$), $d_1$ (pro $H_1$). Ztráta: nulová při správném rozhodnutí, $a_0>0$ za chybu typu $\theta\in\Theta_0,\,d=d_1$ a $a_1>0$ za chybu $\theta\in\Theta_1,\,d=d_0$.</p>
+  </div>
+
+  <div class="box thm">
+    <span class="tag">Věta · rozhodovací pravidlo</span>
+    <p>Aposteriorní očekávané ztráty obou rozhodnutí:</p>
+    <div class="center-eq">$$\mathbb E[L\mid x]\big|_{d_0}=a_1\,P(\Theta_1\mid x),\qquad \mathbb E[L\mid x]\big|_{d_1}=a_0\,P(\Theta_0\mid x).$$</div>
+    <p>Volíme $d_0$ (přijmeme $H_0$), je-li ztráta $d_0$ menší, tj. $a_1P(\Theta_1\mid x)\le a_0P(\Theta_0\mid x)$. Dosazením $P(\Theta_1\mid x)=1-P(\Theta_0\mid x)$:</p>
+    <div class="center-eq">$$\boxed{\ \text{přijmeme }H_0\ \Longleftrightarrow\ P(\Theta_0\mid x)\ \ge\ \frac{a_1}{a_0+a_1}.\ }$$</div>
+    <p>Speciálně pro $a_0=a_1$ je práh $\tfrac12$ — volíme <strong>aposteriorně pravděpodobnější</strong> hypotézu.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Prah pro rozhodnuti podle aposteriorni pravdepodobnosti H0">
+      <rect x="60" y="50" width="440" height="30" rx="6" fill="var(--terra-bg)" stroke="var(--terra)" stroke-width="1.5"/>
+      <rect x="60" y="50" width="290" height="30" rx="6" class="f-band"/>
+      <!-- threshold -->
+      <line x1="350" y1="38" x2="350" y2="92" class="s-pine" stroke-width="2.5"/>
+      <text x="312" y="34" class="s-lbl-s f-pine">a₁/(a₀+a₁)</text>
+      <text x="55" y="100" class="s-lbl-s">0</text>
+      <text x="492" y="100" class="s-lbl-s">1</text>
+      <text x="150" y="69" class="s-lbl-s f-pine">přijmout H₀</text>
+      <text x="400" y="69" class="s-lbl-s f-terra">zamítnout H₀</text>
+      <text x="160" y="120" class="s-lbl-s">P(Θ₀ | x)  →</text>
+    </svg>
+    <figcaption>Rozhodnutí je čistě o tom, na které straně prahu $a_1/(a_0+a_1)$ leží aposteriorní pravděpodobnost $H_0$.</figcaption>
+  </figure>
+
+  <h3>Bodová nulová hypotéza</h3>
+  <div class="box note">
+    <span class="tag">Poznámka · problém $P(\theta=\theta_0\mid x)=0$</span>
+    <p>Pro $H_0:\theta=\theta_0$ proti $H_1:\theta\neq\theta_0$ při <strong>spojitém</strong> apriorním rozdělení je $P(\theta=\theta_0\mid x)=0$ — test by vždy zamítl. Řešení:</p>
+    <ul class="clean">
+      <li>nahradit bodovou hypotézu pásmem $H_0:|\theta-\theta_0|<\varepsilon$ (pro vhodné $\varepsilon>0$), <strong>nebo</strong></li>
+      <li>dát do apriorna „špičku": $p_0=\pi(\theta=\theta_0)>0$ a zbytek spojitě, tj. $P(\theta\in A)=p_0\,\mathbb 1[\theta_0\in A]+(1-p_0)\int_A\pi(\theta)\,\mathrm d\theta$.</li>
+    </ul>
+  </div>
+
+  <h3>Jednostranný test</h3>
+  <div class="box ex">
+    <span class="tag">Odvození · $H_0:\theta\le\theta_0$ vs $H_1:\theta>\theta_0$</span>
+    <p>Lineární ztráta: $L(\theta,d_0)=(\theta-\theta_0)^{+}$ (cena za přijetí $H_0$, je-li $\theta>\theta_0$) a $L(\theta,d_1)=(\theta-\theta_0)^{-}$ (cena za zamítnutí, je-li $\theta\le\theta_0$). Aposteriorní rizika:</p>
+    <div class="center-eq">$$R(d_0)=\mathbb E\big[(\theta-\theta_0)^{+}\mid x\big]=\!\!\int_{\theta>\theta_0}\!\!(\theta-\theta_0)\,\pi(\theta\mid x)\,\mathrm d\theta,\qquad R(d_1)=\mathbb E\big[(\theta-\theta_0)^{-}\mid x\big].$$</div>
+    <ol class="steps">
+      <li>Volíme $d_0$, když $R(d_0)<R(d_1)$, tj. $\mathbb E[(\theta-\theta_0)^{+}\mid x]-\mathbb E[(\theta-\theta_0)^{-}\mid x]<0$.</li>
+      <li>Protože $(\theta-\theta_0)=(\theta-\theta_0)^{+}-(\theta-\theta_0)^{-}$, je rozdíl roven $\mathbb E[\theta-\theta_0\mid x]$.</li>
+      <li>Tedy $\hat\delta(x)=d_0\iff \mathbb E(\theta\mid x)<\theta_0$ a $\hat\delta(x)=d_1\iff \mathbb E(\theta\mid x)>\theta_0$.</li>
+    </ol>
+    <p><strong>Rozhodne poloha aposteriorní střední hodnoty vůči $\theta_0$.</strong></p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jednostranny test: aposteriorni stredni hodnota vs theta0">
+      <line x1="40" y1="160" x2="540" y2="160" class="s-axis"/>
+      <text x="515" y="180" class="s-lbl-s">θ</text>
+      <line x1="290" y1="40" x2="290" y2="166" class="s-pine s-dash"/>
+      <text x="282" y="180" class="s-lbl f-pine">θ₀</text>
+      <text x="120" y="55" class="s-lbl-s f-pine">H₀: θ ≤ θ₀</text>
+      <text x="400" y="55" class="s-lbl-s f-terra">H₁: θ &gt; θ₀</text>
+      <!-- posterior right of theta0 -> reject -->
+      <path d="M210,158 C300,152 330,70 360,70 C390,70 430,152 510,158" class="s-terra" stroke-width="2.4"/>
+      <line x1="360" y1="70" x2="360" y2="166" class="s-amber"/>
+      <text x="340" y="186" class="s-lbl-s f-amber">E(θ|x) &gt; θ₀ ⟹ d₁</text>
+    </svg>
+    <figcaption>Leží-li aposteriorní střední hodnota napravo od $\theta_0$, rozhodneme pro $H_1$ ($d_1$); nalevo pro $H_0$ ($d_0$).</figcaption>
+  </figure>
+
+  <div class="box note">
+    <span class="tag">Poznámka · jiné přístupy</span>
+    <ul class="clean">
+      <li><strong>Přes kredibilní oblast:</strong> $H_0:\theta=\theta_0$ nezamítneme, leží-li $\theta_0\in C(\alpha)$; zamítneme, leží-li mimo.</li>
+      <li><strong>Přes podíl:</strong> aposteriorní poměr $\ \dfrac{\sup_{\theta\in\Theta_0}\pi(\theta\mid x)}{\sup_{\theta\in\Theta}\pi(\theta\mid x)}\ (\le1)$.</li>
+      <li><strong>Bayesovský faktor (výběr modelů $M_1,M_2$):</strong>
+      $$K=\frac{f(x\mid M_1)}{f(x\mid M_2)}=\frac{\int_{\Theta_1}f_1(x\mid\theta_1)\,\pi_1(\theta_1)\,\mathrm d\theta_1}{\int_{\Theta_2}f_2(x\mid\theta_2)\,\pi_2(\theta_2)\,\mathrm d\theta_2}$$ — poměr marginálních věrohodností (evidencí) obou modelů.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============== VII ============== -->
+<section id="s7">
+  <h2>Prediktivní hustoty</h2>
+  <p class="sub">Bayesovská předpověď budoucí hodnoty $X^{*}$ nezafixuje jeden odhad parametru — zprůměruje budoucí hustotu přes celé aposteriorní rozdělení.</p>
+
+  <div class="box thm">
+    <span class="tag">Věta · prediktivní hustota</span>
+    <p>Nechť $X^{*}$ má hustotu $f^{*}(x^{*}\mid\theta)$ a při daném $\theta$ je nezávislé na pozorovaných datech $X$. Pak prediktivní hustota je</p>
+    <div class="center-eq">$$f^{*}(x^{*}\mid x)=\int_\Theta f^{*}(x^{*}\mid\theta)\,\pi(\theta\mid x)\,\mathrm d\theta.$$</div>
+  </div>
+  <div class="box proof">
+    <span class="tag">Odvození</span>
+    <ol class="steps">
+      <li>Ze sdružené hustoty: $f^{*}(x^{*}\mid x)=\dfrac{f(x,x^{*})}{f(x)}=\dfrac{\int_\Theta f(x,x^{*}\mid\theta)\,\pi(\theta)\,\mathrm d\theta}{f(x)}.$</li>
+      <li>Podmíněná nezávislost: $f(x,x^{*}\mid\theta)=f(x\mid\theta)\,f^{*}(x^{*}\mid\theta)$.</li>
+      <li>Přeskupíme a poznáme aposteriorno: $\displaystyle\int_\Theta f^{*}(x^{*}\mid\theta)\,\underbrace{\frac{f(x\mid\theta)\,\pi(\theta)}{f(x)}}_{=\,\pi(\theta\mid x)}\,\mathrm d\theta=\int_\Theta f^{*}(x^{*}\mid\theta)\,\pi(\theta\mid x)\,\mathrm d\theta.$ $\blacksquare$</li>
+    </ol>
+    <p>Z prediktivní hustoty pak plyne bodový i intervalový odhad pro $X^{*}$.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Prediktivni hustota jako prumer pres aposteriorni">
+      <line x1="40" y1="180" x2="540" y2="180" class="s-axis"/>
+      <text x="515" y="200" class="s-lbl-s">x*</text>
+      <!-- several thin component densities -->
+      <path d="M80,178 C130,174 150,120 180,120 C210,120 230,174 280,178" stroke="var(--sage)" stroke-width="1.3" fill="none" opacity="0.8"/>
+      <path d="M150,178 C200,174 220,100 250,100 C280,100 300,174 350,178" stroke="var(--sage)" stroke-width="1.3" fill="none" opacity="0.8"/>
+      <path d="M230,178 C280,174 300,110 330,110 C360,110 380,174 430,178" stroke="var(--sage)" stroke-width="1.3" fill="none" opacity="0.8"/>
+      <text x="360" y="120" class="s-lbl-s f-sage">f*(x*|θ) pro různá θ</text>
+      <!-- predictive: wider average -->
+      <path d="M70,178 C170,170 220,80 270,80 C320,80 380,170 500,178" class="s-terra" stroke-width="2.8"/>
+      <text x="300" y="68" class="s-lbl-s f-terra">f*(x*|x) prediktivní (průměr)</text>
+    </svg>
+    <figcaption>Každé možné $\theta$ dává jednu budoucí hustotu; prediktivní hustota je jejich vážený průměr s váhami $\pi(\theta\mid x)$ — proto je širší (zahrnuje i nejistotu v $\theta$).</figcaption>
+  </figure>
+
+  <h3>Srovnání: bayesovsky vs. klasicky</h3>
+  <p>Na normálním modelu ($X^{*},X_i\sim N(\mu,\sigma^2)$, konjugované normální apriorno se „silou" $r$ pozorování a apriorní střední hodnotou $a$) vyjde bodová predikce jako <strong>smrštění</strong> (shrinkage) mezi apriorní a výběrovou střední hodnotou:</p>
+  <div class="center-eq">$$\hat\mu=\mathbb E[X^{*}\mid X_1,\dots,X_n]=\frac{r}{r+n}\,a+\frac{n}{r+n}\,\bar X.$$</div>
+
+  <figure>
+    <svg viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shrinkage: posteriorni stredni hodnota mezi apriorni a vyberovou">
+      <line x1="60" y1="80" x2="520" y2="80" class="s-axis"/>
+      <!-- prior mean a -->
+      <circle cx="130" cy="80" r="6" class="f-pine"/>
+      <text x="118" y="64" class="s-lbl-s f-pine">a (apriorní)</text>
+      <!-- sample mean -->
+      <circle cx="440" cy="80" r="6" class="f-amber"/>
+      <text x="408" y="64" class="s-lbl-s f-amber">X̄ (výběrová)</text>
+      <!-- posterior mean between, closer to X-bar (n>r) -->
+      <circle cx="330" cy="80" r="7" class="f-terra"/>
+      <text x="300" y="112" class="s-lbl-s f-terra">μ̂ (smrštění)</text>
+      <line x1="130" y1="95" x2="330" y2="95" stroke="var(--pine)" stroke-width="1.4"/>
+      <line x1="330" y1="95" x2="440" y2="95" stroke="var(--amber)" stroke-width="1.4"/>
+      <text x="200" y="128" class="s-lbl-s">váha r/(r+n)</text>
+      <text x="350" y="128" class="s-lbl-s">váha n/(r+n)</text>
+    </svg>
+    <figcaption>Bayesovská bodová predikce táhne odhad od dat k apriorní víře; čím víc dat ($n$ velké vůči $r$), tím blíž je výběrovému průměru.</figcaption>
+  </figure>
+
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th></th><th>Bayesovsky</th><th>Klasicky</th></tr></thead>
+      <tbody>
+        <tr><td>Bodová predikce</td><td class="nm">μ̂ = (r·a + n·X̄)/(r+n)</td><td class="nm">X̄</td></tr>
+        <tr><td>Predikční interval</td><td class="nm">μ̂ ± σ√((r+n+1)/(r+n))·u_{1−α/2}</td><td class="nm">X̄ ± σ√((n+1)/n)·u_{1−α/2}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box note">
+    <span class="tag">Poznámka · limita slabého apriorna</span>
+    <p>Pro $r\to0$ (žádná apriorní informace) přejde $\hat\mu\to\bar X$ a šířka $\sigma\sqrt{\tfrac{r+n+1}{r+n}}\to\sigma\sqrt{\tfrac{n+1}{n}}$ — bayesovská predikce se plynule blíží klasické. Naopak silnější apriorno ($r$ velké) odhad stáhne k $a$ a interval podle apriorní jistoty upraví.</p>
+  </div>
+</section>
+
+<!-- ============== SUMMARY ============== -->
+<section id="s8">
+  <h2>Souhrn</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Úloha</th><th>Bayesovské řešení</th><th>Poznámka</th></tr></thead>
+      <tbody>
+        <tr><td>Základ</td><td class="nm">π(θ|x) ∝ f(x|θ)·π(θ)</td><td>aposteriorní = věrohodnost × apriorní</td></tr>
+        <tr><td>Neinformativní apriorno</td><td class="nm">π(θ) ∝ 1 ; π(θ) ∝ √det J(θ)</td><td>princip neurčitosti / Jeffreys (invariantní)</td></tr>
+        <tr><td>Konjugovaný systém</td><td class="nm">π(θ)∈𝒦 ⟹ π(θ|x)∈𝒦</td><td>apriorno = m fiktivních pozorování</td></tr>
+        <tr><td>Rozhodování</td><td class="nm">min_d E[L(θ,d)|x]</td><td>stačí aposteriorní rozdělení</td></tr>
+        <tr><td>Bodový odhad (kvadr.)</td><td class="nm">θ̂ = E(θ|x)</td><td>aposteriorní střední hodnota</td></tr>
+        <tr><td>Bodový odhad (abs.)</td><td class="nm">θ̂ = med(θ|x)</td><td>aposteriorní medián</td></tr>
+        <tr><td>Bodový odhad (MAP)</td><td class="nm">θ̂ = argmax π(θ|x)</td><td>aposteriorní modus, obdoba ML</td></tr>
+        <tr><td>Intervalový odhad</td><td class="nm">{θ: π(θ|x) ≥ h_α}</td><td>HPD — nejkratší, obsah 1−α</td></tr>
+        <tr><td>Test (oboustranný)</td><td class="nm">přijmi H₀ ⟺ P(Θ₀|x) ≥ a₁/(a₀+a₁)</td><td>a₀=a₁ ⟹ pravděpodobnější hypotéza</td></tr>
+        <tr><td>Test (jednostranný)</td><td class="nm">d₀ ⟺ E(θ|x) &lt; θ₀</td><td>poloha aposteriorní stř. hodnoty</td></tr>
+        <tr><td>Predikce</td><td class="nm">f*(x*|x) = ∫ f*(x*|θ)π(θ|x)dθ</td><td>průměr přes aposteriorno</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box note">
+    <span class="tag">Nit, která vším prochází</span>
+    <p>Celá bayesovská statistika je jeden recept: spočti <strong>aposteriorní rozdělení</strong> $\pi(\theta\mid x)\propto f(x\mid\theta)\pi(\theta)$ a pak z něj přečti, co potřebuješ — střední hodnotu/medián/modus (odhad), HPD oblast (interval), pravděpodobnosti hypotéz (test), nebo ho prožeň integrálem s budoucí hustotou (predikce). Rozhodovací teorie jen určí, kterou charakteristiku aposteriorna vzít podle zvolené ztráty.</p>
+  </div>
+</section>
+
+<p class="footer">Studijní materiál sestavený z přiložených poznámek k okruhu „4. Bayesovské metody". Matematika sázena přes MathJax, nákresy jsou vlastní vektorová grafika. Tip: dokument lze přes Ctrl/Cmd+P uložit jako PDF.</p>
+
+</div>
+</body>
+</html>
