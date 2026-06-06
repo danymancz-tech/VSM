@@ -419,7 +419,7 @@ mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
     <p>Nechť $X_n$ je s jistotou rovno $\tfrac1n$ a $X$ rovno $0$. Intuitivně $X_n$ míří k $0$, takže chceme $X_n\xrightarrow{\mathcal D}X$. Distribuční funkce jsou skoky:</p>
     <div class="center-eq">$$F_n(x)=\begin{cases}0,&x<\tfrac1n\\[2pt]1,&x\ge\tfrac1n\end{cases}\qquad\qquad F(x)=\begin{cases}0,&x<0\\1,&x\ge 0.\end{cases}$$</div>
     <ol class="steps">
-      <li>Pro libovolné $x\neq 0$ se $F_n(x)\to F(x)$ (od jistého $n$ je $\tfrac1n<$x$$ resp. $x<0$). ✓</li>
+      <li>Pro libovolné $x\neq 0$ se $F_n(x)\to F(x)$ (od jistého $n$ je $\tfrac1n<$x resp. $x<0$). ✓</li>
       <li>V bodě $x=0$ je ale $F_n(0)=0$ pro <strong>každé</strong> $n$ (protože $0<\tfrac1n$), takže $F_n(0)\to 0$, kdežto $F(0)=1$. Tady konvergence <strong>selhává</strong>.</li>
       <li>Bod $x=0$ je ovšem právě bodem nespojitosti $F$ (skok z 0 na 1). Definice ho <strong>nevyžaduje</strong> — proto $X_n\xrightarrow{\mathcal D}X$ přesto platí.</li>
     </ol>
