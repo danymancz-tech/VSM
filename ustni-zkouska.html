@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ke zkoušce — co říct ke každému pojmu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{
+  --paper:#f6f1e4; --paper2:#fdfbf4; --card:#fffdf7;
+  --ink:#22302b; --ink2:#46554d; --muted:#7d8b81;
+  --pine:#16685b; --pine-d:#0d4940; --pine-bg:#e7f0ec;
+  --terra:#c25333; --terra-bg:#f8e9e2;
+  --amber:#bb8413; --amber-bg:#f6edd6;
+  --sage:#6f8a7d; --sage-bg:#eaefe9;
+  --slate:#3f6b87; --plum:#84566f; --teal:#1f7a8c;
+  --line:#ddd4bd; --line2:#cfc6ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper);
+  background-image:radial-gradient(var(--line) 0.6px, transparent 0.6px);
+  background-size:22px 22px;
+  color:var(--ink); font-family:"Spectral",Georgia,serif;
+  font-size:18px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:840px; margin:0 auto; padding:0 24px 120px;}
+header.hero{ max-width:840px; margin:0 auto; padding:64px 24px 22px; }
+.kicker{font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--terra); margin:0 0 14px;}
+h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(38px,7.5vw,68px);
+  line-height:.98; letter-spacing:-.02em; margin:0 0 18px; color:var(--pine-d);}
+h1 em{font-style:italic; color:var(--terra);}
+.lead{font-size:20px; color:var(--ink2); max-width:680px; margin:0;}
+.rule{height:2px; background:linear-gradient(90deg,var(--pine),var(--terra),var(--amber),var(--sage),var(--slate),var(--plum),var(--teal)); margin:26px 0 0; border:0;}
+.backlink{display:inline-flex; align-items:center; gap:7px; margin-top:18px;
+  font-family:"Spline Sans Mono",monospace; font-size:12.5px; letter-spacing:.04em;
+  color:var(--pine); text-decoration:none; border-bottom:1px dotted var(--line2); padding-bottom:2px;}
+.backlink:hover{color:var(--terra);}
+
+.howto{background:var(--amber-bg); border:1px solid var(--line); border-left:5px solid var(--amber);
+  border-radius:12px; padding:16px 20px; margin:30px 0 0; font-size:15.5px; color:var(--ink2);}
+.howto b{font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--amber); display:block; margin-bottom:6px; font-weight:500;}
+
+nav.toc{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:20px 24px; margin:24px 0 10px;
+  box-shadow:0 1px 0 #fff inset, 0 10px 26px -22px rgba(20,40,30,.5);}
+nav.toc .tt{font-family:"Spline Sans Mono",monospace; font-size:11.5px; letter-spacing:.28em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+nav.toc ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:9px;}
+nav.toc a{display:inline-flex; align-items:center; gap:8px; text-decoration:none; color:var(--ink);
+  background:var(--paper2); border:1px solid var(--line); border-radius:999px; padding:6px 14px 6px 8px;
+  font-size:14.5px; transition:.15s;}
+nav.toc a:hover{border-color:var(--acc); color:var(--acc); transform:translateY(-1px);}
+nav.toc a .dot{width:20px; height:20px; border-radius:50%; background:var(--acc); color:#fff;
+  font-family:"Spline Sans Mono",monospace; font-size:11px; display:flex; align-items:center; justify-content:center;}
+
+section{margin:56px 0 0; scroll-margin-top:18px;}
+h2{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(25px,4vw,34px);
+  color:var(--pine-d); letter-spacing:-.015em; line-height:1.05; margin:0 0 18px;
+  display:flex; align-items:center; gap:14px;}
+h2 .chip{font-family:"Fraunces",serif; font-style:italic; font-weight:600; font-size:26px;
+  color:#fff; background:var(--acc); width:46px; height:46px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  box-shadow:0 8px 18px -12px var(--acc);}
+
+.item{margin:0 0 13px; padding:15px 20px; background:var(--card);
+  border:1px solid var(--line); border-left:4px solid var(--acc); border-radius:11px;
+  box-shadow:0 6px 16px -18px rgba(20,40,30,.6);}
+.item .q{font-family:"Fraunces",serif; font-weight:600; font-size:18.5px; color:var(--pine-d);
+  margin:0 0 5px; letter-spacing:-.005em;}
+.item .q::before{content:"“"; color:var(--acc); font-weight:700; margin-right:2px;}
+.item .a{font-size:16px; color:var(--ink2); margin:0; line-height:1.6;}
+.item .a strong{color:var(--pine-d);}
+
+.ch1{--acc:var(--pine);} .ch2{--acc:var(--terra);} .ch3{--acc:var(--amber);}
+.ch4{--acc:var(--sage);} .ch5{--acc:var(--slate);} .ch6{--acc:var(--plum);} .ch7{--acc:var(--teal);}
+
+.footer{margin-top:70px; padding-top:24px; border-top:2px solid var(--line);
+  font-size:14px; color:var(--muted); font-style:italic;}
+mjx-container{overflow-x:auto; overflow-y:hidden; max-width:100%;}
+@media print{ body{background:#fff;} .item,nav.toc,.howto{box-shadow:none;} section{break-inside:avoid;} .item{break-inside:avoid;} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">Matematická statistika · Ústní zkouška</p>
+  <h1>Ke zkoušce: <em>co říct</em></h1>
+  <p class="lead">Ke každému pojmu ze sylabu krátké, srozumitelné povídání — co by u zkoušky mělo zaznít. Ne suchá definice, ale „řekni to vlastními slovy a ukaž, že tomu rozumíš".</p>
+  <a class="backlink" href="index.html">← zpět na rozcestník</a>
+  <hr class="rule">
+  <div class="howto">
+    <b>Jak to číst</b>
+    U každého pojmu je věta nebo dvě, které stačí říct nahlas: nejdřív <strong>co to je</strong>, pak <strong>intuice / proč to tak je</strong>, případně klíčový vzorec. Pro plné odvození a důkazy klikni na příslušný materiál v rozcestníku.
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="toc">
+  <p class="tt">Skok na okruh</p>
+  <ul>
+    <li><a class="ch1" href="#c1"><span class="dot">1</span> Konvergence</a></li>
+    <li><a class="ch2" href="#c2"><span class="dot">2</span> Teorie odhadu</a></li>
+    <li><a class="ch3" href="#c3"><span class="dot">3</span> Toleranční int.</a></li>
+    <li><a class="ch4" href="#c4"><span class="dot">4</span> Bayes</a></li>
+    <li><a class="ch5" href="#c5"><span class="dot">5</span> Testování</a></li>
+    <li><a class="ch6" href="#c6"><span class="dot">6</span> Pořadové testy</a></li>
+    <li><a class="ch7" href="#c7"><span class="dot">7</span> Sekvenční testy</a></li>
+  </ul>
+</nav>
+
+<!-- ===== 1 ===== -->
+<section class="ch1" id="c1">
+  <h2><span class="chip">1</span> Konvergence</h2>
+
+  <div class="item"><p class="q">Konvergence posloupnosti čísel</p>
+  <p class="a">Posloupnost $a_n$ konverguje k $a$, když se její členy k $a$ libovolně přiblíží a už blízko zůstanou — pro každé $\varepsilon>0$ existuje index, od kterého $|a_n-a|<\varepsilon$. Je to základní pojem, na němž pak stavíme konvergenci náhodných veličin.</p></div>
+
+  <div class="item"><p class="q">Asymptotická ekvivalence (podle podílů a rozdílů)</p>
+  <p class="a">Podle <strong>podílů</strong>: $a_n\sim b_n$, když $a_n/b_n\to1$ — chovají se ve velkém stejně až na zanedbatelný relativní rozdíl. Podle <strong>rozdílů</strong>: $a_n-b_n\to0$. K jemnějšímu popisu slouží Landauovy symboly: $a_n=o(b_n)$ znamená řádově zanedbatelné (podíl $\to0$), $a_n=O(b_n)$ nanejvýš stejného řádu (podíl omezený).</p></div>
+
+  <div class="item"><p class="q">Konvergence v distribuci</p>
+  <p class="a">Nejslabší typ — vyrovnávají se <strong>rozdělení</strong>, ne hodnoty. $X_n\xrightarrow{d}X$, když $F_n(x)\to F(x)$ v každém bodě spojitosti $F$. Veličiny můžou žít na různých prostorech, stačí shoda pravděpodobností. Učebnicový příklad je centrální limitní věta.</p></div>
+
+  <div class="item"><p class="q">Konvergence podle pravděpodobnosti</p>
+  <p class="a">$X_n\xrightarrow{P}X$, když pro každé $\varepsilon>0$ jde $P(|X_n-X|>\varepsilon)\to0$ — pravděpodobnost velké odchylky se vytrácí. Silnější než v distribuci. Sem patří slabý zákon velkých čísel.</p></div>
+
+  <div class="item"><p class="q">Konvergence skoro jistě</p>
+  <p class="a">Nejsilnější „bodový" typ: skoro každá realizace posloupnosti konverguje k $X$ jako obyčejná číselná posloupnost, $P(\lim_n X_n=X)=1$. Implikuje konvergenci podle pravděpodobnosti. Sem patří silný zákon velkých čísel.</p></div>
+
+  <div class="item"><p class="q">Konvergence podle středu ($L^p$)</p>
+  <p class="a">Měříme odchylku v průměru: $\mathbb E|X_n-X|^p\to0$ (pro $p=2$ ve středním kvadratickém). Implikuje konvergenci podle pravděpodobnosti (přes Markovovu/Čebyševovu nerovnost). <strong>Hierarchie:</strong> skoro jistě i $L^p$ jsou silnější než podle pravděpodobnosti, ta je silnější než v distribuci; obráceně to obecně neplatí — a umím dát protipříklady.</p></div>
+</section>
+
+<!-- ===== 2 ===== -->
+<section class="ch2" id="c2">
+  <h2><span class="chip">2</span> Teorie odhadu</h2>
+
+  <div class="item"><p class="q">Nestrannost</p>
+  <p class="a">Odhad $T$ je nestranný, když v průměru trefuje pravdu: $\mathbb E_\theta T=\theta$ pro všechna $\theta$. Nemá systematickou chybu (vychýlení), i když jednotlivé odhady se od $\theta$ samozřejmě liší.</p></div>
+
+  <div class="item"><p class="q">Konzistence</p>
+  <p class="a">Odhad je konzistentní, když se s rostoucím počtem dat blíží pravé hodnotě: $T_n\xrightarrow{P}\theta$ (slabě), případně skoro jistě (silně). Je to minimální rozumný požadavek — víc dat má znamenat lepší odhad.</p></div>
+
+  <div class="item"><p class="q">Střední čtvercová chyba (MSE)</p>
+  <p class="a">Celková míra kvality: $\mathrm{MSE}=\mathbb E(T-\theta)^2$. Rozkládá se na $\operatorname{var}T+(\text{vychýlení})^2$ — kromě nestrannosti tedy záleží i na rozptylu. Někdy se vyplatí malé vychýlení výměnou za výrazně menší rozptyl.</p></div>
+
+  <div class="item"><p class="q">Regulární systém hustot</p>
+  <p class="a">Sada technických podmínek (hladkost hustoty v $\theta$, záměna derivace a integrálu, konečná Fisherova informace), za nichž platí „hezké" věty jako Rao–Cramér. Bez nich by skórová funkce a Fisherova informace nemusely dávat smysl.</p></div>
+
+  <div class="item"><p class="q">Raova–Cramérova nerovnost</p>
+  <p class="a">Dolní mez rozptylu nestranného odhadu: $\operatorname{var}T\ge\frac{1}{nJ_1(\theta)}$, kde $J_1$ je Fisherova informace z jednoho pozorování (obecně $\frac{[g'(\theta)]^2}{nJ_1}$ pro odhad funkce $g(\theta)$). Žádný nestranný odhad nemůže být přesnější — je to teoretická hranice přesnosti.</p></div>
+
+  <div class="item"><p class="q">Vydatnost odhadu</p>
+  <p class="a">Odhad je vydatný (eficientní), když dosahuje Raovy–Cramérovy meze, tj. má nejmenší možný rozptyl mezi nestrannými odhady. Vydatnost se měří jako poměr meze ke skutečnému rozptylu; vydatný odhad „vytěží z dat maximum informace".</p></div>
+
+  <div class="item"><p class="q">Rozdělení exponenciálního typu</p>
+  <p class="a">Rodina hustot $f_\theta(x)=\exp\{c(\theta)T(x)+d(\theta)+S(x)\}$. „Přátelská" třída: má postačující statistiku $T(x)$ pevné dimenze, vydatné odhady i hezké testy. Patří sem normální, Poissonovo, binomické, exponenciální rozdělení.</p></div>
+
+  <div class="item"><p class="q">Souvislost s teorií informace</p>
+  <p class="a">Fisherova informace měří, kolik dat o parametru nesou. Metoda maximální věrohodnosti odpovídá minimalizaci Kullbackovy–Leiblerovy divergence (vzdálenosti modelu od dat), resp. maximalizaci entropie. Odhadování a informace jsou dvě strany téže mince.</p></div>
+
+  <div class="item"><p class="q">Intervalový odhad — pivotální funkce</p>
+  <p class="a">Místo jednoho čísla dáme interval s danou spolehlivostí. Pivotální funkce $Q(X,\theta)$ závisí na datech i parametru, ale její <strong>rozdělení na $\theta$ nezávisí</strong> — z jejích kvantilů „obrátíme" výrok na interval pro $\theta$. Klasika: $\frac{\bar X-\mu}{s/\sqrt n}\sim t_{n-1}$.</p></div>
+
+  <div class="item"><p class="q">Statistika s rozdělením monotónním v parametru</p>
+  <p class="a">Druhá metoda konstrukce intervalu: má-li statistika distribuční funkci monotónní v $\theta$, lze pro každou pozorovanou hodnotu najít meze parametru tak, aby pokrytí bylo $1-\alpha$ (inverzí distribuční funkce). Tak se dělá interval třeba pro parametr Poissonova nebo binomického rozdělení.</p></div>
+</section>
+
+<!-- ===== 3 ===== -->
+<section class="ch3" id="c3">
+  <h2><span class="chip">3</span> Toleranční intervaly</h2>
+
+  <div class="item"><p class="q">Predikční interval</p>
+  <p class="a">Interval, který s pravděpodobností $1-\alpha$ pokryje jednu budoucí (zatím nepozorovanou) hodnotu $X^{*}$: $P(A<X^{*}<B)\ge1-\alpha$. Liší se od intervalu spolehlivosti — ten cílí na parametr, predikční na konkrétní budoucí pozorování (a je proto širší).</p></div>
+
+  <div class="item"><p class="q">Toleranční interval</p>
+  <p class="a">Interval, který se spolehlivostí $1-\alpha$ pokryje aspoň podíl $p$ celého rozdělení: $P\big(F_\theta(B)-F_\theta(A)\ge p\big)\ge1-\alpha$. Pozor na <strong>dvě úrovně náhody</strong> — náhodný je interval (z dat) i jeho pokrytí; chceme, aby pokrytí překročilo $p$ s pravděpodobností $1-\alpha$.</p></div>
+
+  <div class="item"><p class="q">Toleranční faktor pro normální rozdělení</p>
+  <p class="a">Interval má tvar $\bar X\pm k\,s$ a celý problém je v určení faktoru $k$. Počítá se aproximativně (obsahuje kvantil $\chi^2$ za odhad $\sigma$ a korekci za odhad $\mu$). $k$ je větší než kvantil normálního rozdělení právě proto, že $\mu$ i $\sigma$ odhadujeme z dat.</p></div>
+
+  <div class="item"><p class="q">Jednostranné toleranční intervaly</p>
+  <p class="a">Tvar $(-\infty,B)$ nebo $(A,\infty)$. Krásná <strong>dualita</strong>: jednostranný toleranční interval s pokrytím $p$ je totéž jako interval spolehlivosti pro $p$-kvantil $X_p$. Pokrytí $F(B)\ge p$ totiž znamená přesně $B\ge X_p$.</p></div>
+
+  <div class="item"><p class="q">Odhad tolerančního intervalu (z intervalu spolehlivosti pro θ)</p>
+  <p class="a">Máme-li interval spolehlivosti $(D,H)$ pro parametr a $F_\theta$ je v $\theta$ monotónní, vyrobíme toleranční interval z kvantilů: $\big(X_{\frac{1-p}{2}}(H),\,X_{\frac{1+p}{2}}(D)\big)$. Na jevu $\{D<\theta<H\}$ je pokrytí aspoň $p$, takže spolehlivost dědíme z intervalu pro $\theta$.</p></div>
+
+  <div class="item"><p class="q">Wilksovy toleranční meze</p>
+  <p class="a">Neparametrická (distribution-free) varianta z pořádkových statistik, např. $(X_{(j)},X_{(n-j+1)})$. Trik: přes PIT je $F(X)\sim R(0,1)$, takže pokrytí je délka pásu pořádkových statistik rovnoměrných veličin — má Beta rozdělení a pravděpodobnost se počítá binomicky. Funguje pro libovolné spojité rozdělení, ale intervaly bývají široké.</p></div>
+</section>
+
+<!-- ===== 4 ===== -->
+<section class="ch4" id="c4">
+  <h2><span class="chip">4</span> Bayesovské metody</h2>
+
+  <div class="item"><p class="q">Klasický a bayesovský přístup</p>
+  <p class="a">Klasik bere parametr $\theta$ jako pevné neznámé číslo, náhodná jsou jen data. Bayesián bere $\theta$ jako <strong>náhodnou veličinu</strong> s rozdělením vyjadřujícím naši nejistotu — před daty apriorní, po datech aposteriorní. To je celý filozofický posun.</p></div>
+
+  <div class="item"><p class="q">Bayesova věta pro hustoty</p>
+  <p class="a">Spojuje apriorno a data: $\pi(\theta\mid x)\propto f(x\mid\theta)\,\pi(\theta)$, tedy aposteriorní $\propto$ věrohodnost $\times$ apriorní (jmenovatel je jen normalizační konstanta nezávislá na $\theta$). Z aposteriorního rozdělení pak plynou všechny závěry.</p></div>
+
+  <div class="item"><p class="q">Volba apriorního rozdělení</p>
+  <p class="a">Podle skutečných znalostí (objektivně/subjektivně), nebo bez nich principy: <strong>princip neurčitosti</strong> ($\pi\propto1$, všechny hodnoty stejné), <strong>Jeffreysovo apriorno</strong> ($\pi\propto\sqrt{\det J}$, invariantní vůči reparametrizaci) a <strong>konjugované apriorno</strong> (aby aposteriorno zůstalo ve stejné rodině).</p></div>
+
+  <div class="item"><p class="q">Ztrátová funkce</p>
+  <p class="a">$L(\theta,d)$ udává cenu za rozhodnutí $d$, je-li pravda $\theta$. Např. kvadratická $(d-\theta)^2$, absolutní $|d-\theta|$, nebo u testu nula za správné a $a_0,a_1$ za dva typy chyb. Překládá „jak moc nám záleží na chybě" do čísel.</p></div>
+
+  <div class="item"><p class="q">Rozhodovací funkce</p>
+  <p class="a">$\delta(X)$ je předpis, jak z dat vybrat rozhodnutí. Její kvalitu měří <strong>riziková funkce</strong> $R(\theta,\delta)=\mathbb E[L(\theta,\delta(X))\mid\theta]$ — průměrná ztráta při daném $\theta$.</p></div>
+
+  <div class="item"><p class="q">Bayesovská rozhodovací funkce</p>
+  <p class="a">Ta, která minimalizuje průměrné riziko přes apriorno. Klíčové zjištění: stačí pro každé $x$ minimalizovat <strong>aposteriorní očekávanou ztrátu</strong> $\mathbb E[L(\theta,d)\mid x]$. K optimálnímu rozhodnutí tedy stačí aposteriorní rozdělení.</p></div>
+
+  <div class="item"><p class="q">Bayesovský bodový odhad</p>
+  <p class="a">Jediné číslo shrnující aposteriorno, podle zvolené ztráty: kvadratická dá aposteriorní <strong>střední hodnotu</strong> $\mathbb E(\theta\mid x)$, absolutní <strong>medián</strong>, a „0/1" (MAP) <strong>modus</strong> (obdoba maximální věrohodnosti).</p></div>
+
+  <div class="item"><p class="q">Bayesovský intervalový odhad</p>
+  <p class="a">Kredibilní oblast $C$ s $P(\theta\in C\mid x)=1-\alpha$ — přímo pravděpodobnost, že parametr leží uvnitř (protože $\theta$ je NV). Aby byla jednoznačná, bereme nejkratší: oblast nejvyšší aposteriorní hustoty (HPD) $\{\theta:\pi(\theta\mid x)\ge h_\alpha\}$.</p></div>
+
+  <div class="item"><p class="q">Bayesovské testování hypotéz</p>
+  <p class="a">Rozhodujeme podle aposteriorních pravděpodobností hypotéz: přijmeme $H_0$ právě tehdy, když $P(\Theta_0\mid x)\ge\frac{a_1}{a_0+a_1}$ — práh daný cenami chyb. Pro stejné ceny ($a_0=a_1$) jednoduše volíme pravděpodobnější hypotézu. Bodovou nulu řeší „špička" v apriornu nebo Bayesův faktor.</p></div>
+</section>
+
+<!-- ===== 5 ===== -->
+<section class="ch5" id="c5">
+  <h2><span class="chip">5</span> Testování hypotéz</h2>
+
+  <div class="item"><p class="q">Testování hypotéz (základní pojmy)</p>
+  <p class="a">Testujeme $H_0$ proti $H_1$ o parametru. Test rozhodne podle dat (kritický obor $W$), přičemž rozlišujeme dvě chyby: <strong>1. druhu</strong> (zamítnu platnou $H_0$) a <strong>2. druhu</strong> (nezamítnu neplatnou). Nesymetricky: chybu 1. druhu držíme pod hladinou $\alpha$, teprve pak maximalizujeme sílu.</p></div>
+
+  <div class="item"><p class="q">Test poměrem věrohodností (LRT)</p>
+  <p class="a">Univerzální test: $V=\frac{\sup_{\Theta_0}\text{věroh.}}{\sup_{\Theta}\text{věroh.}}=\frac{f_{\hat\theta_0}}{f_{\hat\theta}}\le1$. Malé $V$ znamená, že volnější model vysvětlí data mnohem líp $\Rightarrow$ zamítáme $H_0$. Asymptoticky $-2\ln V\to\chi^2_\nu$ (Wilks), což dává kritické hodnoty; $\nu$ = počet omezení.</p></div>
+
+  <div class="item"><p class="q">Randomizovaný test</p>
+  <p class="a">Test s hodnotami v $[0,1]$ = pravděpodobnost zamítnutí; na hranici „si hodíme mincí". Potřebujeme ho u diskrétních rozdělení, abychom <strong>přesně</strong> dosáhli hladiny $\alpha$ (jinak bychom ji kvůli skokům nemohli trefit).</p></div>
+
+  <div class="item"><p class="q">Stejnoměrně nejsilnější (SN / UMP) test</p>
+  <p class="a">Test, jehož silofunkce je na <strong>celé</strong> alternativě aspoň tak velká jako u kteréhokoli jiného testu téže hladiny — „nejlepší možný" v dané třídě. Existuje-li, je automaticky nestranný (porovnáním s testem $\Phi\equiv\alpha$).</p></div>
+
+  <div class="item"><p class="q">Nestranný test</p>
+  <p class="a">Test, který zamítá alternativu aspoň tak často jako nulu: $\beta\le\alpha$ na $\Theta_0$ a $\beta\ge\alpha$ na $\Theta_1$. Nikdy tedy nereaguje na pravdivou alternativu hůř než náhodné rozhodnutí. Na nestranné testy se zúžíme tam, kde SN test neexistuje.</p></div>
+
+  <div class="item"><p class="q">Neymanovo–Pearsonovo lemma</p>
+  <p class="a">U jednoduché nuly proti jednoduché alternativě je nejsilnější test ten, který zamítá při velkém poměru věrohodností $\frac{f_{\theta_1}}{f_{\theta_0}}>k$ (s randomizací na hranici), a každý nejsilnější test je tohoto tvaru. Intuice: za rozpočet $\alpha$ kupujeme co nejvíc síly, a poměr věrohodností je „síla za jednotku utracené velikosti".</p></div>
+
+  <div class="item"><p class="q">Testy jednoduchých hypotéz</p>
+  <p class="a">$H_0:\theta=\theta_0$ proti $H_1:\theta=\theta_1$ — vyřeší přímo Neyman–Pearsonovo lemma přes poměr věrohodností.</p></div>
+
+  <div class="item"><p class="q">Testy jednostranných hypotéz</p>
+  <p class="a">$H_0:\theta\le\theta_0$ proti $H_1:\theta>\theta_0$. SN test existuje, má-li rodina <strong>monotónní poměr věrohodností</strong> (MLR) v nějaké statistice $T$ — pak zamítáme pro velká $T$ a silofunkce je rostoucí.</p></div>
+
+  <div class="item"><p class="q">Testy oboustranných hypotéz</p>
+  <p class="a">$H_0:\theta=\theta_0$ proti $H_1:\theta\neq\theta_0$. Tady SN test obvykle neexistuje (dva jednostranné si protiřečí), proto se omezíme na <strong>nestranné</strong> testy: u exponenciálního systému zamítáme v obou ocasech ($T<h_1$ nebo $T>h_2$) s podmínkou nestrannosti $\mathbb E_{\theta_0}[T\Phi]=\alpha\,\mathbb E_{\theta_0}T$; pro symetrické rozdělení připadne $\alpha/2$ na každý ocas.</p></div>
+</section>
+
+<!-- ===== 6 ===== -->
+<section class="ch6" id="c6">
+  <h2><span class="chip">6</span> Pořadové testy</h2>
+
+  <div class="item"><p class="q">Pořádkové statistiky a pořadí</p>
+  <p class="a">Pořádkové statistiky jsou seřazené hodnoty $X_{(1)}\le\dots\le X_{(n)}$; pořadí $R_i$ je pozice $X_i$ po seřazení. U spojitého rozdělení jsou pořadí <strong>rovnoměrná přes všechny permutace</strong> a nezávislá na pořádkových statistikách — odtud plyne, že testy nezávisí na tvaru rozdělení.</p></div>
+
+  <div class="item"><p class="q">Invariantní testy hypotéz</p>
+  <p class="a">Test je invariantní vůči skupině transformací, když nemění své rozhodnutí. Pro skupinu rostoucích (monotónních) transformací je <strong>maximálním invariantem právě vektor pořadí</strong> — proto jsou pořadové testy přesně ty, co „nevidí" monotónní deformaci dat, a jsou distribution-free.</p></div>
+
+  <div class="item"><p class="q">Wilcoxonův dvouvýběrový test</p>
+  <p class="a">Testuje shodu dvou rozdělení ($H_0:F=G$) proti posunu. Sloučíme výběry, očíslujeme společným pořadím a sečteme pořadí druhého výběru: $W$. Velké $W$ $\Rightarrow$ druhý výběr leží spíš vpravo $\Rightarrow$ posun. Za $H_0$ známe $\mathbb E W$ i $\operatorname{var}W$, pro velká $n$ normální aproximace. (Ekvivalentní Mann–Whitneyho $U$ = počet dvojic, kde $Y>X$.)</p></div>
+
+  <div class="item"><p class="q">Mediánový test</p>
+  <p class="a">Hrubší dvouvýběrový test: spočítá, kolik hodnot druhého výběru leží <strong>nad společným mediánem</strong>. Za $H_0$ má hypergeometrické rozdělení. Méně citlivý než Wilcoxon, ale velmi robustní.</p></div>
+
+  <div class="item"><p class="q">Spearmanův koeficient (nezávislost)</p>
+  <p class="a">Pearsonova korelace spočítaná z <strong>pořadí</strong>: $\rho_S=1-\frac{6\sum(R_i-S_i)^2}{n^3-n}$. Zachytí libovolný monotónní vztah, ne jen lineární. Za $H_0$ (nezávislost) jsou pořadí $X$ a $Y$ nezávislá, takže $\mathbb E\rho_S=0$.</p></div>
+
+  <div class="item"><p class="q">Kendallův koeficient (nezávislost)</p>
+  <p class="a">Založen na <strong>shodných a neshodných dvojicích</strong>: $\tau=\frac{\#\text{shodné}-\#\text{neshodné}}{\binom n2}$. Shodná dvojice = obě veličiny rostou stejným směrem. Měří, nakolik jdou pořadí „ruku v ruce". Spearman i Kendall jsou nestranné proti jednostranným alternativám.</p></div>
+</section>
+
+<!-- ===== 7 ===== -->
+<section class="ch7" id="c7">
+  <h2><span class="chip">7</span> Sekvenční testy</h2>
+
+  <div class="item"><p class="q">Obecný sekvenční test</p>
+  <p class="a">Data nepřicházejí najednou — po každém pozorování se rozhodneme buď pro $H_0$, pro $H_1$, nebo si vyžádáme další. Rozsah výběru $N$ je proto <strong>náhodný</strong> (kdy poprvé padneme do rozhodovací oblasti). Testy s pevným či useknutým rozsahem jsou jen speciální případy.</p></div>
+
+  <div class="item"><p class="q">Operační charakteristika</p>
+  <p class="a">Funkce $L(\theta)=P_\theta(\text{přijmu }H_0)$ v závislosti na pravém $\theta$. Pro $\theta$ z $H_0$ má být vysoká, pro $\theta$ z $H_1$ nízká — popisuje, jak se test chová napříč parametry.</p></div>
+
+  <div class="item"><p class="q">Silofunkce</p>
+  <p class="a">Doplněk: $\beta(\theta)=P_\theta(\text{přijmu }H_1)$. Skončí-li test s pravděpodobností 1, je $L(\theta)+\beta(\theta)=1$; jinak může být součet menší (test by teoreticky mohl běžet donekonečna).</p></div>
+
+  <div class="item"><p class="q">Waldův sekvenční test (SPRT)</p>
+  <p class="a">Sekvenční Neyman–Pearson: po každém pozorování přepočítáme poměr věrohodností $V_n=\prod\frac{f_{\theta_1}}{f_{\theta_0}}$. Když $V_n\ge A$, přijmu $H_1$; když $V_n\le B$, přijmu $H_0$; mezi tím sbírám dál. Na rozdíl od klasiky <strong>fixujeme obě chyby $\alpha,\beta$</strong> předem a cenou je náhodný rozsah.</p></div>
+
+  <div class="item"><p class="q">Aproximace mezí</p>
+  <p class="a">Přesné meze jsou těžké, ale Wald ukázal jednoduché náhrady $A^{*}=\frac{1-\beta}{\alpha}$, $B^{*}=\frac{\beta}{1-\alpha}$, které nezávisí na rozdělení. Rozšíří nerozhodné pásmo (test sbírá víc dat), ale skutečné chyby se zhorší jen mírně — platí $\alpha^{*}+\beta^{*}\le\alpha+\beta$, takže součet chyb se nikdy nezvětší.</p></div>
+
+  <div class="item"><p class="q">Rozsah výběru a jeho střední hodnota</p>
+  <p class="a">V logaritmu je $\ln V_n$ náhodná procházka s nenulovým driftem ($\pm$ KL divergence), takže pásmo dříve nebo později opustí $\Rightarrow$ test skončí ($N<\infty$ skoro jistě, dokonce $\mathbb E N<\infty$). Střední rozsah dá <strong>1. Waldova rovnost</strong> $\mathbb E\ln V_N=\mathbb E N\cdot\mathbb E\ln V_1$, odkud $\mathbb E_\theta N\approx\frac{b\,L(\theta)+a\,(1-L(\theta))}{\mathbb E_\theta\ln V_1}$. A Waldův test má ze všech testů s danými chybami <strong>nejmenší $\mathbb E N$</strong> při $\theta_0$ i $\theta_1$ (Wald–Wolfowitz).</p></div>
+</section>
+
+<p class="footer">Povídání ke každému pojmu ze zkouškového sylabu (7 okruhů) — k procvičení mluveného výkladu. Pro úplné definice, věty a důkazy viz jednotlivé materiály v rozcestníku. Matematika sázena přes MathJax; uložení jako PDF přes Ctrl/Cmd+P.</p>
+
+</div>
+</body>
+</html>
